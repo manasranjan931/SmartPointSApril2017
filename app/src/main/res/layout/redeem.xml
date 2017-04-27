@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/lightgrey"
+    tools:context="in.bizzmark.smartpoints_user.earnredeemtab.Redeem">
+
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+    <TableRow
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/earn_redeem_edittext_drawable">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="200dp"
+        android:gravity="center"
+        android:layout_height="45dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="5dp"
+            android:maxLength="10"
+            android:inputType="numberDecimal"
+            android:id="@+id/et_redeem_billAmountText"
+            android:imeOptions="actionDone"
+            android:focusableInTouchMode="true"
+            android:hint="Please Enter Your Bill Amount" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    </TableRow>
+
+
+<TableRow
+    android:layout_marginTop="10dp"
+    android:gravity="center"
+   >
+
+   <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+       android:background="@drawable/earn_redeem_edittext_drawable"
+        android:gravity="center"
+        android:spinnerMode="dropdown"
+        android:verticalScrollbarPosition="left"
+        android:id="@+id/spinner_select_redeem_points"
+        android:entries="@array/redeem_points"/>
+
+</TableRow>
+
+        <TableRow
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:background="@drawable/earn_redeem_button_drawable">
+
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_redeem_send"
+        android:text="@string/btn_send"
+        android:textSize="20dp"
+        android:textColor="@color/color_white"
+        android:background="@drawable/earn_redeem_button_drawable"
+        android:textStyle="normal"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+
+</LinearLayout>

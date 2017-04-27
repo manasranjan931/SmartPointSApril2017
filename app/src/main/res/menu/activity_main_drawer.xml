@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/nav_faq"
+        android:icon="@drawable/ic_help_black_24dp"
+        android:title="FAQ" />
+    <item
+        android:id="@+id/nav_terms_conditions"
+        android:icon="@drawable/ic_announcement_black_24dp"
+        android:title="Terms and Conditions" />
+    <item
+        android:id="@+id/nav_privacy_policy"
+        android:icon="@drawable/ic_privacy_policy"
+        android:title="Privacy policy" />
+
+    <item
+        android:id="@+id/nav_share"
+        android:icon="@drawable/ic_menu_share"
+        android:title="Share" />
+    <item
+        android:id="@+id/nav_local_store"
+        android:icon="@drawable/ic_local_mall_black_24dp"
+        android:title="Local Store" />
+    <item
+        android:id="@+id/nav_contact_us"
+        android:icon="@drawable/ic_version_black_24dp"
+        android:title="Contact Us" />
+
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_logout_new_black_24dp"
+        android:title="Logout" />
+
+    <item
+        android:id="@+id/nav_exit"
+        android:icon="@drawable/ic_exit"
+        android:title="Exit" />
+
+</menu>

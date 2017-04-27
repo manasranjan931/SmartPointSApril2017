@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_select_store"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="top"
+    tools:context="in.bizzmark.smartpoints_user.wifidirect.SelectStoreActivity">
+
+    <!-- Header aligned to top -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        android:id="@+id/header"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_arrow_back_white_24dp"
+            android:layout_marginLeft="13dp"
+            android:id="@+id/btn_back_arrow_select_store"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="13dp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Store"
+            android:textSize="22dp"
+            android:textColor="@color/color_white"
+            android:layout_centerInParent="true"/>
+        -->
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layoutpager"
+        android:background="@color/littlethickgray"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:id="@+id/selctlayout"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/btnRefresh"
+                android:layout_width="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_refresh_black_24px"
+                android:layout_alignParentRight="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Store"
+                android:textSize="35dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="normal"
+                android:layout_marginLeft="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/tv_select_store_loop" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_click_now"
+            android:textSize="18dp"
+            android:textColor="@color/blue"
+            android:text="You selected now :"
+            android:padding="5dp"/>
+
+
+        <!-- Self information -->
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:background="?android:attr/activatedBackgroundIndicator"
+            android:padding="3dip">
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="2dp"
+                android:src="@mipmap/ic_launcher" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="fill_parent">
+                <TextView
+                    android:id="@+id/my_device_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:text="My device name"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" />
+                <TextView
+                    android:id="@+id/my_device_status"
+                    android:layout_width="fill_parent"
+                    android:text="My device status"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:ellipsize="marquee" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_select_store"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/selctlayout"
+                android:background="@color/colorPrimary" />
+
+        </ScrollView>
+    </LinearLayout>
+
+</LinearLayout>

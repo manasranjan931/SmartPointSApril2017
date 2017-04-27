@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top">
+
+    <!-- Header aligned to top -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+
+            android:id="@+id/header"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_arrow_back_white_24dp"
+            android:layout_marginLeft="13dp"
+            android:id="@+id/iv_back_arrow_confirm_page"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="13dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/confirm_page"
+                android:textSize="22dp"
+                android:gravity="center"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/color_white"
+                android:layout_centerInParent="false"/>
+
+        </RelativeLayout>
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:textSize="25dp"
+            android:fontFamily="@null"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/confirm_amount"/>
+
+        <TextView
+            android:id="@+id/tv_confirm_earn_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@null"
+            android:text="amount"
+            android:maxLength="16"
+            android:textColor="#0015ff"
+            android:textSize="25dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp">
+
+        <EditText
+            android:id="@+id/et_edit_amount"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:background="@drawable/edit_text_drawable"
+            android:drawableLeft="@drawable/rupee_indian"
+            android:paddingLeft="10dp"
+            android:paddingRight="15dp"
+            android:hint="Enter amount"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            android:ems="15"
+            android:maxLength="11"
+            android:drawablePadding="10dp"
+            android:textCursorDrawable="@null"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:visibility="gone"
+            android:id="@+id/tv_error_message"
+            android:textColor="#bf111c"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="35dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <Button
+            android:id="@+id/btn_edit_confirm_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_drawable"
+            android:gravity="center"
+            android:text="@string/btn_edit"
+            android:textColor="@color/color_white"
+            android:textSize="18dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/background_light"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_cancel_confirm_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_drawable"
+            android:gravity="center"
+            android:text="@string/btn_cancel"
+            android:textColor="@color/color_white"
+            android:textSize="18dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/background_light"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_confirm_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_drawable"
+            android:text="@string/btn_confirm"
+            android:textColor="@color/color_white"
+            android:textSize="18dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:id="@+id/row_device_ll"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:background="@drawable/custom_device_row"
+    android:padding="7dip">
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="47dp"
+        android:layout_height="43dp"
+        android:layout_marginRight="2dip"
+        android:layout_marginTop="2dp"
+        android:visibility="gone"
+        android:src="@drawable/android" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dip"
+        android:layout_weight="1"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="2dp"
+        android:layout_height="fill_parent">
+        <TextView
+            android:id="@+id/device_name"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="19dp"
+            android:text="Device name"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="2dp"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:textColor="@color/blue"
+            android:text="Device status"
+            android:id="@+id/device_details"
+            android:singleLine="true"
+            android:ellipsize="marquee" />
+    </LinearLayout>
+</LinearLayout>

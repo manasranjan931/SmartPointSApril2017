@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_earn_redeem"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="in.bizzmark.smartpoints_user.EarnRedeemActivity">
+
+
+    <!-- Header aligned to top -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        android:id="@+id/header"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_arrow_back_white_24dp"
+            android:layout_marginLeft="13dp"
+            android:id="@+id/btn_back_arrow"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="13dp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SmartpointS"
+            android:textSize="22dp"
+            android:textColor="@color/color_white"
+            android:layout_centerInParent="true"/>
+        -->
+    </RelativeLayout>
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/table_layout">
+
+        <TableRow android:background="@color/littlethickgray">
+
+            <TextView
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="left"
+                android:padding="3dip"
+                android:text="Store Name"
+                android:textSize="10pt" />
+
+            <TextView
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:gravity="left"
+                android:padding="3dp"
+                android:text="@string/colon"
+                android:textSize="10pt" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbarTrackHorizontal="@color/color_white">
+
+            <TextView
+                android:background="@null"
+                android:editable="false"
+                android:cursorVisible="false"
+                android:scrollbars="vertical"
+                android:scrollbarStyle="insideInset"
+                android:scrollHorizontally="false"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_earn_redeem_store_name"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:gravity="left"
+                android:padding="3dip"
+                android:text="SmartpointS"
+                android:textSize="10pt" />
+
+            </ScrollView>
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/littlethickgray">
+
+            <TextView
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:gravity="left"
+                android:padding="3dp"
+                android:text="Point "
+                android:textSize="18dp" />
+
+            <TextView
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="left"
+                android:padding="3dip"
+                android:text="@string/colon"
+                android:textSize="10pt" />
+
+            <TextView
+                android:id="@+id/tv_earn_redeem_points"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="left"
+                android:padding="3dip"
+                android:text="1000"
+                android:textSize="10pt" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/littlethickgray">
+
+            <TextView
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="left"
+                android:padding="3dip"
+                android:text="Last Visited  "
+                android:textSize="10pt" />
+
+            <TextView
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:gravity="left"
+                android:padding="3dip"
+                android:text="@string/colon"
+                android:textSize="10pt" />
+
+            <TextView
+                android:id="@+id/tv_earn_redeem_last_visited"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:gravity="left"
+                android:padding="3dip"
+                android:text="dd/mm/yy"
+                android:textSize="10pt" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@android:color/white"
+        app:tabMode="fixed">
+
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabLayout"
+        android:background="@android:color/white">
+
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>
+
