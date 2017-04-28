@@ -41,7 +41,7 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
 
     ArrayList arrayList;
     String json_url = "http://wwwbizzmarkin.000webhostapp.com/Bizzmark/storeTransactions.php";
-    String storeName,points;
+    String storeName,points,deviceId;
     String final_json;
     Context context = PointsActivity.this;
 
@@ -86,7 +86,7 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
         helper = new DbHelper(this);
         sqLiteDatabase = helper.getWritableDatabase();
 
-            String query = "SELECT STORE_NAME, POINTS FROM [CUSTOMER_EARN] WHERE TYPE= 'earn'";
+            String query = "SELECT STORE_NAME, POINTS FROM [CUSTOMER_EARN] WHERE TYPE= 'earn' AND DEVICE_ID= ''";
             Cursor cursor = sqLiteDatabase.rawQuery(query, null);
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
@@ -97,6 +97,7 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
                         EarnPointsBO earnPointsBO = new EarnPointsBO();
                         earnPointsBO.setStorename(storeName);
                         earnPointsBO.setPoints(points);
+                        //earnPointsBO.setDeviceId(deviceId);
 
                         arrayList.add(earnPointsBO);
 
@@ -186,6 +187,7 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
 
                         storeName = jo2.getString("storename");
                         points = jo2.getString("points");
+                        deviceId = jo2.getString("deviceid");
 
                         EarnPointsBO earnPointsBO = new EarnPointsBO();
                         earnPointsBO.setStorename(storeName);
@@ -207,7 +209,6 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
             super.onPostExecute(aVoid);
             pb.setVisibility(View.INVISIBLE);
 
-            //Toast.makeText(context,  "json ==> " + final_json, Toast.LENGTH_SHORT).show();
             PointsAdapter ma = new PointsAdapter(arrayList,context);
             recyclerView.setAdapter(ma);
 

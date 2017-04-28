@@ -21,13 +21,12 @@
         android:layout_weight="1">
 
         <fragment
-            android:name="in.bizzmark.smartpoints_user.earnredeemtab.Scanner_Fragment"
             android:id="@+id/article_fragment"
+            android:name="in.bizzmark.smartpoints_user.earnredeemtab.Scanner_Fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentStart="true"/>
 
     </RelativeLayout>
 

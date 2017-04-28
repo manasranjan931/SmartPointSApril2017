@@ -40,6 +40,7 @@ public class Earn extends Fragment {
     EditText et_earn_Billamount;
     Button btnEarn;
     String storeName;
+    String deviceId;
 
     public Earn(){
         // Require empty constructor
@@ -103,10 +104,17 @@ public class Earn extends Fragment {
         int point = Integer.parseInt(earn_Billamount);
         String points = ""+point/10;
         String type = "earn";
+
         // getting deviceId
         TelephonyManager telephonyManager = (TelephonyManager)
                 getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        String deviceId = telephonyManager.getDeviceId();
+        deviceId = telephonyManager.getDeviceId();
+
+        // Save DeviceId Into SharedPreferences
+        SharedPreferences.Editor edito = getActivity().
+                getSharedPreferences("MY_DEVICE_ID", Context.MODE_PRIVATE).edit();
+        edito.putString("deviceid", deviceId);
+        edito.commit();
 
         // set all value in PointBO.class
         PointsBO pointsBO = new PointsBO();
@@ -117,6 +125,7 @@ public class Earn extends Fragment {
         pointsBO.setTime(timeDate);
         pointsBO.setDeviceId(deviceId);
 
+        // Create Object To Gson
         Gson gson = new Gson();
         String jsonEarn = gson.toJson(pointsBO);
 

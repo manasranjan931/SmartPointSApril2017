@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
@@ -50,6 +52,13 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
     String deviceId = imeistring;
     String time;
     String status;
+
+    DbHelper mydb;
+    SQLiteDatabase db;
+
+    String deviceIdfromsp;
+    String deviceid;
+    String point;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +110,30 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
         simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
         dateandtime = simpleDateFormat.format(calander.getTime());
 
+        // Retrieve Data From SQLite-Database
+        retrieveDataFromSQLite();
+
+        // retrieve deviceid from sharedPreferences
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("MY_DEVICE_ID", Context.MODE_PRIVATE);
+        deviceIdfromsp = sp.getString("deviceid", "");
+
+    }
+
+    private void retrieveDataFromSQLite() {
+        mydb = new DbHelper(this);
+        db = mydb.getWritableDatabase();
+
+        String query = "SELECT DEVICEID, POINTS FROM [CUSTOMER_EARN] WHERE TYPE= 'earn'";
+        Cursor cursor = db.rawQuery(query,null);
+        if (cursor != null){
+            if (cursor.moveToFirst()){
+                deviceid = cursor.getString(0);
+                point = cursor.getString(1);
+            }while (cursor.moveToNext());
+        }else {
+          //  Toast.makeText(this, "You don't have any points", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     // Find All Ids
@@ -145,13 +178,19 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
           //  Toast.makeText(this, "Earn Type", Toast.LENGTH_SHORT).show();
 
             // save data into sqlite-database
-            DbHelper mydb = new DbHelper(this);
-            SQLiteDatabase db = mydb.getWritableDatabase();
+            mydb = new DbHelper(this);
+            db = mydb.getWritableDatabase();
 
             ContentValues cv = new ContentValues();
             cv.put(DbHelper.STORE_NAME_COL_1, storeName);
             cv.put(DbHelper.BILL_AMOUNT_COL_2, billAmount);
-            cv.put(DbHelper.EARN_POINTS_COL_3, points);
+
+            if (points == null && deviceIdfromsp == deviceId) {
+                cv.put(DbHelper.EARN_POINTS_COL_3, points);
+            }else if (points != null && deviceIdfromsp == deviceid){
+                cv.put(DbHelper.EARN_POINTS_COL_3, point+points);
+            }
+
             cv.put(DbHelper.TYPE_COL_4, type);
             cv.put(DbHelper.DATE_TIME_COL_5, dateandtime);
             cv.put(DbHelper.DEVICE_ID_COL_6, deviceId);
