@@ -1,6 +1,7 @@
 package in.bizzmark.smartpoints_user.database;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
@@ -8,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -28,6 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import in.bizzmark.smartpoints_user.R;
+import in.bizzmark.smartpoints_user.store.StoreHomeActivity;
 import in.bizzmark.smartpoints_user.adapter.PointsAdapter;
 import in.bizzmark.smartpoints_user.bo.EarnPointsBO;
 import in.bizzmark.smartpoints_user.sqlitedb.DbHelper;
@@ -40,7 +43,8 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
     ProgressBar pb;
 
     ArrayList arrayList;
-    String json_url = "http://wwwbizzmarkin.000webhostapp.com/Bizzmark/storeTransactions.php";
+    //String json_url = "http://wwwbizzmarkin.000webhostapp.com/Bizzmark/storeTransactions.php";
+    String json_url = "http://wwwbizzmarkin.000webhostapp.com/Bizzmark/sellerEarnTransactions.php";
     String storeName,points,deviceId;
     String final_json;
     Context context = PointsActivity.this;
@@ -86,7 +90,7 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
         helper = new DbHelper(this);
         sqLiteDatabase = helper.getWritableDatabase();
 
-            String query = "SELECT STORE_NAME, POINTS FROM [CUSTOMER_EARN] WHERE TYPE= 'earn' AND DEVICE_ID= ''";
+            String query = "SELECT STORE_NAME, POINTS FROM [CUSTOMER_EARN] WHERE TYPE= 'earn'";
             Cursor cursor = sqLiteDatabase.rawQuery(query, null);
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
@@ -96,7 +100,7 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
 
                         EarnPointsBO earnPointsBO = new EarnPointsBO();
                         earnPointsBO.setStorename(storeName);
-                        earnPointsBO.setPoints(points);
+                       // earnPointsBO.setPoints(points);
                         //earnPointsBO.setDeviceId(deviceId);
 
                         arrayList.add(earnPointsBO);
@@ -120,6 +124,7 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
         recyclerView.setHasFixedSize(true);
         recyclerViewlayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(recyclerViewlayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         iv_Arrow_Back.setOnClickListener(this);
         ivSyncData.setOnClickListener(this);
@@ -131,12 +136,13 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
         if (id == R.id.your_points_back_arrow){
             finish();
         }else if (id == R.id.iv_sync_data){
-            if (networkInfo != null){
+           /* if (networkInfo != null){
                 new MyAsynctask().execute();
             }else {
                 Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
                 retrieveDataFromSQLite();
-            }
+            }*/
+           startActivity(new Intent(this, StoreHomeActivity.class));
         }
     }
 
@@ -180,9 +186,10 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
                 for (int i = 0; i < ja.length() ; i++)
                 {
                     JSONObject jo1 =  ja.getJSONObject(0);
-                    JSONArray ja1 =   jo1.getJSONArray("earns");
+                    JSONArray ja1 =   jo1.getJSONArray("result");
 
-                    for (int j = 0; j < ja1.length() ; j++) {
+                    for (int j = 0; j < ja1.length() ; j++)
+                    {
                         JSONObject jo2 =  ja1.getJSONObject(j);
 
                         storeName = jo2.getString("storename");
@@ -209,8 +216,8 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
             super.onPostExecute(aVoid);
             pb.setVisibility(View.INVISIBLE);
 
-            PointsAdapter ma = new PointsAdapter(arrayList,context);
-            recyclerView.setAdapter(ma);
+            PointsAdapter adaptera = new PointsAdapter(arrayList,context);
+            recyclerView.setAdapter(adaptera);
 
         }
     }

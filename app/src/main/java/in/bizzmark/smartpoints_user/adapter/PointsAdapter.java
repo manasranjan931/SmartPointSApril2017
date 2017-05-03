@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,9 +21,9 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
     ArrayList<EarnPointsBO> pointsBOList;
     Context context;
 
-    AdapterView.OnItemClickListener mItemClickListener;
 
     public PointsAdapter(ArrayList<EarnPointsBO> pointsBOList,Context context) {
+        super();
         this.pointsBOList = pointsBOList;
         this.context = context;
     }
@@ -48,7 +47,7 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
         return viewHolder;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView storename;
         public TextView points;
 
@@ -56,12 +55,6 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
             super(itemView);
             storename = (TextView) itemView.findViewById(R.id.tvStoreName);
             points = (TextView) itemView.findViewById(R.id.tvPoints);
-
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
 
         }
     }

@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -21,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.bizzmark.smartpoints_user.database.PointsActivity;
@@ -206,6 +210,8 @@ public class NavigationActivity extends Activity
         }
         else if (id == R.id.nav_share)
         {
+            //shareApplicationByBluetooth();
+            showAlertDialog();
         }
         else if (id == R.id.nav_local_store) {
            // startActivity(new Intent(NavigationActivity.this,LocalStoreActivity.class));
@@ -227,5 +233,54 @@ public class NavigationActivity extends Activity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showAlertDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Choose action. . . .")
+                .setPositiveButton("BLUETOOTH", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        shareApplicationByBluetooth();
+                    }
+                }).setNegativeButton("SHAREit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                shareApplicationByShareit();
+            }
+        }).create().show();
+    }
+
+    private void shareApplicationByShareit() {
+        PackageManager pm = getApplicationContext().getPackageManager();
+        ApplicationInfo appInfo;
+        try {
+            appInfo = pm.getApplicationInfo(getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
+            Intent sendBt = new Intent(Intent.ACTION_SEND);
+            sendBt.setType("*/*");
+          //  sendBt.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + appInfo.publicSourceDir));
+            sendBt.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(appInfo.publicSourceDir)));
+            sendBt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(Intent.createChooser(sendBt, "Share it using"));
+        } catch (PackageManager.NameNotFoundException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    // Share Application
+    private void shareApplicationByBluetooth() {
+        try {
+            ApplicationInfo app=getApplicationContext().getApplicationInfo();
+            String filepath = app.sourceDir;
+            Intent intent=new Intent(Intent.ACTION_SEND);
+            intent.setType("*/*");
+            // Only use Bluetooth to send .apk
+            intent.setPackage("com.android.bluetooth");
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filepath)));
+            startActivity(Intent.createChooser(intent,"Share app"));
+            Toast.makeText(getApplicationContext(),"Share the SmartpointS by bluetooth ", Toast.LENGTH_LONG).show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

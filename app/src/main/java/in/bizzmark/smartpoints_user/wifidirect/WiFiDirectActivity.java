@@ -76,7 +76,7 @@ public class WiFiDirectActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        //discoverPeers();
+       // discoverPeers();
 
         // Turn on wifi
         WifiManager wifi = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -140,10 +140,10 @@ public class WiFiDirectActivity extends AppCompatActivity
 
     }
 
-    // For discover peesa
-     private void discoverPeers() {
+    // For discover new peesa
+     public  void discoverPeers() {
          if (!isWifiP2pEnabled){
-             Toast.makeText(WiFiDirectActivity.this, "Enable P2P from action bar button above or system settings",
+             Toast.makeText(WiFiDirectActivity.this, "Enable P2P from system settings",
                      Toast.LENGTH_SHORT).show();
          }
 
@@ -153,7 +153,8 @@ public class WiFiDirectActivity extends AppCompatActivity
          manager.discoverPeers(channel, new ActionListener() {
              @Override
              public void onSuccess() {
-                 Toast.makeText(WiFiDirectActivity.this, "Discovery initiated", Toast.LENGTH_SHORT).show();
+                 Toast.makeText(WiFiDirectActivity.this, "Discovery initiated",
+                         Toast.LENGTH_SHORT).show();
              }
 
              @Override

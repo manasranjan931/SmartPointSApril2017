@@ -39,7 +39,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.bizzmark.smartpoints_user.CustomProgressbarActivity;
 import in.bizzmark.smartpoints_user.R;
 
 import static in.bizzmark.smartpoints_user.wifidirect.DeviceDetailFragment.btnDisconnect;
@@ -63,14 +62,12 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
     private WifiP2pManager.Channel channel;
     private boolean isWifiP2pEnabled = false;
 
-    CustomProgressbarActivity progressbarActivity = null;
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.setListAdapter(new WiFiPeerListAdapter(getActivity(), R.layout.row_devices, peers));
 
-       progressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar);
+       //progressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar);
 
     }
 
@@ -188,9 +185,9 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
 //            progressDialog.dismiss();
 //        }
 
-        if (progressBar != null && progressBar.isShown()) {
-            progressBar.setVisibility(View.GONE);
-        }
+//        if (progressBar != null && progressBar.isShown()) {
+//            progressBar.setVisibility(View.GONE);
+//        }
 
 //        if (progressbarActivity != null) {
 //            progressbarActivity.finish();
@@ -227,11 +224,11 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
         progressDialog.setView(progressbsrView);
         progressDialog.show();*/
 
-      if (progressBar != null && progressBar.isShown()){
-          progressBar.setVisibility(View.GONE);
-      }
-
-        progressBar.setVisibility(View.GONE);
+//      if (progressBar != null && progressBar.isShown()){
+//          progressBar.setVisibility(View.GONE);
+//      }
+//
+//        progressBar.setVisibility(View.GONE);
 
        /* progressDialog = ProgressDialog.show(getActivity(), "Press back to cancel", "finding peers", true,
                 true, new DialogInterface.OnCancelListener() {

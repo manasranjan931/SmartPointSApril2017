@@ -1,76 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="90dp">
 
     <RelativeLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:gravity="center"
+        android:layout_weight="0.5"
         android:background="@color/color_white" >
 
-        <ImageView
-            android:id="@+id/imageClip"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:visibility="visible"/>
+        <!--<LinearLayout-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+        <!---->
+        <!--<ImageView-->
+            <!--android:layout_width="80dp"-->
+            <!--android:layout_height="80dp" />-->
+
+        <!--</LinearLayout>-->
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/imageClip"
-            android:background="@color/color_white"
-            android:gravity="center|left"
-            android:orientation="vertical" >
+            android:layout_height="90dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:weightSum="3"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_points_list"
+                android:src="@drawable/smartpoints_logo"
+                android:layout_width="40dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_margin="5dp"/>
 
             <TextView
-                android:layout_width="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_weight="1"
+                android:paddingLeft="5dp"
+                android:paddingStart="10dp"
+                android:layout_marginRight="5dp"
+                android:id="@+id/tvStoreName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Store Name"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/blue"
-                android:textSize="16dp" />
+                android:textSize="16dp"/>
 
             <TextView
-                android:id="@+id/tvStoreName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Medium Text"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="16dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginBottom="5dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_weight="1"
+                android:id="@+id/tvPoints"
+                android:gravity="center"
+                android:paddingRight="5dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Points"
-                android:textColor="@color/blue"
-                android:textSize="14dp" />
-
-            <TextView
-                android:id="@+id/tvPoints"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                android:layout_marginLeft="5dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="14dp" />
+                android:textSize="16dp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/points_image"/>
+
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_right" />
-    </RelativeLayout>
+        </RelativeLayout>
 
-</LinearLayout>
+</android.support.v7.widget.CardView>

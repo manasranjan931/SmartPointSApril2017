@@ -26,9 +26,24 @@
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:windowFrame">@null</item>
-
     </style>
 
+    // for bottomnavigation
+    <style name="BottomNavigation">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="itemIconTint">@color/color_white</item>
+        <item name="itemTextColor">@color/color_white</item>
+        <item name="paddingStart">20dp</item>
+        <item name="paddingEnd">20dp</item>
+        <item name="android:textSize">15dp</item>
+        <item name="colorControlHighlight">@color/pink</item>
+    </style>
 
+    <style name="ThemeOverlay.AppCompat.navTheme">
+        <!-- Color of text and icon when SELECTED -->
+        <item name="colorPrimary">@color/pink</item>
+        <!-- Background color when SELECTED -->
+        <item name="colorControlHighlight">@color/pink</item>
+    </style>
 
 </resources>
