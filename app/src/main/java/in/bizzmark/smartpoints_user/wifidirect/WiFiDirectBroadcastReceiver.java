@@ -24,9 +24,13 @@ import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.net.wifi.p2p.WifiP2pManager.PeerListListener;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import in.bizzmark.smartpoints_user.R;
+
+import static in.bizzmark.smartpoints_user.wifidirect.WiFiDirectActivity.progressDialog;
 
 /**
  * A BroadcastReceiver that notifies of important wifi p2p events.
@@ -36,6 +40,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
     private WifiP2pManager manager;
     private Channel channel;
     private WiFiDirectActivity activity;
+    private PeerListListener peerListListener;
 
     /**
      * @param manager WifiP2pManager system service
@@ -43,11 +48,35 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
      * @param activity activity associated with the receiver
      */
     public WiFiDirectBroadcastReceiver(WifiP2pManager manager, Channel channel,
-                                       WiFiDirectActivity activity) {
+                                       final WiFiDirectActivity activity, PeerListListener peerListListener) {
         super();
         this.manager = manager;
         this.channel = channel;
         this.activity = activity;
+        this.peerListListener = peerListListener;
+
+        manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+              //  Toast.makeText(activity, "Success", Toast.LENGTH_SHORT).show();
+
+                // ProgressDialog dismiss after specific time
+                Runnable progressRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                    }
+                };
+                Handler pdCanceller = new Handler();
+                pdCanceller.postDelayed(progressRunnable, 4000);
+
+            }
+
+            @Override
+            public void onFailure(int reason) {
+                Toast.makeText(activity, "Failed : "+reason, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /*

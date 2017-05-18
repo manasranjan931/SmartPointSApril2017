@@ -18,7 +18,7 @@
     <item
         android:id="@+id/nav_share"
         android:icon="@drawable/ic_menu_share"
-        android:title="Share" />
+        android:title="Share this app" />
     <item
         android:id="@+id/nav_local_store"
         android:icon="@drawable/ic_local_mall_black_24dp"

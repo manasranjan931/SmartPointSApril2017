@@ -20,15 +20,16 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:text="email id"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:id="@+id/userEmail" />
+        android:id="@+id/tvemail"
+        android:text="email"/>
 
     <TextView
-        android:id="@+id/tvUserEmailId"
+        android:id="@+id/tv_deviceId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="www.bizzmark.in" />
+        android:text="123456789"
+        android:textSize="11dp"
+        android:layout_marginBottom="2dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 </LinearLayout>

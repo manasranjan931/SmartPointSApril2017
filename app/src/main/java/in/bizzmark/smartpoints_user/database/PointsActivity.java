@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,23 +16,26 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 import in.bizzmark.smartpoints_user.R;
-import in.bizzmark.smartpoints_user.store.StoreHomeActivity;
 import in.bizzmark.smartpoints_user.adapter.PointsAdapter;
 import in.bizzmark.smartpoints_user.bo.EarnPointsBO;
 import in.bizzmark.smartpoints_user.sqlitedb.DbHelper;
+import in.bizzmark.smartpoints_user.store.StoreHomeActivity;
+
+import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
 
 public class PointsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -42,11 +44,8 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
     RecyclerView.LayoutManager recyclerViewlayoutManager;
     ProgressBar pb;
 
-    ArrayList arrayList;
-    //String json_url = "http://wwwbizzmarkin.000webhostapp.com/Bizzmark/storeTransactions.php";
-    String json_url = "http://wwwbizzmarkin.000webhostapp.com/Bizzmark/sellerEarnTransactions.php";
-    String storeName,points,deviceId;
-    String final_json;
+    ArrayList<EarnPointsBO> storeList;
+    String storeName,points,storeId;
     Context context = PointsActivity.this;
 
     DbHelper helper;
@@ -55,13 +54,15 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
     ConnectivityManager cm;
     NetworkInfo networkInfo;
 
+    String json_url = "http://35.154.104.54/smartpoints/customer-api/get-total-points-for-all-stores?customerDeviceId="+device_Id;
+    public static String id = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_points);
 
-        arrayList = new ArrayList();
+        storeList = new ArrayList();
 
         // find all ids
         findViewByAllId();
@@ -80,9 +81,65 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    // Retrieve Data From Server
+    // Retrieve Data From Server Using Volley-Library
     private void retrieveDataFromServer() {
-        new MyAsynctask().execute();
+      pb.setVisibility(View.VISIBLE);
+        storeList.clear();
+
+        StringRequest request = new StringRequest(Request.Method.GET, json_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String result) {
+                        pb.setVisibility(View.GONE);
+
+                        try {
+                            JSONObject jo = new JSONObject(result);
+                            JSONArray ja = jo.getJSONArray("response");
+
+                            for (int j = 0; j < ja.length() ; j++)
+                            {
+                                JSONObject jo2 =  ja.getJSONObject(j);
+
+                                storeName = jo2.getString("store_name");
+                                points = jo2.getString("total_points");
+                                storeId = jo2.getString("storeId");
+
+                                EarnPointsBO earnPointsBO = new EarnPointsBO();
+                                earnPointsBO.setStorename(storeName);
+                                earnPointsBO.setPoints(points);
+                                earnPointsBO.setStoreId(storeId);
+
+                                storeList.add(earnPointsBO);
+                            }
+
+                            PointsAdapter adapter ;
+
+                            adapter = new PointsAdapter(storeList, context, new PointsAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View v, int position) {
+                                    id = storeList.get(position).getStoreId();
+                                    Intent i = new Intent(context,StoreHomeActivity.class);
+                                    i.putExtra("storeId",id);
+                                    startActivity(i);
+                                }
+                            });
+
+                            recyclerView.setAdapter(adapter);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
     }
 
     // Retrieve Data From SQLite
@@ -100,15 +157,12 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
 
                         EarnPointsBO earnPointsBO = new EarnPointsBO();
                         earnPointsBO.setStorename(storeName);
-                       // earnPointsBO.setPoints(points);
+                        earnPointsBO.setPoints(points);
                         //earnPointsBO.setDeviceId(deviceId);
 
-                        arrayList.add(earnPointsBO);
+                        storeList.add(earnPointsBO);
 
                     } while (cursor.moveToNext());
-
-                    PointsAdapter ma = new PointsAdapter(arrayList, context);
-                    recyclerView.setAdapter(ma);
                 }
             } else {
                 Toast.makeText(context, "You don't have any points", Toast.LENGTH_SHORT).show();
@@ -136,118 +190,7 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
         if (id == R.id.your_points_back_arrow){
             finish();
         }else if (id == R.id.iv_sync_data){
-           /* if (networkInfo != null){
-                new MyAsynctask().execute();
-            }else {
-                Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
-                retrieveDataFromSQLite();
-            }*/
            startActivity(new Intent(this, StoreHomeActivity.class));
         }
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (networkInfo != null){
-            new MyAsynctask().execute();
-        }else {
-            retrieveDataFromSQLite();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (networkInfo == null){
-           retrieveDataFromSQLite();
-        }else {
-            new MyAsynctask().execute();
-        }
-    }
-
-    class  MyAsynctask extends AsyncTask<Void,Void,Void>
-    {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pb.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Void doInBackground(Void... params)
-        {
-            try {
-                final_json   =   getJsonStringFromLink(json_url);
-                JSONObject jo = new JSONObject(final_json);
-                JSONArray ja = jo.getJSONArray("response");
-
-                for (int i = 0; i < ja.length() ; i++)
-                {
-                    JSONObject jo1 =  ja.getJSONObject(0);
-                    JSONArray ja1 =   jo1.getJSONArray("result");
-
-                    for (int j = 0; j < ja1.length() ; j++)
-                    {
-                        JSONObject jo2 =  ja1.getJSONObject(j);
-
-                        storeName = jo2.getString("storename");
-                        points = jo2.getString("points");
-                        deviceId = jo2.getString("deviceid");
-
-                        EarnPointsBO earnPointsBO = new EarnPointsBO();
-                        earnPointsBO.setStorename(storeName);
-                        earnPointsBO.setPoints(points);
-
-                        arrayList.add(earnPointsBO);
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            pb.setVisibility(View.INVISIBLE);
-
-            PointsAdapter adaptera = new PointsAdapter(arrayList,context);
-            recyclerView.setAdapter(adaptera);
-
-        }
-    }
-
-
-    ///////////////   get_json    //////////////////
-
-    public  String getJsonStringFromLink(String json_link) throws IOException
-    {
-        String JSON_STRING,final_json;
-
-        URL url  = new URL(json_link);
-        HttpURLConnection httpCon =   (HttpURLConnection)  url.openConnection();
-        InputStream is =  httpCon.getInputStream();
-        InputStreamReader isr = new InputStreamReader(is);
-        BufferedReader bfr = new BufferedReader(isr);
-        StringBuilder s_build = new StringBuilder();
-        while ((JSON_STRING = bfr.readLine()) != null)
-        {
-            s_build.append(JSON_STRING + "\n");
-        }
-
-        bfr.close();
-        is.close();
-        httpCon.disconnect();
-        final_json = s_build.toString().trim();
-
-        return  final_json;
-    }
-
-///////////////////////////////////////////////////////////
-
 }

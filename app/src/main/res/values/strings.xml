@@ -5,7 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_logout">Logout</string>
-    <string name="action_share">Share</string>
+    <string name="action_share">Share this app</string>
 
     <string name="title_activity_earn_redeem">EarnRedeemActivity</string>
 
@@ -337,7 +337,7 @@ whatsoever, without informing smartpointsmembers.\n
     <string name="btn_cancel">CANCEL</string>
     <string name="btn_confirm">CONFIRM</string>
     <string name="btn_edit">EDIT</string>
-    <string name="acknowledge">Acknowledgement</string>
+    <string name="acknowledge">Thank you for using SmartpointS</string>
     <string name="seller_reject_msg">Seller rejected your request . Please try again ?</string>
 
 

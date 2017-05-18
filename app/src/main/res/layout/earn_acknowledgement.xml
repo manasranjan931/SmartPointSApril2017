@@ -57,6 +57,7 @@
                 android:textColor="#4c5154"
                 android:textCursorDrawable="@null"
                 android:textSize="23dp"
+                android:layout_marginTop="10dp"
                 android:textStyle="normal" />
 
         </RelativeLayout>

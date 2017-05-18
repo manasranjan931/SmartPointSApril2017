@@ -2,6 +2,7 @@ package in.bizzmark.smartpoints_user;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -14,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.telephony.TelephonyManager;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +33,7 @@ import in.bizzmark.smartpoints_user.database.PointsActivity;
 import in.bizzmark.smartpoints_user.login.LoginActivity;
 
 import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_PHONE_STATE;
 
 public class NavigationActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,12 +42,14 @@ public class NavigationActivity extends Activity
 
     ImageView imageView_Menu,imageView_Share,imageView_Logout;
     CircleImageView profileImageView;
-    TextView tvUserEmail;
+    TextView tvDeviceId;
 
     Button btn_Your_Points;
     boolean doubleBackToExitPressedOnce = false;
 
     FirebaseAuth firebaseAuth;
+
+    public static String device_Id = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +108,8 @@ public class NavigationActivity extends Activity
         });
 
         // set device id
-        tvUserEmail = (TextView) navHeader.findViewById(R.id.userEmail);
-      //  tvUserEmail.setText(Scanner_Fragment.DEVICE_ID);
+        tvDeviceId = (TextView) navHeader.findViewById(R.id.tv_deviceId);
+        tvDeviceId.setText("Your device Id : "+device_Id);
 
         // for points button
         btn_Your_Points = (Button) findViewById(R.id.your_points_button);
@@ -121,8 +126,10 @@ public class NavigationActivity extends Activity
         requestCameraPermission();
     }
 
+    // Runtime Permission
     private void requestCameraPermission() {
         if (checkPermissions()){
+            getIMEIString();
            // Toast.makeText(getApplicationContext(), "Camera Permission already granted", Toast.LENGTH_LONG).show();
         }else {
             requestPermission();
@@ -134,7 +141,7 @@ public class NavigationActivity extends Activity
     }
 
     private void requestPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CODE);
+        ActivityCompat.requestPermissions(this, new String[]{CAMERA,READ_PHONE_STATE}, REQUEST_CODE);
     }
 
     @Override
@@ -142,6 +149,7 @@ public class NavigationActivity extends Activity
         if (requestCode == REQUEST_CODE){
             if (grantResults.length > 0){
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    getIMEIString();
                     Toast.makeText(getApplicationContext(), "Permission Granted, Now you can access camera", Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(getApplicationContext(), "Permission Denied, You cannot access and camera", Toast.LENGTH_LONG).show();
@@ -152,7 +160,7 @@ public class NavigationActivity extends Activity
 
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        requestPermissions(new String[]{CAMERA},REQUEST_CODE);
+                                        requestPermissions(new String[]{CAMERA,READ_PHONE_STATE},REQUEST_CODE);
                                     }
                                 }).setCancelable(false)
                                 .create()
@@ -163,6 +171,35 @@ public class NavigationActivity extends Activity
         }else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    // Access DeviceId
+    private void getIMEIString() {
+        try {
+            TelephonyManager telephonyManager = (TelephonyManager) getApplication()
+                    .getSystemService(Context.TELEPHONY_SERVICE);
+            device_Id = telephonyManager.getDeviceId();
+        }catch (Throwable throwable){
+            throwable.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        tvDeviceId.setText("Your device Id : "+device_Id);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        tvDeviceId.setText("Your device Id : "+device_Id);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        tvDeviceId.setText("Your device Id : "+device_Id);
     }
 
     // logout user
@@ -218,6 +255,7 @@ public class NavigationActivity extends Activity
         }
         else if (id == R.id.nav_contact_us)
         {
+            showContactUsDialog();
         }
         else if (id == R.id.nav_logout){
             // code for logout
@@ -235,6 +273,18 @@ public class NavigationActivity extends Activity
         return true;
     }
 
+    private void showContactUsDialog() {
+        new AlertDialog.Builder(this)
+                .setMessage("For any queries contact this email \n bizzmark.in@gmail.com")
+                .setPositiveButton("send email", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        startActivity(new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:bizzmark.in@gmail.com")));
+                    }
+                }).create().show();
+    }
+
     private void showAlertDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Choose action. . . .")
@@ -243,7 +293,7 @@ public class NavigationActivity extends Activity
                     public void onClick(DialogInterface dialog, int which) {
                         shareApplicationByBluetooth();
                     }
-                }).setNegativeButton("SHAREit", new DialogInterface.OnClickListener() {
+                }).setNegativeButton("OTHERS", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 shareApplicationByShareit();

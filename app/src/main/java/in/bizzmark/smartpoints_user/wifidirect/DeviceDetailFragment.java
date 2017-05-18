@@ -144,7 +144,7 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
                         getActivity().startService(serviceIntent);
 
                         sendProgress = new ProgressDialog(getActivity());
-                        sendProgress.setMessage("Please wait amount sending....");
+                        sendProgress.setMessage("waiting for seller response.......");
                         sendProgress.setCancelable(false);
                         sendProgress.show();
 
@@ -157,7 +157,7 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
                             }
                         };
                         Handler pdCanceller = new Handler();
-                        pdCanceller.postDelayed(progressRunnable, 13000);
+                        pdCanceller.postDelayed(progressRunnable, 30000);
 
                     }
                 });

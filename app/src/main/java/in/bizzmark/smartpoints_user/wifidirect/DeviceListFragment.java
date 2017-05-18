@@ -181,9 +181,9 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
     @Override
     public void onPeersAvailable(WifiP2pDeviceList peerList) {
 
-//        if (progressDialog != null && progressDialog.isShowing()) {
-//            progressDialog.dismiss();
-//        }
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
 
 //        if (progressBar != null && progressBar.isShown()) {
 //            progressBar.setVisibility(View.GONE);
@@ -214,15 +214,14 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
     public void onInitiateDiscovery()
     {
 
-       /* if (progressDialog != null && progressDialog.isShowing())
+        if (progressDialog != null && progressDialog.isShowing())
         {
             progressDialog.dismiss();
         }
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setTitle("Press back to cancel");
         progressDialog.setMessage("finding peers");
-        progressDialog.setView(progressbsrView);
-        progressDialog.show();*/
+        progressDialog.show();
 
 //      if (progressBar != null && progressBar.isShown()){
 //          progressBar.setVisibility(View.GONE);

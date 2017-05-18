@@ -57,6 +57,7 @@
                 android:textColor="#4c5154"
                 android:textCursorDrawable="@null"
                 android:textSize="23dp"
+                android:layout_marginTop="10dp"
                 android:textStyle="normal" />
 
         </RelativeLayout>
@@ -161,7 +162,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="start"
                             android:paddingLeft="5dp"
-                            android:text="New Amount"
+                            android:text="New Bill Amount"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="15dp" />
 
@@ -330,7 +331,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
                             android:background="@drawable/button_drawable"
-                            android:text="PLEASE PAY"
+                            android:text="OK"
                             android:textColor="@color/color_white"
                             android:textSize="20dp" />
 

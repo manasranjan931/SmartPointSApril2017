@@ -81,7 +81,7 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
         deviceId = ackBO.getDeviceId();
         status = ackBO.getStatus();
 
-        if("success".equalsIgnoreCase(status) && result != null){
+        if("success".equalsIgnoreCase(status)){
             // when seller accepting
             tvstoreName.setText(storeName);
             tvamount.setText(billAmount);
@@ -111,7 +111,7 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
         dateandtime = simpleDateFormat.format(calander.getTime());
 
         // Retrieve Data From SQLite-Database
-        retrieveDataFromSQLite();
+       // retrieveDataFromSQLite();
 
         // retrieve deviceid from sharedPreferences
         SharedPreferences sp = getApplicationContext().getSharedPreferences("MY_DEVICE_ID", Context.MODE_PRIVATE);
@@ -185,11 +185,13 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
             cv.put(DbHelper.STORE_NAME_COL_1, storeName);
             cv.put(DbHelper.BILL_AMOUNT_COL_2, billAmount);
 
-            if (points == null && deviceIdfromsp == deviceId) {
-                cv.put(DbHelper.EARN_POINTS_COL_3, points);
-            }else if (points != null && deviceIdfromsp == deviceid){
-                cv.put(DbHelper.EARN_POINTS_COL_3, point+points);
-            }
+//            if (points == null && deviceIdfromsp == deviceId) {
+//                cv.put(DbHelper.EARN_POINTS_COL_3, points);
+//            }else if (points != null && deviceIdfromsp == deviceid){
+//                cv.put(DbHelper.EARN_POINTS_COL_3, point+points);
+//            }
+
+            cv.put(DbHelper.EARN_POINTS_COL_3, points);
 
             cv.put(DbHelper.TYPE_COL_4, type);
             cv.put(DbHelper.DATE_TIME_COL_5, dateandtime);
@@ -198,6 +200,7 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
             long result = db.insert(DbHelper.TABLE_EARN, null, cv);
             if (result != -1) {
                 Toast.makeText(this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "StoreName : "+ storeName +"\n"+ "Points : "+points +"\n"+ "BillAmount : "+billAmount +"\n"+ "Type : "+type +"\n"+ "Date&Time : "+dateandtime +"\n"+ "DeviceId : "+deviceId, Toast.LENGTH_LONG).show();
                 finish();
             } else {
                 Toast.makeText(this, "Data saving error : "+result, Toast.LENGTH_SHORT).show();

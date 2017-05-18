@@ -7,13 +7,15 @@ package in.bizzmark.smartpoints_user.bo;
 public class EarnPointsBO {
     public String storename;
     public String points;
+    public String storeId;
 
     public EarnPointsBO() {
     }
 
-    public EarnPointsBO(String storename, String points) {
+    public EarnPointsBO(String storename, String points, String storeId) {
         this.storename = storename;
         this.points = points;
+        this.storeId = storeId;
     }
 
     public String getStorename() {
@@ -30,5 +32,13 @@ public class EarnPointsBO {
 
     public void setPoints(String points) {
         this.points = points;
+    }
+
+    public String getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
     }
 }

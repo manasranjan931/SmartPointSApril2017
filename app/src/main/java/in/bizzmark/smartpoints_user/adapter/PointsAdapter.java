@@ -21,11 +21,22 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
     ArrayList<EarnPointsBO> pointsBOList;
     Context context;
 
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position);
+    }
 
-    public PointsAdapter(ArrayList<EarnPointsBO> pointsBOList,Context context) {
+    public OnItemClickListener mOnItemClickListener;
+
+    public void SetOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+
+
+    public PointsAdapter(ArrayList<EarnPointsBO> pointsBOList,Context context, OnItemClickListener listener) {
         super();
         this.pointsBOList = pointsBOList;
         this.context = context;
+        this.mOnItemClickListener = listener;
     }
 
     @Override
@@ -34,16 +45,36 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         EarnPointsBO earnPointsBO = pointsBOList.get(position);
         holder.storename.setText(earnPointsBO.getStorename());
         holder.points.setText(earnPointsBO.getPoints());
+
+        if (mOnItemClickListener != null){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onItemClick(v,position);
+                }
+            });
+        }
+
+       // Toast.makeText(context, "StoreName : "+earnPointsBO.getStorename() + "\n" + "Points : "+earnPointsBO.getPoints(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.points_row,parent,false);
-        ViewHolder viewHolder = new ViewHolder(view);
+
+        final ViewHolder viewHolder = new ViewHolder(view);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClick(v, viewHolder.getPosition());
+            }
+        });
+
         return viewHolder;
     }
 

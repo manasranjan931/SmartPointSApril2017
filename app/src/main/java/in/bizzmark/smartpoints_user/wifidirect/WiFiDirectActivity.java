@@ -16,6 +16,7 @@
 
 package in.bizzmark.smartpoints_user.wifidirect;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
+import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.net.wifi.p2p.WifiP2pManager.ActionListener;
 import android.net.wifi.p2p.WifiP2pManager.Channel;
@@ -37,6 +39,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import in.bizzmark.smartpoints_user.R;
 
@@ -57,12 +62,16 @@ public class WiFiDirectActivity extends AppCompatActivity
 
     public static final String TAG = "wifidirectdemo";
     private WifiP2pManager manager;
+    private WifiP2pManager.PeerListListener peerListListener;
+    private List _peers = new ArrayList();
     private boolean isWifiP2pEnabled = false;
     private boolean retryChannel = false;
 
     private final IntentFilter intentFilter = new IntentFilter();
     private Channel channel;
     private BroadcastReceiver receiver = null;
+
+    public static ProgressDialog progressDialog = null;
 
     /**
      * @param isWifiP2pEnabled the isWifiP2pEnabled to set
@@ -76,7 +85,13 @@ public class WiFiDirectActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-       // discoverPeers();
+        // Auto-Refresh p2p
+        autoDiscoverPeers();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Press back to cancel");
+        progressDialog.setMessage("finding peers");
+        progressDialog.show();
 
         // Turn on wifi
         WifiManager wifi = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -140,7 +155,22 @@ public class WiFiDirectActivity extends AppCompatActivity
 
     }
 
-    // For discover new peesa
+     // Auto-Refresh p2p
+     private void autoDiscoverPeers() {
+         peerListListener = new WifiP2pManager.PeerListListener() {
+             @Override
+             public void onPeersAvailable(WifiP2pDeviceList peers) {
+                 _peers.clear();
+                 _peers.addAll(peers.getDeviceList());
+
+                 if (_peers.size() == 0){
+                     return;
+                 }
+             }
+         };
+     }
+
+     // For discover new peesa
      public  void discoverPeers() {
          if (!isWifiP2pEnabled){
              Toast.makeText(WiFiDirectActivity.this, "Enable P2P from system settings",
@@ -174,7 +204,7 @@ public class WiFiDirectActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-        receiver = new WiFiDirectBroadcastReceiver(manager, channel, this);
+        receiver = new WiFiDirectBroadcastReceiver(manager, channel, this,peerListListener);
         registerReceiver(receiver, intentFilter);
     }
 
