@@ -1,62 +1,81 @@
 
-
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 xmlns:app="http://schemas.android.com/apk/res-auto"
-android:background="@color/lightgrey"
+android:background="@color/color_white"
 android:orientation="vertical"
-    android:gravity="center"
-    android:id="@+id/earn_ll"
+android:gravity="center"
+android:id="@+id/earn_ll"
 tools:context="in.bizzmark.smartpoints_user.earnredeemtab.Earn">
 
-
-    <TableLayout
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/_earn_tab_Layout"
+        android:layout_margin="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:gravity="center">
 
-        <TableRow
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:background="@drawable/earn_redeem_edittext_drawable">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="2dp"
+        android:gravity="center">
 
-     <android.support.design.widget.TextInputLayout
-        android:layout_width="200dp"
-         android:gravity="center"
-        android:layout_height="45dp">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textinputlayout_email"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            app:errorEnabled="false"
+            android:gravity="center">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:inputType="numberDecimal"
-            android:maxLength="10"
-            android:paddingLeft="18dp"
-            android:imeOptions="actionDone"
-            android:focusableInTouchMode="true"
-            android:hint="Please Enter The Bill Amount:"
-            android:id="@+id/et_earn_billAmountText" />
-    </android.support.design.widget.TextInputLayout>
+            <EditText
+                android:background="@drawable/tv_border"
+                android:id="@+id/et_earn_billAmountText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:ems="15"
+                android:hint="Enter purchase bill amount"
+                android:inputType="numberDecimal"
+                android:paddingLeft="8dp"
+                android:paddingRight="3dp"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textCursorDrawable="@null"
+                android:textSize="14dp" />
 
-        </TableRow>
+        </android.support.design.widget.TextInputLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/btn_earn_send"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_drawable"
+            android:text="@string/btn_send"
+            android:textColor="@color/color_white"
+            android:textSize="20dp" />
 
 
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="45dp"
-        android:id="@+id/btn_earn_send"
-        android:text="@string/btn_send"
-        android:background="@drawable/earn_redeem_button_drawable"
-        android:textSize="20dp"
-        android:layout_marginTop="15dp"
-        android:textColor="@color/color_white"
-        android:textStyle="normal"/>
+    </RelativeLayout>
 
+    </LinearLayout>
 
-    </TableLayout>
+    </ScrollView>
 
 
 </LinearLayout>

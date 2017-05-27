@@ -4,39 +4,39 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import in.bizzmark.smartpoints_user.R;
+
+import static in.bizzmark.smartpoints_user.NavigationActivity.networkInfo;
 
 public class LoginActivity extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private ImageView imageView_back_arrow;
     private TextView tvSignup,tvForgotPassword;
-    private TextInputEditText etEmail,etPassword;
+
+    private TextView tvSkip;
+
+    private EditText etEmail,etPassword;
     private CheckBox checkBox_Password;
     private Button btnLogin;
     private String email,password;
     private ProgressDialog progressDialog;
 
-    private FirebaseAuth firebaseAuth;
+    private Animation animBounce;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +45,22 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
         // find all ids
         findViewByAllId();
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        // Load the animation
+        animBounce = AnimationUtils.loadAnimation(this,R.anim.bounce);
     }
 
     private void findViewByAllId() {
         imageView_back_arrow = (ImageView) findViewById(R.id.login_back_arrow);
-        etEmail = (TextInputEditText) findViewById(R.id.et_email_login);
-        etPassword = (TextInputEditText) findViewById(R.id.et_password_login);
+        etEmail = (EditText) findViewById(R.id.et_email_login);
+        etPassword = (EditText) findViewById(R.id.et_password_login);
         tvForgotPassword = (TextView) findViewById(R.id.tv_forgot_password);
         checkBox_Password = (CheckBox) findViewById(R.id.checkbox_password_login);
 
         btnLogin = (Button) findViewById(R.id.btn_login);
         tvSignup = (TextView) findViewById(R.id.tv_sign_up);
+
+        tvSkip = (TextView) findViewById(R.id.tv_skip);
+        tvSkip.setOnClickListener(this);
 
         imageView_back_arrow.setOnClickListener(this);
         checkBox_Password.setOnCheckedChangeListener(this);
@@ -70,6 +74,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
     @Override
     public void onClick(final View v) {
 
+        int i = 0;
+
         int id = v.getId();
         switch (id){
             case R.id.login_back_arrow:
@@ -80,11 +86,24 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
                 finish();
                 break;
             case R.id.btn_login:
-                userLogin(v);
+                btnLogin.startAnimation(animBounce);
+                if (networkInfo != null) {
+                    userLogin(v);
+                }else {
+                    Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.tv_sign_up:
                 startActivity(new Intent(this,RegisterActivity.class));
                 finish();
+                break;
+            case R.id.tv_skip:
+               // startActivity(new Intent(this,NavigationActivity.class));
+                if (i == 0) {
+                    tvSkip.setVisibility(View.GONE);
+                    finish();
+                    tvSkip.startAnimation(animBounce);
+                }
                 break;
         }
     }
@@ -112,39 +131,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
         }else {
             progressDialog.show();
             // do login
-            firebaseAuth.signInWithEmailAndPassword(email,password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressDialog.dismiss();
-                            if (task.isSuccessful()){
-                                Toast.makeText(LoginActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
-                                etEmail.setText("");
-                                etPassword.setText("");
-                                finish();
-                            }else {
-                                checkEmailVerified();
-                                etPassword.setText("");
-                                Toast.makeText(LoginActivity.this, "EMAIL AND PASSWORD NOT MATCHING", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
         }
-    }
-
-    private void checkEmailVerified() {
-       FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-               FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                if (firebaseUser != null ) {
-                    FirebaseAuth.getInstance().signOut();
-                    Toast.makeText(LoginActivity.this, "User is signed in and email is verified", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
     }
 
     // Password hide and show

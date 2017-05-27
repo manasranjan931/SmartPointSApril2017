@@ -18,9 +18,7 @@
     <string name="btn_update">UPDATE</string>
 
     <string-array name="redeem_points">
-
         <item>select points</item>
-
         <item>100</item>
         <item>200</item>
         <item>300</item>
@@ -31,23 +29,20 @@
         <item>800</item>
         <item>900</item>
         <item>1000</item>
-
     </string-array>
 
 
     //Strings for privacy and policy
 
+    <string name="This_privacy_policy_governs"> This privacy policy governs your use of products, services, content, features, technologies or functions offered by Bizzmark ("smartpoints" We") and all related sites, applications, and services (collectively "smartpoints loyalty Program") (including, without limitation, when you provide any information in relation to your use of smartpoints loyalty Program). You accept and consent to this privacy policy when you sign up for, access, or use the smartpoints loyalty Program thereby expressly agree to our use and disclosure of your personal information and direct us to do so in the manner described in this privacy\n
+  Our privacy policy describes the information we collect and how we use that information. Smartpoints takes the processing of your information very seriously and will use your information only in accordance with the terms of this privacy policy. For the purposes of this privacy policy, the term "information" means any confidential and/or personally identifiable information or other.\n
 
-    <string name="This_privacy_policy_governs">This privacy policy governs your use of products, services, content, features, technologies or functions offered by Bizzmark ("smartpoints" We") and all related sites, applications, and services (collectively "smartpoints loyalty  Program") (including, without limitation, when you provide any information in relation to your use of smartpoints loyalty  Program). You accept and consent to this privacy policy when you sign up for, access, or use the smartpoints loyalty Program thereby expressly agree to our use and disclosure of your personal information and direct us to do so in the manner described in this privacy policy.\n
-
-Our privacy policy describes the information We collect and how We use that information. smartpoints takes the processing of your information very seriously and will use your information only in accordance with the terms of this privacy policy. For the purposes of this privacy policy, the term "information" means any confidential and/or personally identifiable information or other\n
-information related to users of smartpoints loyalty Program, including but not limited to smartpoints  members and smartpoints  partners. We will not sell or rent your information to third parties for their marketing purposes without your explicit consent. However, in order for us to offer smartpoints  loyalty  Program to our users; enhance the quality of smartpoints  services from time to time; and protect the interests of our users, We will in limited circumstances share some of your information with third parties under strict restrictions. \n
-This privacy policy is intended to govern the use of smartpoints  services by our users (including, without limitation those who use the smartpoints  services in the course of their trade or business) unless otherwise agreed through contract. While the word "privacy" may mean different things to different people, we believe that once you understand how we use your information; the steps we take to protect it, and the resulting benifits to you, you will not only feel confident when sharing information with us, but will also find your participation in the program a very rewarding experience.\n
-.
+Information related to users of smartpoints loyalty Program, including but not limited to smartpoints members and smartpoints partners. We will not sell or rent your information to third parties for their marketing purposes without your explicit consent. However, in order for us to offer smartpoints loyalty Program to our users; enhance the quality of smartpoints services from time to time; and protect the interests of our users, we will in limited circumstances share some of your information with third parties under strict restrictions. \n
+ This privacy policy is intended to govern the use of smartpoints services by our users (including, without limitation those who use the smartpoints services in the course of their trade or business) unless otherwise agreed through contract. While the word "privacy" may mean different things to different people, we believe that once you understand how we use your information; the steps we take to protect it, and the resulting benefits to you, you will not only feel confident when sharing information with us, but will also find your participation in the program a very rewarding experience.
 
 </string>
 
-    <string name="smartpoints_collects_both_personal">smartpoints  collects both personal and non-personal information using the methods listed below. Our primary purpose in collecting such information is to provide you with a personalized smartpoints  experience by displaying content and delivering offers that are likely to be of interest to you according to your preferences.</string>
+    <string name="smartpoints_collects_both_personal">Smartpoints collects both personal and non-personal information using the methods listed below. Our primary purpose in collecting such information is to provide you with a personalized smartpoints experience by displaying content and delivering offers that are likely to be of interest to you according to your preferences.</string>
 
     <string name="Our_primary_purpose_in_collecting">smartpoints  collects both personal and non-
 personal information using the methods
@@ -103,12 +98,11 @@ rewarding experience.
 
     <string name="Totakeadvantage">To take advantage of the offers available at smartpoints  loyalty Program, you must register for our service and become a smartpoints  Member/Partner. smartpoints  may collect personal information when you register with us and when you use smartpoints  services. smartpoints  may combine information about you that We have, with information We obtain from smartpoints  merchants. During registration, We may require members to give us basic contact information (such as your first name, last name and email address) and demographic information (such as your zip code, age and gender).
 
-
 </string>
 
-    <string name="AutomaticInformation">Automatic Information collected through Participation in the smartpoints  loyalty  Program when you sign in to the smartpoints  mobile application, the server automatically recognizes you by your cookie. This cookie acts as a unique identification , and is linked to your personal information, which allows us to personalize the application to your specified interests and allows you to access your personal information. It also allows us to keep track of your activity on our mobile application. This information may be added to your personal profile and used to deliver offers and advertisements that are most relevant to your interests.\n
+    <string name="AutomaticInformation">Automatic Information collected through Participation in the smartpoints loyalty Program when you sign in to the smartpoints mobile application, the server automatically recognizes you by your cookie. This cookie acts as a unique identification, and is linked to your personal information, which allows us to personalize the application to your specified interests and allows you to access your personal information. It also allows us to keep track of your activity on our mobile application. This information may be added to your personal profile and used to deliver offers and advertisements that are most relevant to your interests.\n
 
-smartpoints  also retrieves the following information from your application :\n
+Smartpoints also retrieves the following information from your application:\n
 
 1. Date and time of your visit.\n
 2.Your registered smartpoints  account information.\n
@@ -134,189 +128,183 @@ that We may further tailor the Program to
 your interests.\n
     </string>
 
-
     <string name="We_do_not_rent">
 
-We do not rent, share, trade or sell your personal information to anyone for promotional purposes without your express consent. When We do share data with our advertisers it is in aggregate form and is designed to ensure you are not identified personally. We may allow other companies, such as our marketing partners and companies that are affiliated with smartpoints  to otherwise communicate with you about our smartpoints  loyalty Program. Such third party will be authorized to use this information in keeping with our contractual relationship with them and in accordance with their own privacy policy and information practices. We do not control these third parties and you agree that smartpoints  is not liable for their acts or any failure to act on their part. smartpoints  engages in email and direct sms marketing, where email/sms marketing is an integral part of the program, you sign up to receive email/sms targeted to your interests at the time of registration. If you later decide you wish to cease participation in this portion of the program. We may, without your consent, access and disclose your personal information, any communications sent or received by you, and any other information that We may have about you or your account in the following circumstances: as may be permitted or required by law, regulation, rule or court order; pursuant to requests from governmental, regulatory or administrative agencies or law
+We do not rent, share, trade or sell your personal information to anyone for promotional purposes without your express consent. When we do share data with our advertisers it is in aggregate form and is designed to ensure you are not identified personally. We may allow other companies, such as our marketing partners and companies that are affiliated with smartpoints to otherwise communicate with you about our smartpoints loyalty Program. Such third party will be authorized to use this information in keeping with our contractual relationship with them and in accordance with their own privacy policy and information practices. We do not control these third parties and you agree that smartpoints is not liable for their acts or any failure to act on their part. smartpoints  engages in email and direct sms marketing, where email/sms marketing is an integral part of the program, you sign up to receive email/sms targeted to your interests at the time of registration. If you later decide you wish to cease participation in this portion of the program. We may, without your consent, access and disclose your personal information, any communications sent or received by you, and any other information that we may have about you or your account in the following circumstances: as may be permitted or required by law, regulation, rule or court order; pursuant to requests from governmental, regulatory or administrative agencies or law
 enforcement authorities; or to prevent, investigate, identify persons or organizations potentially involved in, or take any action regarding suspected fraud, violations of our Terms of Service, or activity that appears to us to be illegal or may expose us to legal liability.
-Additionally, We may disclose your personal information in situations that We believe to be emergencies involving potential threats to the physical safety of any person or property if We believe that your personal information in any way
-relates to that threat.
-
+Additionally, we may disclose your personal information in situations that we believe to be emergencies involving potential threats to the physical safety of any person or property if we believe that your personal information in any way
+Relates to that threat.
 
     </string>
 
-
     <string name="smartpoints_is_committed">
-smartpoints  is committed to handling your customer information with high standards of information security. We use computer safeguards such as ﬁrewalls and data encryption, We enforce physical access controls to our buildings and ﬁles, and We authorize access to personal information only for those employees who require it to fulfill their job responsibilities. However, no data transmission over the Internet can be guaranteed to be completely secure. Accordingly, We cannot ensure or warrant the security of any information that you transmit to us, so you do so at your own risk.\n
-smartpoints  is committed to adequately protecting your information regardless of where the data resides and to providing appropriate protection for your information where such data is transferred outside India servers.\n
 
-smartpoints  representatives will never ask you for your password, so any email or other communication requesting your password should be treated as unauthorized and suspicious and forwarded to smartpoints  customer care.
+Smartpoints is committed to handling your customer information with high standards of information security. We use computer safeguards such as recalls and data encryption, we enforce physical access controls to our buildings and we authorize access to personal information only for those employees who require it to fulfil their job responsibilities. However, no data transmission over the Internet can be guaranteed to be completely secure. Accordingly, we cannot ensure or warrant the security of any information that you transmit to us, so you do so at your own risk.\n
 
+Smartpoints is committed to adequately protecting your information regardless of where the data resides and to providing appropriate protection for your information where such data is transferred outside India servers.\n
+
+smartpoints representatives will never ask you for your password, so any email or other communication requesting your password should be treated as unauthorized and suspicious and forwarded to smartpoints  customer care.
 
 </string>
-
 
     <string name="At_any_time_you_may_unsubscribe">At any time, you may unsubscribe from our alert email or text message or other newsletter or similar services through the mobile application . As a member, you will occasionally receive e-mail updates, from us about special offers, new services, and other noteworthy items. If you do not wish to receive them, please click on the "unsubscribe" link or follow the instructions in each email message. We reserve the right to limit membership to those who will accept such emails. smartpoints  Member will be notified via email prior to any actions taken. Further, any person who ceases to be a smartpoints  Member; their records may be removed within a period of seven days.
 
-
-
-
 </string>
-
 
     <string name="This_privacy_policy_may">
 This privacy policy may be revised over time as new features are added to the smartpoints  Services or as We incorporate suggestions from our affiliates, members and partners. We may change this privacy policy at any time by posting a revised version of it on our mobile application . Unless We have legal grounds to do otherwise, We will provide you a prior notice of the effective date of the revised privacy policy on our mobile application thereby both the smartpoints  members and smartpoints partners on usage of the services of smartpoints  hereby consent and agree to the form mentioned privacy policy.
 
-
 </string>
-
 
     //strings for terms and conditions
+    <string name="The_Terms_and_Conditions_Terms">The Terms and Conditions ("Terms") explain the nature and scope of the relationship between smartpoints {owned by Bizzmark }  here in referred to as "smartpoints" or "We" (as owner and management for the program) and you, for downloading, accessing or using the mobile applications, websites or other products and services of Bizzmark . These terms affect your legal rights and In the event you use a service, feature, orfunctionality that is operated by a thirdparty and made available through ourServices (including Services we jointly offerwith the third party), each partys terms willgovern as to the respective partysrelationship with you.Please read these terms carefully, beforeusing our services.</string>
 
-    <string name="The_Terms_and_Conditions_Terms">The Terms and Conditions ("Terms") explain the nature and scope of the relationship between smartpoints {owned by Bizzmark }  herein referred to as "smartpoints" or "We" (as owner and management for the program) and you, for downloading, accessing or using the mobile applications, websites or other products and services of Bizzmark . These terms affect your legal rights and In the event you use a service, feature, orfunctionality that is operated by a thirdparty and made available through ourServices (including Services we jointly offerwith the third party), each partys terms willgovern as to the respective partysrelationship with you.Please read these terms carefully, beforeusing our services.</string>
+    <string name="This_mobile_application">"1. This mobile application "smartpoints" owned by the partnership firm Bizzmark incorporated under the partnership Act,1932 and having its office at  205 pavani kamal opposite sbh bank Abids Hyderabad 50001 and such expression shall unless repugnant to the context of meaning thereof, be deemed to mean and include its successors and permitted assigns."\n
+    2. "smartpoints Member" shall mean an end customer, who is enrolled as a member of smartpoints holding a valid unique membership number with the smartpoints loyalty system programme."\n
+    3.  "smartpoints Member" shall mean an end customer, who is enrolled as a member of smartpoints holding a valid unique membership number with the smartpoints loyalty system programme."\n
+    4. "smartpoints Merchants" shall mean any or all of the present or future entities, Merchants, shops, departmental stores, airlines, hotels, restaurants, car rental companies and other participating establishments in the program whether with online or offline presence, in agreement with smartpoints, where smartpointsMember can accumulate smartpoints for purchase of goods and services."\n
+    5. "smartpoints" is also the unit currency of the program. smartpoints Member is awarded smartpoints for shopping at Stores registered with smartpoints programme."\n
+    6. "smartpoints" means any offer, benifits, discount, on products of smartpoints  Merchants."\n
+    7. ""smartpoints Program" shall mean a multi-merchant Cashback program for end customers."\n
+    8. "Redemption" means any activity, which results in exchange of smartpoints by a smartpoints Member for discounts or offers at smartpoints Merchants."\n
 
-
-    <string name="This_mobile_application">"1.This mobile application "smartpoints" owned by the partnership firm Bizzmarkincorporated under the partnership Act,1932 and having its office at  205 pavanikamaloppositesbh bank Abids Hyderabad 50001 and such expression shall unless repugnant to the context of meaning thereof, be deemed to mean and include its successors and permitted assigns."\n
-2. "smartpoints Member" shall mean an end customer, who is enrolled as a member of smartpoints holding a valid unique membership number with the smartpoints loyalty system programme."\n
-3. "smartpoints Membership Account" shall mean the account of smartpoints Member where all the smartpoints will be accumulated."\n
-4. "smartpoints Merchants" shall mean any or all of the present or future entities,Merchants, shops, departmental stores, airlines, hotels, restaurants, car rental companies and other participating establishments in the program whether with online or offline presence, inagreement with smartpoints, where smartpointsMember can accumulate smartpointsfor purchase of goods andservices."\n
-5. "smartpoints" is also  the unit currencyofthe program. smartpoints Member isawarded smartpoints for shoppingat Stores registered with smartpointsprogramme."\n
-6. "smartpoints" means any offer,benifits, discount, on products ofsmartpoints  Merchants."\n
-7. "smartpoints Program" shall meana multi-merchant Cashback program forend customers."\n
-8. "Redemption" means any activity, whichresults in exchange of smartpointsby a smartpoints Member for discounts or offers at smartpoints Merchants."\n
-
-</string>
+    </string>
     <string name="The_smartpoints_Member_and_smartpointsMerchants">1. The smartpoints Member and smartpointsMerchants agree that by using thesmartpoints Program or byregistering for the services, he/sheis deemed to have read and understoodthese Terms and confirms thathe/she is bound by these Terms andany changes to it from time to time andsuch other terms as specified by smartpoints from time to time.\n
-2. smartpoints membership is valid for lifetimeforthe Burnbill Member unlessterminated in accordance with theseterms and conditions.\n
-3. smartpoints membership is non-transferable,except as specified in these Terms.smartpoints is non-negotiable, non-redeemable by cash and cannot begifted, awarded or rewarded to any otherperson than the smartpoints Member himself.\n
-4. smartpoints Member will be personally liablefor any and all costs, taxes, charges,claims or liabilities of whatever naturearising from the provision or availabilityof benefits , facilities or arrangementsprovided or made available to a smartpointsMember by smartpoints Merchants, as aresult of his/her membership in thesmartpoints loyalty Program.\n
-5. smartpoints reserves the right at any time inits absolute discretion and without givingnotice to a Burnbill Member to deactivatethe Burnbill membership.\n
-6. We will endeavor to ensure that theservices, benefits, facilities andarrangements as expressed oradvertised by the smartpoints Merchants andsmartpoints will be available to the smartpointsMember. However, smartpoints will not beliable for any loss ordamage, whetherdirect or indirect, arising from theprovision or non-provision whether wholeor part, of any such services, benefits ,facilities or any other arrangements bythe smartpoints Merchants.\n
-7. When a smartpoints Member seeks to use orobtain any of the services, benefits,facilities and arrangements as offered bythe smartpoints Merchant, the provisions ofsuch services, benefits, facilities orarrangements will be subject to therespective termsand conditions of thesmartpoints Merchant, being the provider ofthe said benefits, facilities andarrangements.\n
-8. smartpoints shall not be liable for any loss ordamage, whether direct or indirect,resulting from termination or change ofthe smartpoints loyalty Program or any ofits facilities, benefits or arrangementswhich are made available to the smartpointsMember, including without any limitation,smartpoints Merchants withdrawal or thewithdrawal or limiting of any suchservices, benefits or facilities.\n
-9. The smartpoints loyalty Program may be modified at the sole discretion of smartpointsfrom time to time without intimation tothe Burnbill Member.\n
-10. smartpoints shall not be liable in the event itfails to fulfill any of its obligations underthis terms and conditions due to flood,earthquake, storm, cyclone or any otheracts of god of similar nature, war, strike,lockout, or governmental orjudicial orchange in law or for anyother reasons beyond its control.\n
-11. A waiver of any of the Terms by smartpointsshall not be deemed to be a continuingwaiver, but shall apply solely to theinstances to which the waiver is directed.\n
-12. All smartpoints dispute orcomplaints older than one working dayfrom the date of the transaction will notbe entertained. The smartpoints Membermust provide proof of transaction as discount or offer dispute.\n
-13. The smartpoints Member acknowledges andunderstands that We are merely anintermediary and does not assume anyliability or acquire any right, title orinterest in the smartpoints loyaltyProgram. We are only engaged in themanagement; however all the smartpoints discounts or  offers are offered by the smartpoints Merchants to the smartpoints Membersdirectly; and are responsible for the  fullfillmentof all obligations to thesmartpoints Member.\n
-
+2. smartpoints membership is valid for lifetime for the smartpoints Member unless terminated in accordance with these terms and conditions.\n
+3. smartpoints membership is non-transferable, except as specified in these Terms. smartpoints is non-negotiable, non-redeemable by cash and cannot be gifted, awarded or rewarded to any other person than a smartpoints Member.\n
+4. smartpoints Member will be personally liable for any and all costs, taxes, charges, claims or liabilities of whatever nature arising from the provision or availability of benefits , facilities or arrangements provided or made available to a smartpoints Member by smartpoints Merchants, as a result of his/her membership in the smartpoints loyalty Program.\n
+5. smartpoints reserves the right at any time in its absolute discretion and without giving notice to a smartpoints  Member to deactivate the smartpoints  membership.\n
+6. We will endeavour to ensure that the services, benefits, facilities and arrangements as expressed or advertised by the smartpoints Merchants and smartpoints will be available to the smartpoints Member. However, smartpoints will not be liable for any loss or damage, whether direct or indirect, arising from the provision or non-provision whether whole or part, of any such services, benefits ,facilities or any other arrangements bythe smartpoints Merchants.\n
+7. When a smartpoints Member seeks to use or obtain any of the services, benefits, facilities and arrangements as offered bythe smartpoints Merchant, the provisions of such services, benefits, facilities or arrangements will be subject to the respective terms and conditions of the smartpoints Merchant, being the provider of the said benefits, facilities and arrangements.\n
+8. Smartpoints shall not be liable for any loss or damage, whether direct or indirect, resulting from termination or change of the smartpoints loyalty Program or any of its facilities, benefits or arrangements which are made available to the smartpoints Member, including without any limitation, smartpoints Merchants withdrawal or the withdrawal or limiting of any such services, benefits or facilities.\n
+9. The smartpoints loyalty Program may be modified at the sole discretion of smartpoints from time to time without intimation to the smartpoints  Member.\n
+10. smartpoints shall not be liable in the event it fails to fulfil any of its obligations under this terms and conditions due to flood, earthquake, storm, cyclone or any other acts of god of similar nature, war, strike, lockout, or governmental or judicial or change in law or for any other reasons beyond its control.\n
+11. A waiver of any of the Terms by smartpoints shall not be deemed to be a continuing waiver, but shall apply solely to the instances to which the waiver is directed.\n
+12. All smartpoints dispute or complaints older than one working day from the date of the transaction will not be entertained. The smartpoints Member must provide proof of transaction as discount or offer dispute.\n
+13. The smartpoints Member acknowledges and understands that we are merely an intermediary and does not assume any liability or acquire any right, title or interest in the smartpoints loyalty Program. We are only engaged in the management however all the smartpoints discounts or  offers are offered by the smartpoints Merchants to the smartpoints Members directly and are responsible for the  fulfilment of all obligations to the smartpoints Member.\n
+14. It is compulsory for a smartpoints member to be logged in or registered with smartpoints to avail the option to redeem their smartpoints.\n
+15. If a smartpoints member is not registered with smartpoints loyalty system and loses his Smartphone he used to earn smartpoints  then there is no way he can get or ask for those lost points and smartpoints is not liable for any of this kind of losses.\n
 </string>
     <string name="It_is_the_responsibility_of_smartpoints">
-1. It is the responsibility of smartpoints Memberto share the correct communicationdetails with smartpoints at the time ofenrolling into the Program.\n
-2. Prospective smartpoints Members can enrollinto the Program by downloading thesmartpoints App from the Play or recieving the app from a smartpoints merchant and signing up by updating their profile. They can also walk into a smartpointsStore, make a purchase and ask for theirinstant smartpoints.\n
-3. Each smartpoints Member shall have onlyone smartpoints Membership Account at anygiven point in time; if a smartpointsMemberholds more than one account, thesmartpoints Member should request smartpointsfor account aggregation.\n
-4. If a smartpoints Member is found to havemultiple memberships in the Program,smartpoints may choose to restrict any of thesmartpoints membership.\n
-5. We reserve the right to offer the programto any prospective smartpoints Member; andhave the sole discretion to either acceptor reject membership to any applicationwithout assigning any reasons.\n
+    1. It is the responsibility of smartpoints Member to share the correct communication details with smartpoints at the time of enrolling into the Program.\n
+    2. Prospective smartpoints Members can enrol into the Program by downloading the smartpoints App from the Play store or receive the app from a smartpoints merchant and sign up by updating their profile.\n
+    3. Each smartpoints Member shall have only one smartpoints Membership Account at any given point of time; if a smartpoints Member holds more than one account, the smartpoints Member should request smartpoints for account aggregation.\n
+    4. If a smartpoints Member is found to have multiple memberships in the Program, smartpoints may choose to restrict any of the smartpoints membership.\n
+    5. We reserve the right to offer the program to any prospective smartpoints Member; and have the sole discretion to either accept or reject membership to any application without assigning any reasons.\n
 
-</string>
-    <string name="A_smartpoints_Member_grants_his_herconsent">1. A smartpoints Member grants his/herconsent to smartpoints for creating, storing,maintaining and updating the smartpointsMembers data. Such data shall includemembership data (likename, address,telephone number, mobile number, dateof birth, areas of interest, preferences,etc. as provided by the smartpoints Member)usage data (including without limitation,transactions and smartpointsaccrued at various smartpointsMerchants,etc.), and data concerning contacts withsmartpoints (including without limitation,enquiry regarding membership) for thepurpose of providing relevant informationand customer services to the smartpointsMember in connection with the Program.All data relating to the smartpoints Membershall be protected and used by smartpoints inthe manner indicated in smartpoints privacypolicy.\n
-2. If there are any changes in the contactdetails (mobile number/emailid/address) of a smartpoints Member fromwhat has been registered with smartpoints,the member must update the respectivecontact details with smartpoints immediatelyeither through the smartpoints website,mobile apps, contact centre or any otherchannels to avoid any misuse of smartpoints. smartpoints shall not be liable forany loss of Cashback or other relevantdamages incurred by the member, ifnecessary details are not updated withsmartpoints on time.\n
+    </string>
+    <string name="A_smartpoints_Member_grants_his_herconsent">
+    1. A smartpoints Member grants his/her consent to smartpoints for creating, storing, maintaining and updating the smartpoints members data. Such data shall include membership data (like name, address, telephone number, mobile number, date of birth, areas of interest, preferences,etc. as provided by the smartpoints Member)usage data (including without limitation, transactions and smartpoints accrued at various smartpoints Merchants,etc.), and data concerning contacts with smartpoints (including without limitation, enquiry regarding membership) for the purpose of providing relevant information and customer services to the smartpoints Member in connection with the Program. All data relating to the smartpoints Member shall be protected and used by smartpoints in the manner indicated in smartpoints privacy policy.\n
+    2. If there are any changes in the contact details (mobile number/email id/address) of a smartpoints Member from what has been registered with smartpoints, the member must update the respective contact details with smartpoints immediately either through the  mobile apps, contact centre or any other channels to avoid any misuse of smartpoints. Smartpoints shall not be liable for any loss of discounts or other relevant damages incurred by the member, if necessary details are not updated with smartpoints on time.\n
 
-</string>
-    <string name="smartpoints_Member_can_accrue">1. smartpoints Member can accrue smartpointsearned by them through atransaction with a smartpoints Merchant forthe purchase of goods or services paidby cash, credit/debit card, cheque, onlinepayment, standing instruction or anyother means of payment agreed upon bythe smartpoints Merchant.\n
-2. smartpoints awarded may varybetween different smartpoints Merchantsdepending on the arrangement with the merchants from time to time.\n
-3. smartpoints Member is required to obtain andpreserve for a period of 30 working daysappropriate documentation for alltransactions done with smartpointsMerchants that earnsmartpoints.\n
-4. smartpoints has no liability for the acts andomissions of the smartpoints Merchants orany change brought in their terms andconditions brought in by respectivesmartpoints Merchants.\n
-5. smartpoints accrued throughtransactions at smartpoints Merchants shallbe credited to smartpoints MembershipAccount of the smartpoints Member within . 24 working hours.\n
-6. smartpoints will be accrued inwhole and will not be awarded infractions.\n
-7. smartpoints of two or moresmartpoints Member can be pooled orcombined for Redemption of discounts or offers.\n
-8. The respective smartpoints Merchants areresponsible for the smartpoints issued under this Program and if any ofthem goes into liquidation or non-payment for this discounts or offer or any similarevent, We shall not be liable to honorsmartpoints which has beencredited to the smartpoints MembershipAccount and are yet to be redeemed,where they have not been fully funded bythe smartpointsMerchants as on that date. In such an event, such smartpointswill be removed from the smartpointsMembership Account without prior intimation.\n
+    </string>
+    <string name="smartpoints_Member_can_accrue">1. smartpoints Member can accrue smartpoints earned by them through a transaction with a smartpoints Merchant forth purchase of goods or services paid by cash, credit/debit card, cheque, online payment, standing instruction or any other means of payment agreed upon bythe smartpoints Merchant.\n
+    2. Smartpoints awarded may vary between different smartpoints Merchants depending on the arrangement with the merchants from time to time.\n
+    3. Smartpoints Member is required to obtain and preserve for a period of 30 working days appropriate documentation for all transactions done with smartpoints Merchants that earn smartpoints.\n
+    4. Smartpoints has no liability for the acts and omissions of the smartpoints Merchants or any change brought in their terms and conditions brought in by respective smartpoints Merchants.\n
+    5. Smartpoints accrued through transactions at smartpoints Merchants shall be credited to smartpoints Membership Account of the smartpoints Member within few minutes from the transaction time.\n
+    6. Smartpoints will be accrued in whole and will not be awarded infractions.\n
+    7. The respective smartpoints Merchants are responsible for the smartpoints issued under this Program and if any of them goes into liquidation or non-payment for this discounts or offer or any similar event, We shall not be liable to honour smartpoints which has been credited to the smartpoints Membership Account and are yet to be redeemed, where they have not been fully funded bythe smartpoints Merchants as on that date.
 
-</string>
-    <string name="smartpointsMembers_smartpoints_Merchants">1. smartpointsMembers/smartpoints Merchants can call customer care numbers or loginto their account in the mobile application forobtaining a summary of their recent transactions and obtaining their smartpointsAccount balance.\n
-2. Any notice, information, intimation, change, modification, alteration of the smartpoints loyalty Program shall be deemed to have been given to the smartpointsMember/smartpoints  Merchants forthwith upon any change on the respective mobile applications.\n
+    </string>
+    <string name="smartpointsMembers_smartpoints_Merchants">1. smartpointsMembers/smartpoints Merchants can call customer care numbers or login to their account in the mobile application for obtaining a summary of their recent transactions and obtain  their smartpoints Account balance.\n
+    2. Any notice, information, intimation, change, modification, alteration of the smartpoints loyalty Program shall be deemed to have been given to the smartpointsMember/smartpoints Merchants forthwith upon any change on the respective mobile applications.\n
 
-</string>
+    </string>
     <string name="smartpoints_of_a_particular_store_can">
-1. smartpoints of a particular store can only be redeemed at that particular smartpointsMerchants store.\n
-2. For the purpose of Redemption, the smartpointsMember will directly enter into a sale and purchase relationship with the concerned smartpoints Merchants of the smartpoints  loyalty Program. We only facilitate Redemption of the smartpoints.\n
-3. Any product of smartpoints Merchants can be redeemed with the smartpoints;
-eachsmartpoint  is equivalent to INR1; in case any product or service selected by a smartpointsMember is not available, smartpointsMember may proceedto choose/select from the other availableproducts and services.\n
-4. smartpoints has no monetary refund value and shall only be redeemed for goods and services from smartpointsMerchants.\n
-5.Discounts or offers which are redeemed by using smartpoints are not exchangeable for other Cashback or eligible for refunds.\n
-</string>
+    1. Smartpoints of a particular store can only be redeemed at that same particular smartpoints Merchant store.\n
+    2. For the purpose of Redemption, the smartpointsMember will directly enter into a sale and purchase relationship with the concerned smartpoints Merchants of the smartpoints loyalty Program. We only facilitate Redemption of the smartpoints.\n
+    3. Any product of smartpoints Merchants can be redeemed with the smartpoints;
+    in case any product or service selected by a smartpoints Member is not available, smartpoints Member may proceed to choose/select from the other available products and services.\n
+    4. smartpoints has no monetary refund value and shall only be redeemed for goods and services with smartpointsMerchants.\n
+    5. Discounts or offers which are redeemed by using smartpoints are not exchangeable for other Cashback or eligible for refunds.\n
+
+    </string>
     <string name="A_smartpoints_Member_may">
-1. A smartpoints  Member may terminate his/her membership through call/email and requesting for termination. The smartpointsMember shall provide the required customercredentials that he or she had provided at the time of signing up for the programme .\n
-2. Misuse of smartpoints membership benefits may result in termination of the smartpointsMembership Account and smartpointsMerchants or withdrawal of benefits at the sole discretion of smartpoints.\n
-</string>
+    1. A smartpoints Member may terminate his/her membership through call/email and requesting for termination. The smartpoints Member shall provide the required customer credentials that he or she had provided at the time of signing up for the programme.\n
+    2. Misuse of smartpoints membership benefits may result in termination of the smartpoints Membership Account and smartpoints Merchants or withdrawal of benefits at the sole discretion of smartpoints.\n
+
+    </string>
     <string name="smartpoints_reserves_the_right">1. smartpoints reserves the right to terminate the Program, by giving 30 working days’ notice to all smartpointsMembers.\n
-2. Upon termination or withdrawal of the Program, all smartpointsMember will be given 30 working days’ time within which they may use the smartpoints forRedemption for discounts or offers , beyond the date the smartpoints in Members smartpoints Account will be purged.\n
-3. All claims and disputes arising under the terms and conditions should be notified to smartpoints within one working day from the event date after which no smartpointsMember shall have any claim against smartpoints. All disputes will be subjected to indianjurisdiction.\n
-4. The smartpoints member can club smartpointsofother smartpointsmembers,by transferring their smartpoints to them.\n
-5.Once a transaction of smartpointsis executed it cannot be retreated.\n
-6.Upon any mistake or negligence from the smartpoints merchant shall be looked upon by smartpoints management and resolved as soon as possible.\n
-7.Any mistake by a smartpoints member during the transaction of smartpoints cannot be retreated until the member informs the smartpoints management about the issue within 1 day of the transaction.\n
-</string>
-    <string name="This_communication_does_not_imply">1. This communication does not imply thatsmartpointswill actually pay the membersutility bills.\n
-2. By this communication, we are onlystating that the discounts or offers earned by themember by shopping at smartpointsStoreswill be more or less equal to his/herutility bills.\n
-3. smartpointsis not a wallet and does notaccept payment of any utility bill.\n
-4. The members are explicitly informed thatthis is only a creative rendition of thetheme, and does not in any way involvesmartpointsas the payment platform forutility bills.\n
-5. It is mandatory for participating members to read and understand these terms and conditions fully, before commencing their shopping at smartpointsStores.\n
-6. smartpointsis in no way responsible for any miscommunication that may be interpreted by the members.\n
-7. For more clarification, the member should call Customer Care and fully understand this communication before commencing his/ her shopping.\n
-8. smartpointsreserves the right to change these terms and conditions in any way
-whatsoever, without informing smartpointsmembers.\n
-9. In any matter whatsoever, the decision of smartpointsmanagement will be final and binding.\n
-10. By acting on this communication, you are accepting and agreeing upon all the  above terms and conditions.\n
-11. We will not be responsible for the consequences ofsmartpoints Merchant on accepting wrong, and incorrect bill amount by the smartpointsmember.As the smartpoints Merchant has two verification steps that he accepts before granting any smartpoints to the smartpoints member.\n
+    2. Upon termination or withdrawal of the Program, all smartpointsMember will be given 30 working days’ time within which they may use the smartpoints for Redemption for discounts or offers, beyond the date the smartpoints in Members smartpoints Account will be purged.\n
+    3. All claims and disputes arising under the terms and conditions should be notified to smartpoints within one working day from the event date after which no smartpoints Member shall have any claim against smartpoints. All disputes will be subjected to Indian jurisdiction.\n
+    4. Once a transaction of smartpoints is executed it cannot be retreated.\n
+    5. Upon any mistake or negligence from the smartpoints merchant shall be looked upon by smartpoints management and resolved as soon as possible.\n
+    6.Any mistake by a smartpoints member during the transaction of smartpoints cannot be retreated until the member informs the smartpoints management about the issue within 1 day of the transaction.\n
+
+    </string>
+    <string name="This_communication_does_not_imply">1. This communication does not imply that smartpoints will actually pay the member utility bills.\n
+    2. By this communication, we are only stating that the discounts or offers earned by the member by shopping at smartpoints merchants will be more or less equal to his/utility bills.\n
+    3. smartpoints is not a wallet and does not accept payment of any utility bill.\n
+    4. The members are explicitly informed that this is only a creative rendition of the theme, and does not in any way involve smartpoints as the payment platform for utility bills.\n
+    5. It is mandatory for participating members to read and understand these terms and conditions fully, before commencing their shopping at smartpoints merchants.\n
+    6. smartpoints is in no way responsible for any miscommunication that may be interpreted by the members.\n
+    7. For more clarification, the member should contact smartpoints and fully understand this communication before commencing his/ her shopping.\n
+    8. Smartpoints will not be responsible for the consequences of smartpoints Merchant on accepting wrong and incorrect bill amount by the smartpoints member. As the smartpoints Merchant has two verification steps that he accepts before granting any smartpoints to the smartpoints member.\n
+    9. In any matter whatsoever, the decision of smartpoints management will be final and binding.\n
+    10. smartpoints reserves the right to change these terms and conditions in any way whatsoever, without informing smartpoints members and merchants.\n
+    11. By acting on this communication, you are accepting and agreeing upon all the above terms and conditions.\n
 
 </string>
-
 
     //strings for FAQ
-    <string name="a_question">what is smart points ?</string>
+
+    <string name="a_question">1. what is smart points ?</string>
     <string name="a_ans">Smartpoints  is a reward program that enables you to "earn points every time you make a purchase"
         at a Smartpoints  Store, you are instantly rewarded with Smartpoints which is credited into your Smartpoints
         Account</string>
 
-    <string name="b_question">How does the reward system work ? </string>
+    <string name="b_question">2. How does the reward system work ? </string>
     <string name="b_ans">Its simple. When you spend at any Smartpoints  Store you earn a reward as a token
         of thank you from our partner Store for doing business with them. For e.g.: If they are running an assured reward
         of 5% Smartpoints  reward and you make a purchase of INR 1000,
         you would be entitled to EARN 50 Smartpoints. </string>
 
-
-    <string name="c_question">Are there any joining fee ?</string>
+    <string name="c_question">3. Are there any joining fee ?</string>
     <string name="c_ans">No its free and always will be</string>
 
+    <string name="d_question">4. How can I use Smartpoints ?</string>
+    <string name="d_ans"> You can use Smartpoints  reward program by just downloading it from the google playstore or
+        taking the app from our partner store and installing it on to your device and you are ready to earn smartpoints.</string>
 
-    <string name="d_question">What is redeem ?</string>
-    <string name="d_ans">. You can use Smartpoints  reward program by just downloading it from the google playstore or
-        taking the app from our partner and installing it on to your device and you are ready to earn smartpoints.?</string>
-
-    <string name="e_question">What is my Eligibility criteria ?</string>
+    <string name="e_question">5. What is my Eligibility criteria ?</string>
     <string name="e_ans">You should be having a smartphone with android version 4.0 or above.</string>
 
-
-    <string name="f_question">Is it compulsory to have the SmartpointS  app ?</string>
+    <string name="f_question">6. Is it compulsory to have the SmartpointS  app ?</string>
     <string name="f_ans">Yes its compulsory. And there are great advantages if you have the app! track the Smartpoints  you
         recieved from our Smartpoints  Stores at your fingertips Manage your Smartpoints  account,smartpoints  earned and
         redeemed across Stores . Stay updated about latest offers from all the retailers. As new retailers keep joining the
         program, their offers will be instantly available to you</string>
 
-    <string name="g_question">Will I get a card that I need to carry every time I spend at a SmartpointS  Store ? </string>
+    <string name="g_question">7. Will I get a card that I need to carry every time I spend at a SmartpointS  Store ? </string>
     <string name="g_ans"> No, its a card-less program. Your smartphone is your unique identity Every time you wish to do a
         transaction at a Smartpoints  Store, all you have to do is scan the qr code and follow the steps. </string>
 
-
-    <string name="h_question">How do I track my Smartpoints ?</string>
+    <string name="h_question">8. How do I track my Smartpoints ?</string>
     <string name="h_ans">You can check your Smartpoints  in our mobile app.</string>
 
-
-    <string name="i_question">How does the merchant know whether I am a Smartpoints  member or not? How do I identify myself ? </string>
+    <string name="i_question">9. How does the merchant know whether I am a Smartpoints  member or not? How do I identify myself ? </string>
     <string name="i_ans">There is no physical or digital card as your identity. It is your smartphone which is your unique identity.
         If you are not a Smartpoints  member yet, when you are in any of the Smartpoints  Store, you can download  our app from google
         playstore or ask the owner of the store to give you the app.</string>
 
-
-    <string name="j_question">What is the process to Earn, Track and Redeem my SmartpointS ?</string>
+    <string name="j_question">10. What is the process to Earn, Track and Redeem my SmartpointS ?</string>
     <string name="j_ans">Once you install the smartpoints app you can find out our merchant
      partners. Spot the Smartpoints  logo, at the transacting Store to earn Smartpoints. You can track your accumulated Smartpoints  on our Smartpoints
         app or by calling us on our helpline number. Whenever you shop at any Smartpoints  Store, you can redeem your Smartpoints  against your bill.
     </string>
 
-    <string name="k_question">What is the value of my Smartpoints ?</string>
-    <string name="k_ans">One Smartpoint  is equal to 1 rupee.</string>
+    <string name="k_question">11. What is the value of my Smartpoints ?</string>
+    <string name="k_ans">For every smartpoints store the value of the smartpoints change according to the merchants offers and loyalty program.</string>
+
+    <string name="l_question">12. I did not receive any Smartpoints after transacting. What should I do ?</string>
+    <string name="l_ans">A. After you transact, please make sure that you ask for your Smartpoints. Please scan the QR code and follow the steps and if you still dont receive the smartpoints please contact us.</string>
+
+    <string name="n_question">13. Will i lose my smartpoints if i dont register with smartpoints ?</string>
+    <string name="n_ans"> A. Yes its compulsory to register with smartpoints to make sure that you dont lose your smartpoints, as smartpoints are linked with your device or Smartphone till you dont register and hence if you lose your Smartphone without registering with smartpoints you will lose all your smartpoints.</string>
+
+    <string name="m_question">14. Is it compulsory to register with smartpoints to redeem smartpoints ?</string>
+    <string name="m_ans"> A. Yes, its compulsory to register with smartpoints if you want to redeem any smartpoints. But you can enjoy earning smartpoints without registering with us. </string>
 
 
     <string name="connect_peer_button">CONNECT</string>
@@ -337,8 +325,17 @@ whatsoever, without informing smartpointsmembers.\n
     <string name="btn_cancel">CANCEL</string>
     <string name="btn_confirm">CONFIRM</string>
     <string name="btn_edit">EDIT</string>
-    <string name="acknowledge">Thank you for using SmartpointS</string>
+    <string name="acknowledge">Thank you for using</string>
     <string name="seller_reject_msg">Seller rejected your request . Please try again ?</string>
+    <string name="login">LOGIN</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="signUp">SIGNUP</string>
+
+    <string-array name="gender_select">
+        <item>Select gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 
 
 </resources>

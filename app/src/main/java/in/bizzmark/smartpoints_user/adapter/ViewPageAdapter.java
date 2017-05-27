@@ -1,4 +1,4 @@
-package in.bizzmark.smartpoints_user.earnredeemtab;
+package in.bizzmark.smartpoints_user.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

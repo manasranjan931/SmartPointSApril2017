@@ -37,13 +37,14 @@
 
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
-            android:layout_marginTop="1dp">
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -60,7 +61,22 @@
                 android:layout_marginTop="10dp"
                 android:textStyle="normal" />
 
-        </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="@null"
+                android:fontFamily="@null"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/app_name"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#4c5154"
+                android:textCursorDrawable="@null"
+                android:textSize="23dp"
+                android:layout_marginTop="1dp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -226,7 +242,7 @@
                         <TextView
                             android:id="@+id/tv_redeem_points_from_seller"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
                             android:layout_marginLeft="2dp"
                             android:background="@drawable/edit_text_drawable"
                             android:gravity="center"
@@ -329,7 +345,7 @@
                         <Button
                             android:id="@+id/btn_save_acknowledgement_data"
                             android:layout_width="match_parent"
-                            android:layout_height="100dp"
+                            android:layout_height="wrap_content"
                             android:background="@drawable/button_drawable"
                             android:text="OK"
                             android:textColor="@color/color_white"

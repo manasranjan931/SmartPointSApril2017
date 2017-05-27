@@ -54,42 +54,47 @@
         </activity>
 
         <activity
-            android:name=".wifidirect.SelectStoreActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Dialog"/>
-        <activity
             android:name=".EarnRedeemActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Dialog"/>
+
         <activity
             android:name=".login.RegisterActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Dialog"/>
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".login.ResetPasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Dialog"/>
+
         <activity
             android:name=".database.PointsActivity"
             android:screenOrientation="portrait"/>
+
         <activity
             android:name=".EditProfileActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".PrivacyPolicyActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".TermCondtionActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".FAQActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".wifidirect.WiFiDirectActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".database.EarnAcknowledgement"
             android:screenOrientation="portrait"/>
@@ -105,10 +110,6 @@
         <activity
             android:name=".store.StoreHomeActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ConfirmPageActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Dialog"/>
 
         <activity
             android:name=".earnredeemtab.QRCodeScannerPermission"

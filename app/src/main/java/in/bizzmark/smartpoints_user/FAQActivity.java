@@ -15,10 +15,12 @@ public class FAQActivity extends AppCompatActivity implements View.OnClickListen
     ExpandableRelativeLayout expandableRelativeLayout_1,expandableRelativeLayout_2,expandableRelativeLayout_3,
                                 expandableRelativeLayout_4,expandableRelativeLayout_5,expandableRelativeLayout_6,
                                 expandableRelativeLayout_7,expandableRelativeLayout_8,expandableRelativeLayout_9,
-                            expandableRelativeLayout_10,expandableRelativeLayout_11;
+                                expandableRelativeLayout_10,expandableRelativeLayout_11, expandableRelativeLayout_12,
+                                expandableRelativeLayout_13, expandableRelativeLayout_14;
+
 
     Button btn_Qns_1,btn_Qns_2,btn_Qns_3,btn_Qns_4,btn_Qns_5,btn_Qns_6,
-            btn_Qns_7,btn_Qns_8,btn_Qns_9,btn_Qns_10,btn_Qns_11;
+            btn_Qns_7,btn_Qns_8,btn_Qns_9,btn_Qns_10,btn_Qns_11, btn_Qns_12,btn_Qns_13,btn_Qns_14;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,9 @@ public class FAQActivity extends AppCompatActivity implements View.OnClickListen
         expandableRelativeLayout_9 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout9);
         expandableRelativeLayout_10 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout10);
         expandableRelativeLayout_11 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout11);
+        expandableRelativeLayout_12 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout12);
+        expandableRelativeLayout_13 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout13);
+        expandableRelativeLayout_14 = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout14);
 
 
         btn_Qns_1 = (Button) findViewById(R.id.expandableButton1);
@@ -57,6 +62,9 @@ public class FAQActivity extends AppCompatActivity implements View.OnClickListen
         btn_Qns_9 = (Button) findViewById(R.id.expandableButton9);
         btn_Qns_10 = (Button) findViewById(R.id.expandableButton10);
         btn_Qns_11= (Button) findViewById(R.id.expandableButton11);
+        btn_Qns_12= (Button) findViewById(R.id.expandableButton12);
+        btn_Qns_13= (Button) findViewById(R.id.expandableButton13);
+        btn_Qns_14= (Button) findViewById(R.id.expandableButton14);
 
         btn_Qns_1.setOnClickListener(this);
         btn_Qns_2.setOnClickListener(this);
@@ -69,6 +77,10 @@ public class FAQActivity extends AppCompatActivity implements View.OnClickListen
         btn_Qns_9.setOnClickListener(this);
         btn_Qns_10.setOnClickListener(this);
         btn_Qns_11.setOnClickListener(this);
+        btn_Qns_12.setOnClickListener(this);
+        btn_Qns_13.setOnClickListener(this);
+        btn_Qns_14.setOnClickListener(this);
+
 
 
     }
@@ -110,6 +122,15 @@ public class FAQActivity extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.expandableButton11:
                 expandableRelativeLayout_11.toggle();
+                break;
+            case R.id.expandableButton12:
+                expandableRelativeLayout_12.toggle();
+                break;
+            case R.id.expandableButton13:
+                expandableRelativeLayout_13.toggle();
+                break;
+            case R.id.expandableButton14:
+                expandableRelativeLayout_14.toggle();
                 break;
         }
     }

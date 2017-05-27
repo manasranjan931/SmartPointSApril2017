@@ -46,7 +46,10 @@ public class Scanner_Fragment extends Fragment implements ZXingScannerView.Resul
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-       mzXingScannerView = new ZXingScannerView(getActivity());
+        mzXingScannerView = new ZXingScannerView(getActivity());
+        mzXingScannerView.setFocusableInTouchMode(true);
+        mzXingScannerView.requestFocus();
+        mzXingScannerView.setAutoFocus(true);
         return mzXingScannerView;
     }
 
@@ -62,7 +65,6 @@ public class Scanner_Fragment extends Fragment implements ZXingScannerView.Resul
         super.onPause();
         mzXingScannerView.stopCamera();
     }
-
 
     @Override
     public void handleResult(Result result) {

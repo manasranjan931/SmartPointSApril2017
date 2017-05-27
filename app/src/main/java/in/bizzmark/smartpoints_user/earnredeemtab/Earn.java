@@ -1,17 +1,14 @@
 package in.bizzmark.smartpoints_user.earnredeemtab;
 
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.FeatureInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +26,8 @@ import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.bo.PointsBO;
 import in.bizzmark.smartpoints_user.wifidirect.WiFiDirectActivity;
 
+import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -38,9 +37,10 @@ public class Earn extends Fragment {
 
     String earn_Billamount;
     EditText et_earn_Billamount;
+    String type = "earn";
     Button btnEarn;
     String storeName;
-    String deviceId;
+    String deviceId = device_Id;
 
     public Earn(){
         // Require empty constructor
@@ -75,17 +75,7 @@ public class Earn extends Fragment {
                     Snackbar.make(view, "Please enter bill amount", Snackbar.LENGTH_SHORT).show();
                 } else {
                     if (!earn_Billamount.startsWith("0")) {
-
-                        // runtime permission getting imei-string
-                        boolean hasPermissionLocation = (ContextCompat.checkSelfPermission(getActivity(),
-                                Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED);
-                        if (!hasPermissionLocation) {
-                            ActivityCompat.requestPermissions(getActivity(),
-                                    new String[]{Manifest.permission.READ_PHONE_STATE},
-                                    REQUEST_READ_PERMISSION);
-                        } else {
-                            sendDataToWifiDirectClass();
-                        }
+                        checkDeviceSupportWifiDirect();
                     }else {
                         Toast.makeText(getActivity(), "You enter : "+earn_Billamount, Toast.LENGTH_SHORT).show();
                     }
@@ -94,21 +84,26 @@ public class Earn extends Fragment {
         });
     }
 
+    // Check wifi-direct support
+    private boolean checkDeviceSupportWifiDirect() {
+        PackageManager pm = getActivity().getPackageManager();
+        FeatureInfo features[] = pm.getSystemAvailableFeatures();
+        for (FeatureInfo info : features) {
+            if (info != null && info.name != null && info.name.equalsIgnoreCase("android.hardware.wifi.direct")){
+                sendDataToWifiDirectClass();
+                return true;
+            }
+        }
+        Toast.makeText(getActivity(), "Your device is not support wifi-direct", Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
     // Send data into wifi Direct-Class
     private void sendDataToWifiDirectClass() {
         // get current date and time
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat s = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
         String timeDate = s.format(calendar.getTime());
-
-        int point = Integer.parseInt(earn_Billamount);
-        String points = ""+point/10;
-        String type = "earn";
-
-        // getting deviceId
-        TelephonyManager telephonyManager = (TelephonyManager)
-                getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        deviceId = telephonyManager.getDeviceId();
 
         // Save DeviceId Into SharedPreferences
         SharedPreferences.Editor edito = getActivity().
@@ -121,7 +116,6 @@ public class Earn extends Fragment {
         pointsBO.setBillAmount(earn_Billamount);
         pointsBO.setStoreName(storeName);
         pointsBO.setType(type);
-        pointsBO.setPoints(points);
         pointsBO.setTime(timeDate);
         pointsBO.setDeviceId(deviceId);
 
@@ -130,6 +124,7 @@ public class Earn extends Fragment {
         String jsonEarn = gson.toJson(pointsBO);
 
         startActivity(new Intent(getContext(), WiFiDirectActivity.class));
+        getActivity().finish();
 
         // save json object into sharedPreferences
         SharedPreferences.Editor editor = getActivity().
@@ -137,27 +132,6 @@ public class Earn extends Fragment {
         editor.putString("key_bill_amount", jsonEarn);
         editor.commit();
        // Toast.makeText(getContext(), "Json : " + jsonEarn, Toast.LENGTH_SHORT).show();
-
-    }
-
-    // Runtime permission
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode)
-        {
-            case REQUEST_READ_PERMISSION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    Toast.makeText(getActivity(), "Permission granted.", Toast.LENGTH_SHORT).show();
-                    sendDataToWifiDirectClass();
-                } else
-                {
-                    Toast.makeText(getActivity(), "The app was not allowed to get your phone state. Hence, it cannot function properly. Please consider granting it this permission", Toast.LENGTH_LONG).show();
-                }
-            }
-
-        }
 
     }
 }

@@ -3,6 +3,7 @@ package in.bizzmark.smartpoints_user.database;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -13,9 +14,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import java.text.SimpleDateFormat;
-
-import in.bizzmark.smartpoints_user.NavigationActivity;
 import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.bo.AcknowledgementBO;
 import in.bizzmark.smartpoints_user.sqlitedb.DbHelper;
@@ -33,7 +31,6 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
 
     AcknowledgementBO ackBO;
     Gson gson = new Gson();
-    SimpleDateFormat simpleDateFormat;
     String dateandtime;
     String imeistring;
     String result;
@@ -43,9 +40,16 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
     String points ;
     String type ;
     String discountAmount;
+    String newBillAmount;
     String deviceId = imeistring;
     String time;
     String status;
+
+    DbHelper mydb;
+    SQLiteDatabase db;
+
+    String store_name_from_sqlite;
+    String points_from_sqlite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,9 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
 
         // find All Id
         findViewByAllId();
+
+        // Retrieve Data From SQLite-Database
+        //retrieveDataFromSQLite();
 
         // from seller
         Intent i = getIntent();
@@ -66,14 +73,15 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
         type = ackBO.getType();
         time = ackBO.getTime();
         discountAmount = ackBO.getDisCountAmount();
+        newBillAmount = ackBO.getNewBillAmount();
         deviceId = ackBO.getDeviceId();
         status = ackBO.getStatus();
 
-        if("success".equalsIgnoreCase(status) && result != null){
+        if("success".equalsIgnoreCase(status)){
             // when seller accepting
             tvStoreName.setText(storeName);
-            tvNewAmount.setText(billAmount);
-            tvPoints.setText(points);
+            tvNewAmount.setText(newBillAmount);
+            tvPoints.setText(discountAmount);
             tvDiscountAmount.setText(discountAmount);
         }else {
             // when seller not accepting
@@ -88,6 +96,23 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
             btnSaveData.setVisibility(View.GONE);
         }
 
+    }
+
+    // Retrieving data from SQLite-Database
+    private void retrieveDataFromSQLite() {
+        mydb = new DbHelper(this);
+        db = mydb.getWritableDatabase();
+
+        if ( mydb != null) {
+            String query = "SELECT STORE_NAME, POINTS FROM CUSTOMER_EARN WHERE TYPE= 'earn'";
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    store_name_from_sqlite = cursor.getString(0);
+                    points_from_sqlite = cursor.getString(1);
+                } while (cursor.moveToNext());
+            }
+        }
     }
 
     private void findViewByAllId() {
@@ -116,7 +141,7 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
             finish();
         }else if (v == btnSaveData){
             saveDataIntoSQLiteDatabase();
-            startActivity(new Intent(this,NavigationActivity.class));
+            startActivity(new Intent(this,PointsActivity.class));
             finish();
         }
     }

@@ -1,12 +1,9 @@
 package in.bizzmark.smartpoints_user.store;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,13 +15,13 @@ import in.bizzmark.smartpoints_user.R;
  * Created by User on 01-May-17.
  */
 
-public class StoreHomeActivity extends Activity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class StoreHomeActivity extends FragmentActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     ImageView ivBackPress;
     BottomNavigationView bottomNavigationView;
     TextView textView;
 
-    String storeId;
+    public static String storeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,45 +67,36 @@ public class StoreHomeActivity extends Activity implements BottomNavigationView.
     private void viewAllOffersPromotions() {
         textView.setText("Offers and promotions");
 
-        FragmentManager fragmentManager = getFragmentManager();
-        Fragment fragment = new OfferPromoFrag();
+        OfferPromoFrag offerPromoFrag = new OfferPromoFrag();
 
-        // update the main content by replacing fragments
-        fragmentManager.beginTransaction()
-                .replace(R.id.framelayout, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .addToBackStack(null)
-                .commit();
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.framelayout, offerPromoFrag, "fragment");
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     // for all transactions
     private void viewAllTransaction() {
         textView.setText("Transactions");
 
-        FragmentManager fragmentManager = getFragmentManager();
-        Fragment fragment = new TransactionFrag();
+        TransactionFrag transactionFrag = new TransactionFrag();
 
-        // update the main content by replacing fragments
-        fragmentManager.beginTransaction()
-                .replace(R.id.framelayout, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .addToBackStack(null)
-                .commit();
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.framelayout, transactionFrag, "fragment");
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     // for store details
     private void viewStoreDetails() {
         textView.setText("Store details");
 
-        FragmentManager fragmentManager = getFragmentManager();
-        Fragment fragment = new AboutStoreFrag();
+        AboutStoreFrag storeFrag = new AboutStoreFrag();
 
-        // update the main content by replacing fragments
-        fragmentManager.beginTransaction()
-                .replace(R.id.framelayout, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .addToBackStack(null)
-                .commit();
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.framelayout, storeFrag, "fragment");
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     @Override

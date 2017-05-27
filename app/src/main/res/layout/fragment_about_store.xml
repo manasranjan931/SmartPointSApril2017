@@ -4,15 +4,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true">-->
 
     <LinearLayout
         android:orientation="vertical"
+        android:background="@color/littlethickgray"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
@@ -22,14 +23,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="2dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="5dp">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="#8777ff"/>
+                android:background="@color/orange"/>
 
         </LinearLayout>
 
@@ -37,12 +38,13 @@
             android:layout_marginTop="15dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
                 android:orientation="vertical"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -50,18 +52,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Store Name"
-                android:gravity="start"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="1dp"
+                android:gravity="center"
                 android:textSize="17dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.2dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@color/colorPrimaryDark"/>
+
             <TextView
                 android:id="@+id/tv_storeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="start"
-                android:background="@drawable/tv_border"
+                android:gravity="center"
+                android:text="SmartpointS"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="15dp"
-                android:paddingLeft="5dp"/>
+                android:textSize="18dp"
+                android:paddingLeft="1dp"/>
 
             </LinearLayout>
 
@@ -75,6 +86,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:visibility="gone"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -101,6 +113,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="8dp"
@@ -136,7 +149,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="25dp"
             android:layout_height="wrap_content">
 
             <LinearLayout
@@ -155,7 +169,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:text="Reward"
+                    android:text="Rewards"
                     android:background="@color/color_white"/>
 
                 <View
@@ -192,17 +206,18 @@
         <RelativeLayout
             android:layout_margin="10dp"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="#123">
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp">
 
-            <!--<fragment-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"/>-->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/framelayout_about_store"/>
 
         </RelativeLayout>
 
     </LinearLayout>
 
-    </ScrollView>
+    <!--</ScrollView>-->
 
 </RelativeLayout>

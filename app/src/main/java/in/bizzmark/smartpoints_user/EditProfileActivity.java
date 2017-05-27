@@ -11,10 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
-
-import in.bizzmark.smartpoints_user.login.LoginActivity;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -28,17 +25,10 @@ public class EditProfileActivity extends AppCompatActivity {
 
     boolean status = true;
 
-    FirebaseAuth firebaseAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        if (firebaseAuth.getCurrentUser() == null){
-            startActivity(new Intent(EditProfileActivity.this,LoginActivity.class));
-        }
 
         iv_Profile_pic = (ImageView) findViewById(R.id.circleView_profile_pic);
 

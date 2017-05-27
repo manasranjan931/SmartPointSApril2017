@@ -2,6 +2,7 @@ package in.bizzmark.smartpoints_user;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -11,9 +12,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import in.bizzmark.smartpoints_user.adapter.ViewPageAdapter;
 import in.bizzmark.smartpoints_user.earnredeemtab.Earn;
 import in.bizzmark.smartpoints_user.earnredeemtab.Redeem;
-import in.bizzmark.smartpoints_user.earnredeemtab.ViewPageAdapter;
 
 public class EarnRedeemActivity extends AppCompatActivity {
     TabLayout tabLayout;
@@ -22,7 +23,7 @@ public class EarnRedeemActivity extends AppCompatActivity {
 
     ImageView imageView_back_arrow;
     String storeName;
-    TextView tv_StoreName,tv_Points,tv_Last_Visited;
+    TextView tv_StoreName,tv_Points;
 
 
     @Override
@@ -42,9 +43,12 @@ public class EarnRedeemActivity extends AppCompatActivity {
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabTextColors(Color.BLACK, Color.WHITE);
 
         tv_StoreName = (TextView) findViewById(R.id.tv_earn_redeem_store_name);
         tv_StoreName.setMovementMethod(new ScrollingMovementMethod());
+
+        tv_Points = (TextView) findViewById(R.id.tv_earn_redeem_points);
 
         // Get StoreName after scanning
         Bundle b = getIntent().getExtras();

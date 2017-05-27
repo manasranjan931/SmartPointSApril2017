@@ -40,7 +40,6 @@
         -->
     </RelativeLayout>
 
-
     <ScrollView
         android:id="@+id/container"
         android:layout_width="fill_parent"
@@ -53,66 +52,70 @@
             android:gravity="center_horizontal"
             android:orientation="vertical" >
 
-            //your content here
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Overview"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 android:layout_gravity="left"
                 android:layout_marginLeft="10dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:layout_marginBottom="5dp"
+                android:textColor="#4b7ed7"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:id="@+id/textView6" />
 
             <TextView
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_marginLeft="10dp"
                 android:text="@string/This_privacy_policy_governs"
-                android:layout_gravity="left"
-                android:id="@+id/textView2" />
-
-
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#4b7ed7"
+                android:textSize="18dp"
                 android:text="Collection of Information"
                 android:textStyle="bold"
                 android:layout_gravity="left"
-                android:textColor="@color/colorPrimaryDark"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"/>-->
-
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text= "@string/smartpoints_collects_both_personal"
                 android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_gravity="left"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="2dp"
                 android:id="@+id/textView9" />
 
-
-
             <TextView
+                android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:textSize="18dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:textStyle="bold"
                 android:text="Information Collected at Registration"
-                android:layout_gravity="left"/>
+                android:textColor="#4b7ed7"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_marginLeft="10dp"
                 android:text="@string/Totakeadvantage"
                 android:layout_gravity="left"/>
@@ -123,6 +126,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:textStyle="bold"
+                android:textSize="18dp"
+                android:textColor="#4b7ed7"
                 android:text="Information Collected Post Registration"
                 android:layout_gravity="left"/>
 
@@ -131,16 +136,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/AutomaticInformation"
                 android:layout_gravity="left"/>
-
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Use and Disclosure of Personal Information"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18dp"
+                android:textColor="#4b7ed7"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="left"
                 android:layout_marginTop="10dp"
@@ -151,6 +158,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/We_do_not_rent"
                 android:layout_gravity="left"/>
 
@@ -159,19 +168,21 @@
                 android:layout_height="wrap_content"
                 android:text="Data Security"
                 android:textStyle="bold"
+                android:textSize="18dp"
                 android:layout_gravity="left"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#4b7ed7"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:id="@+id/textView7" />
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="2dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/smartpoints_is_committed"
                 android:layout_gravity="left"/>
 
@@ -180,7 +191,8 @@
                 android:layout_height="wrap_content"
                 android:text="Opt-Out policy"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18dp"
+                android:textColor="#4b7ed7"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="left"
@@ -191,31 +203,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/At_any_time_you_may_unsubscribe"
                 android:layout_gravity="left"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Changes to Privacy Policy"
                 android:textStyle="bold"
                 android:layout_gravity="left"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#4b7ed7"
+                android:textSize="18dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_marginTop="5dp"
                 android:text="@string/This_privacy_policy_may"
                 android:layout_gravity="left"/>
-
-
-
-
-
 
         </LinearLayout>
 

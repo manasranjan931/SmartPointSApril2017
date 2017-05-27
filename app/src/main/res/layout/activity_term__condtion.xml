@@ -41,39 +41,32 @@
         -->
     </RelativeLayout>
 
-
-
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/header">
-
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <TextView
+                android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
                 android:layout_marginLeft="10dp"
                 android:text="@string/The_Terms_and_Conditions_Terms"
-                android:layout_gravity="left"
-                />
-
+                android:textColor="@color/colorPrimaryDark" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Definitions"
+                android:text="Definition"
+                android:textSize="18dp"
+                android:textColor="#4b7ed7"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"/>-->
@@ -82,6 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/This_mobile_application"/>
 
             <TextView
@@ -89,7 +83,8 @@
                 android:layout_height="wrap_content"
                 android:text="General Conditions"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18dp"
+                android:textColor="#4b7ed7"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"/>
@@ -99,26 +94,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:text="@string/The_smartpoints_Member_and_smartpointsMerchants"
-                android:layout_gravity="left"/>-->
+                android:layout_gravity="left"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="@string/The_smartpoints_Member_and_smartpointsMerchants"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Enrolment in the Program"
+                android:textColor="#4b7ed7"
+                android:textSize="18dp"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginBottom="5dp"
                 />
-
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/It_is_the_responsibility_of_smartpoints"
                 android:layout_gravity="left"/>
 
@@ -127,7 +124,8 @@
                 android:layout_height="wrap_content"
                 android:text="smartpoints Membership"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#4b7ed7"
+                android:textSize="18dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
@@ -137,6 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/A_smartpoints_Member_grants_his_herconsent"
                 android:layout_gravity="left"/>
             <TextView
@@ -144,7 +143,8 @@
                 android:layout_height="wrap_content"
                 android:text="Accrual of smartpoints"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#4b7ed7"
+                android:textSize="18dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
@@ -154,16 +154,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/smartpoints_Member_can_accrue"
                 android:layout_gravity="left"/>
-
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="smartpoints statement, Program updates and Notices"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#4b7ed7"
+                android:textSize="18dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
@@ -173,16 +174,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/smartpointsMembers_smartpoints_Merchants"
                 android:layout_gravity="left"/>
-
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Redemption of smartpoints"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18dp"
+                android:textColor="#4b7ed7"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
@@ -192,6 +194,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/smartpoints_of_a_particular_store_can"
                 android:layout_gravity="left"/>
 
@@ -200,7 +203,8 @@
                 android:layout_height="wrap_content"
                 android:text="Termination of smartpointsMembership"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18dp"
+                android:textColor="#4b7ed7"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
@@ -210,6 +214,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/A_smartpoints_Member_may"
                 android:layout_gravity="left"/>
 
@@ -218,7 +223,8 @@
                 android:layout_height="wrap_content"
                 android:text="Miscellaneous"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18dp"
+                android:textColor="#4b7ed7"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
@@ -228,16 +234,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/smartpoints_reserves_the_right"
                 android:layout_gravity="left"/>
-
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="communication."
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18dp"
+                android:textColor="#4b7ed7"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
@@ -246,18 +253,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_marginTop="5dp"
                 android:text="@string/This_communication_does_not_imply"
                 android:layout_gravity="left"/>
 
-
-
-
-
         </LinearLayout>
 
-
     </ScrollView>
+
 
 
 

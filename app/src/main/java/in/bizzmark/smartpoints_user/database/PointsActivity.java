@@ -12,7 +12,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -43,10 +45,14 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
     RecyclerView recyclerView;
     RecyclerView.LayoutManager recyclerViewlayoutManager;
     ProgressBar pb;
+    LinearLayout llErrorMessage, linearLayout;
+    Button btnRetry;
 
     ArrayList<EarnPointsBO> storeList;
-    String storeName,points,storeId;
+    String storeName,points,storeId, type;
     Context context = PointsActivity.this;
+
+    PointsAdapter adapter ;
 
     DbHelper helper;
     SQLiteDatabase sqLiteDatabase;
@@ -55,7 +61,7 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
     NetworkInfo networkInfo;
 
     String json_url = "http://35.154.104.54/smartpoints/customer-api/get-total-points-for-all-stores?customerDeviceId="+device_Id;
-    public static String id = null;
+    public static String branchId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,11 +97,21 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onResponse(String result) {
                         pb.setVisibility(View.GONE);
+                        linearLayout.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
 
                         try {
                             JSONObject jo = new JSONObject(result);
-                            JSONArray ja = jo.getJSONArray("response");
 
+                            //Check device transacted or not
+                            type = jo.getString("status_type");
+                            if (type.equalsIgnoreCase("error")){
+                                recyclerView.setVisibility(View.GONE);
+                                linearLayout.setVisibility(View.GONE);
+                                llErrorMessage.setVisibility(View.VISIBLE);
+                            }
+
+                            JSONArray ja = jo.getJSONArray("response");
                             for (int j = 0; j < ja.length() ; j++)
                             {
                                 JSONObject jo2 =  ja.getJSONObject(j);
@@ -112,14 +128,12 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
                                 storeList.add(earnPointsBO);
                             }
 
-                            PointsAdapter adapter ;
-
                             adapter = new PointsAdapter(storeList, context, new PointsAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View v, int position) {
-                                    id = storeList.get(position).getStoreId();
+                                    branchId = storeList.get(position).getStoreId();
                                     Intent i = new Intent(context,StoreHomeActivity.class);
-                                    i.putExtra("storeId",id);
+                                    i.putExtra("storeId",branchId);
                                     startActivity(i);
                                 }
                             });
@@ -133,7 +147,10 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                pb.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+                linearLayout.setVisibility(View.VISIBLE);
+                Toast.makeText(context, "something went wrong" +"\n"+"please try again", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -147,9 +164,9 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
         helper = new DbHelper(this);
         sqLiteDatabase = helper.getWritableDatabase();
 
-            String query = "SELECT STORE_NAME, POINTS FROM [CUSTOMER_EARN] WHERE TYPE= 'earn'";
+        //String query = "SELECT STORE_NAME, POINTS FROM [CUSTOMER_EARN] WHERE TYPE= 'earn'";
+        String query = "SELECT STORE_NAME, POINTS FROM CUSTOMER_EARN WHERE TYPE= 'earn'" ;
             Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-            if (cursor != null) {
                 if (cursor.moveToFirst()) {
                     do {
                         storeName = cursor.getString(0);
@@ -164,12 +181,24 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
 
                     } while (cursor.moveToNext());
                 }
-            } else {
-                Toast.makeText(context, "You don't have any points", Toast.LENGTH_SHORT).show();
+
+        adapter = new PointsAdapter(storeList, context, new PointsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                           /* branchId = storeList.get(position).getStoreId();
+                            Intent i = new Intent(context,StoreHomeActivity.class);
+                            i.putExtra("storeId",branchId);
+                            startActivity(i);*/
             }
+        });
+        recyclerView.setAdapter(adapter);
     }
 
     private void findViewByAllId() {
+        linearLayout = (LinearLayout) findViewById(R.id.ll_retry);
+        llErrorMessage = (LinearLayout) findViewById(R.id.ll_points_error_message);
+        btnRetry = (Button) findViewById(R.id.btn_retry_points);
+
         iv_Arrow_Back = (ImageView) findViewById(R.id.your_points_back_arrow);
         ivSyncData = (ImageView) findViewById(R.id.iv_sync_data);
         pb = (ProgressBar) findViewById(R.id.pb_points);
@@ -182,6 +211,7 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
 
         iv_Arrow_Back.setOnClickListener(this);
         ivSyncData.setOnClickListener(this);
+        btnRetry.setOnClickListener(this);
     }
 
     @Override
@@ -191,6 +221,10 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
             finish();
         }else if (id == R.id.iv_sync_data){
            startActivity(new Intent(this, StoreHomeActivity.class));
+        }else if (v == btnRetry){
+            retrieveDataFromServer();
+            pb.setVisibility(View.VISIBLE);
+            linearLayout.setVisibility(View.GONE);
         }
     }
 }

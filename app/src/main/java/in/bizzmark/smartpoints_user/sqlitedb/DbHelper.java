@@ -15,6 +15,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     // Earn Table
     public static final String TABLE_EARN = "CUSTOMER_EARN";
+
     public static final String STORE_NAME_COL_1 = "STORE_NAME";
     public static final String BILL_AMOUNT_COL_2 = "BILL_AMOUNT";
     public static final String EARN_POINTS_COL_3 = "POINTS";
@@ -24,6 +25,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     // Redeem Table
     public static final String TABLE_REDEEM = "CUSTOMER_REDEEM";
+
     public static final String STORE_NAMES_COL_1 = "STORE_NAME";
     public static final String NEW_BILL_AMOUNTS_COL_2 = "NEW_BILL_AMOUNT";
     public static final String REDEEM_POINTS_COL_3 = "POINTS";

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -51,18 +52,22 @@ public class QRCodeScannerPermission extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Permission Granted, Now you can access camera", Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(getApplicationContext(), "Permission Denied, You cannot access and camera", Toast.LENGTH_LONG).show();
-                    if (shouldShowRequestPermissionRationale(CAMERA)){
-                        new AlertDialog.Builder(QRCodeScannerPermission.this)
-                                .setMessage("You haven't given us permission to use camera, please enable the permission in setting to start scanning SmartpointS code")
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (shouldShowRequestPermissionRationale(CAMERA)){
+                            new AlertDialog.Builder(QRCodeScannerPermission.this)
+                                    .setMessage("You haven't given us permission to use camera, please enable the permission in setting to start scanning SmartpointS code")
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        requestPermissions(new String[]{CAMERA},REQUEST_CODE);
-                                    }
-                                }).setCancelable(false)
-                                .create()
-                                .show();
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                requestPermissions(new String[]{CAMERA},REQUEST_CODE);
+                                            }
+                                        }
+                                    }).setCancelable(false)
+                                    .create()
+                                    .show();
+                        }
                     }
                 }
             }

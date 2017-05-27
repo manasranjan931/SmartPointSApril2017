@@ -11,30 +11,13 @@ public class AcknowledgementBO {
     String storeName;
     String points;
     String deviceId;
-    String disCountAmount;
+    String discountAmount;
+    String newBillAmount;
     String time;
     String status;
 
     public AcknowledgementBO() {
     }
-
-    public AcknowledgementBO(String status,String type,
-                             String billAmount,
-                             String storeName,
-                             String points,
-                             String deviceId,
-                             String disCountAmount,
-                        String time) {
-        this.status = status;
-        this.type = type;
-        this.billAmount = billAmount;
-        this.storeName = storeName;
-        this.points = points;
-        this.deviceId = deviceId;
-        this.disCountAmount = disCountAmount;
-        this.time = time;
-    }
-
 
     public String getType() {
         return type;
@@ -77,11 +60,19 @@ public class AcknowledgementBO {
     }
 
     public String getDisCountAmount() {
-        return disCountAmount;
+        return discountAmount;
     }
 
     public void setDisCountAmount(String disCountAmount) {
-        this.disCountAmount = disCountAmount;
+        this.discountAmount = disCountAmount;
+    }
+
+    public String getNewBillAmount() {
+        return newBillAmount;
+    }
+
+    public void setNewBillAmount(String newBillAmount) {
+        this.newBillAmount = newBillAmount;
     }
 
     public String getTime() {

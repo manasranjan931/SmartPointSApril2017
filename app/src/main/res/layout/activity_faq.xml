@@ -10,7 +10,8 @@
     tools:context="in.bizzmark.smartpoints_user.FAQActivity">
 
     <!-- Header aligned to top -->
-    x<RelativeLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorPrimary"
@@ -54,40 +55,45 @@
             android:gravity="center_horizontal"
             android:orientation="vertical" >
 
-    //1
+            //1
 
             <Button
                 android:id="@+id/expandableButton1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#4DB6AC"
+                android:background="#3f5776"
                 android:drawableRight="@android:drawable/arrow_down_float"
                 android:paddingRight="10dp"
                 android:text="@string/a_question"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#f9f93d"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
 
             <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-        android:id="@+id/expandableLayout_1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/expandableLayout1"
-        android:background="#80CBC4"
-        android:padding="16dp"
-        app:ael_duration="400"
-        app:ael_expanded="false"
-        app:ael_interpolator="bounce"
-        app:ael_orientation="vertical">
+                android:id="@+id/expandableLayout_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/expandableLayout1"
+                android:background="#d6e2ef"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:textColor="@color/color_white"
-            android:text="@string/a_ans"/>
-    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#123"
+                    android:text="@string/a_ans"/>
+                </ScrollView>
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
             //2
             <Button
@@ -95,19 +101,19 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/expandableButton2"
-                android:background="#4DB6AC"
+                android:background="#3f5776"
                 android:drawableRight="@android:drawable/arrow_down_float"
                 android:onClick="expandableButton2"
                 android:paddingRight="10dp"
                 android:text="@string/b_question"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="#f9f93d"/>
 
             <com.github.aakira.expandablelayout.ExpandableRelativeLayout
                 android:id="@+id/expandableLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/expandableLayout2"
-                android:background="#80CBC4"
+                android:background="#d6e2ef"
                 android:padding="16dp"
                 app:ael_duration="400"
                 app:ael_expanded="false"
@@ -116,8 +122,8 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    android:textColor="@color/color_white"
+                    android:layout_height="172dp"
+                    android:textColor="#123"
                     android:text="@string/b_ans" />
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -127,19 +133,19 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/expandableButton3"
-                android:background="#4DB6AC"
+                android:background="#3f5776"
                 android:drawableRight="@android:drawable/arrow_down_float"
                 android:onClick="expandableButton3"
                 android:paddingRight="10dp"
                 android:text="@string/c_question"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="#f9f93d" />
 
             <com.github.aakira.expandablelayout.ExpandableRelativeLayout
                 android:id="@+id/expandableLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/expandableLayout3"
-                android:background="#80CBC4"
+                android:background="#d6e2ef"
                 android:padding="16dp"
                 app:ael_duration="400"
                 app:ael_expanded="false"
@@ -147,9 +153,9 @@
                 app:ael_orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
-                    android:textColor="@color/color_white"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:textColor="#123"
                     android:text="@string/c_ans" />
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -160,19 +166,19 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/expandableButton4"
-                android:background="#4DB6AC"
+                android:background="#3f5776"
                 android:drawableRight="@android:drawable/arrow_down_float"
                 android:onClick="expandableButton4"
                 android:paddingRight="10dp"
                 android:text="@string/d_question"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="#f9f93d" />
 
             <com.github.aakira.expandablelayout.ExpandableRelativeLayout
                 android:id="@+id/expandableLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/expandableLayout4"
-                android:background="#80CBC4"
+                android:background="#d6e2ef"
                 android:padding="16dp"
                 app:ael_duration="400"
                 app:ael_expanded="false"
@@ -180,9 +186,9 @@
                 app:ael_orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:textColor="@color/color_white"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:textColor="#123"
                     android:text="@string/d_ans" />
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -192,19 +198,19 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/expandableButton5"
-                android:background="#4DB6AC"
+                android:background="#3f5776"
                 android:drawableRight="@android:drawable/arrow_down_float"
                 android:onClick="expandableButton5"
                 android:paddingRight="10dp"
                 android:text="@string/e_question"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="#f9f93d" />
 
             <com.github.aakira.expandablelayout.ExpandableRelativeLayout
                 android:id="@+id/expandableLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/expandableLayout5"
-                android:background="#80CBC4"
+                android:background="#d6e2ef"
                 android:padding="16dp"
                 app:ael_duration="400"
                 app:ael_expanded="false"
@@ -212,9 +218,9 @@
                 app:ael_orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
-                    android:textColor="@color/color_white"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:textColor="#123"
                     android:text="@string/e_ans" />
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -225,19 +231,19 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/expandableButton6"
-                android:background="#4DB6AC"
+                android:background="#3f5776"
                 android:drawableRight="@android:drawable/arrow_down_float"
                 android:onClick="expandableButton6"
                 android:paddingRight="10dp"
                 android:text="@string/f_question"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="#f9f93d" />
 
             <com.github.aakira.expandablelayout.ExpandableRelativeLayout
                 android:id="@+id/expandableLayout6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/expandableLayout6"
-                android:background="#80CBC4"
+                android:background="#d6e2ef"
                 android:padding="16dp"
                 app:ael_duration="400"
                 app:ael_expanded="false"
@@ -246,8 +252,8 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:textColor="@color/color_white"
+                    android:layout_height="200dp"
+                    android:textColor="#123"
                     android:text="@string/f_ans" />
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -257,19 +263,19 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/expandableButton7"
-                android:background="#4DB6AC"
+                android:background="#3f5776"
                 android:drawableRight="@android:drawable/arrow_down_float"
                 android:onClick="expandableButton7"
                 android:paddingRight="10dp"
                 android:text="@string/g_question"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="#f9f93d"/>
 
             <com.github.aakira.expandablelayout.ExpandableRelativeLayout
                 android:id="@+id/expandableLayout7"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/expandableLayout7"
-                android:background="#80CBC4"
+                android:background="#d6e2ef"
                 android:padding="16dp"
                 app:ael_duration="400"
                 app:ael_expanded="false"
@@ -277,9 +283,9 @@
                 app:ael_orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:textColor="@color/color_white"
+                    android:layout_width="match_parent"
+                    android:layout_height="122dp"
+                    android:textColor="#123"
                     android:text="@string/g_ans" />
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -289,19 +295,19 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/expandableButton8"
-                android:background="#4DB6AC"
+                android:background="#3f5776"
                 android:drawableRight="@android:drawable/arrow_down_float"
                 android:onClick="expandableButton8"
                 android:paddingRight="10dp"
                 android:text="@string/h_question"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="#f9f93d" />
 
             <com.github.aakira.expandablelayout.ExpandableRelativeLayout
                 android:id="@+id/expandableLayout8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/expandableLayout8"
-                android:background="#80CBC4"
+                android:background="#d6e2ef"
                 android:padding="16dp"
                 app:ael_duration="400"
                 app:ael_expanded="false"
@@ -309,9 +315,9 @@
                 app:ael_orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
-                    android:textColor="@color/color_white"
+                    android:layout_width="match_parent"
+                    android:layout_height="76dp"
+                    android:textColor="#123"
                     android:text="@string/h_ans" />
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -321,19 +327,19 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/expandableButton9"
-                android:background="#4DB6AC"
+                android:background="#3f5776"
                 android:drawableRight="@android:drawable/arrow_down_float"
                 android:onClick="expandableButton9"
                 android:paddingRight="10dp"
                 android:text="@string/i_question"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="#f9f93d" />
 
             <com.github.aakira.expandablelayout.ExpandableRelativeLayout
                 android:id="@+id/expandableLayout9"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/expandableLayout9"
-                android:background="#80CBC4"
+                android:background="#d6e2ef"
                 android:padding="16dp"
                 app:ael_duration="400"
                 app:ael_expanded="false"
@@ -341,9 +347,9 @@
                 app:ael_orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="130dp"
-                    android:textColor="@color/color_white"
+                    android:layout_width="match_parent"
+                    android:layout_height="168dp"
+                    android:textColor="#123"
                     android:text="@string/i_ans" />
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
@@ -353,51 +359,53 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/expandableButton10"
-                android:background="#4DB6AC"
+                android:background="#3f5776"
                 android:drawableRight="@android:drawable/arrow_down_float"
                 android:onClick="expandableButton10"
                 android:paddingRight="10dp"
                 android:text="@string/j_question"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="#f9f93d" />
 
             <com.github.aakira.expandablelayout.ExpandableRelativeLayout
                 android:id="@+id/expandableLayout10"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/expandableLayout10"
-                android:background="#80CBC4"
+                android:background="#d6e2ef"
                 android:padding="16dp"
                 app:ael_duration="400"
                 app:ael_expanded="false"
                 app:ael_interpolator="bounce"
                 app:ael_orientation="vertical">
 
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="150dp"
-                    android:textColor="@color/color_white"
+                    android:layout_width="match_parent"
+                    android:layout_height="198dp"
+                    android:textColor="#123"
                     android:text="@string/j_ans" />
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
             //11
+
             <Button
                 android:id="@+id/expandableButton11"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/expandableButton11"
-                android:background="#4DB6AC"
+                android:background="#3f5776"
                 android:drawableRight="@android:drawable/arrow_down_float"
                 android:onClick="expandableButton11"
                 android:paddingRight="10dp"
                 android:text="@string/k_question"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="#f9f93d" />
 
             <com.github.aakira.expandablelayout.ExpandableRelativeLayout
                 android:id="@+id/expandableLayout11"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/expandableLayout11"
-                android:background="#80CBC4"
+                android:background="#d6e2ef"
                 android:padding="16dp"
                 app:ael_duration="400"
                 app:ael_expanded="false"
@@ -405,12 +413,106 @@
                 app:ael_orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
-                    android:textColor="@color/color_white"
+                    android:layout_width="match_parent"
+                    android:layout_height="95dp"
+                    android:textColor="#123"
                     android:text="@string/k_ans" />
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
+            //12
+            <Button
+                android:id="@+id/expandableButton12"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/expandableButton12"
+                android:background="#3f5776"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:onClick="expandableButton12"
+                android:paddingRight="10dp"
+                android:text="@string/l_question"
+                android:textColor="#f9f93d" />
+
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/expandableLayout12"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/expandableLayout12"
+                android:background="#d6e2ef"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:textColor="#123"
+                    android:text="@string/l_ans" />
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+            //13
+            <Button
+                android:id="@+id/expandableButton13"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/expandableButton13"
+                android:background="#3f5776"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:onClick="expandableButton13"
+                android:paddingRight="10dp"
+                android:text="@string/n_question"
+                android:textColor="#f9f93d" />
+
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/expandableLayout13"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/expandableLayout13"
+                android:background="#d6e2ef"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:textColor="#123"
+                    android:text="@string/n_ans" />
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+            //14
+            <Button
+                android:id="@+id/expandableButton14"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/expandableButton14"
+                android:background="#3f5776"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:onClick="expandableButton14"
+                android:paddingRight="10dp"
+                android:text="@string/m_question"
+                android:textColor="#f9f93d" />
+
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/expandableLayout14"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/expandableLayout14"
+                android:background="#d6e2ef"
+                android:padding="16dp"
+                app:ael_duration="400"
+                app:ael_expanded="false"
+                app:ael_interpolator="bounce"
+                app:ael_orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="105dp"
+                    android:textColor="#123"
+                    android:text="@string/m_ans" />
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
 
 

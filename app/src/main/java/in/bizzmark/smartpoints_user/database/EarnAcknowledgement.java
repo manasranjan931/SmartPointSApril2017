@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,10 +20,11 @@ import com.google.gson.Gson;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import in.bizzmark.smartpoints_user.NavigationActivity;
 import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.bo.AcknowledgementBO;
 import in.bizzmark.smartpoints_user.sqlitedb.DbHelper;
+
+import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
 
 /**
  * Created by User on 26-Mar-17.
@@ -48,8 +48,7 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
     String billAmount ;
     String points ;
     String type ;
-    String discountAmount;
-    String deviceId = imeistring;
+    String deviceId = device_Id;
     String time;
     String status;
 
@@ -57,8 +56,8 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
     SQLiteDatabase db;
 
     String deviceIdfromsp;
-    String deviceid;
-    String point;
+    String store_name_from_sqlite;
+    String points_from_sqlite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,18 +99,13 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
             btnSaveData.setVisibility(View.GONE);
         }
 
-        // get DeviceId and current dateTime
-        //getImeistring();
-        TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-        imeistring = telephonyManager.getDeviceId();
-
         // getTimeAndDate();
         Calendar calander = Calendar.getInstance();
         simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
         dateandtime = simpleDateFormat.format(calander.getTime());
 
         // Retrieve Data From SQLite-Database
-       // retrieveDataFromSQLite();
+        retrieveDataFromSQLite();
 
         // retrieve deviceid from sharedPreferences
         SharedPreferences sp = getApplicationContext().getSharedPreferences("MY_DEVICE_ID", Context.MODE_PRIVATE);
@@ -119,21 +113,21 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
 
     }
 
+    // Retrieving data from SQLite-Database
     private void retrieveDataFromSQLite() {
         mydb = new DbHelper(this);
         db = mydb.getWritableDatabase();
 
-        String query = "SELECT DEVICEID, POINTS FROM [CUSTOMER_EARN] WHERE TYPE= 'earn'";
-        Cursor cursor = db.rawQuery(query,null);
-        if (cursor != null){
-            if (cursor.moveToFirst()){
-                deviceid = cursor.getString(0);
-                point = cursor.getString(1);
-            }while (cursor.moveToNext());
-        }else {
-          //  Toast.makeText(this, "You don't have any points", Toast.LENGTH_SHORT).show();
+        if ( mydb != null) {
+            String query = "SELECT STORE_NAME, POINTS FROM CUSTOMER_EARN WHERE TYPE= 'earn'";
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    store_name_from_sqlite = cursor.getString(0);
+                    points_from_sqlite = cursor.getString(1);
+                } while (cursor.moveToNext());
+            }
         }
-
     }
 
     // Find All Ids
@@ -167,7 +161,7 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
             finish();
         } else if (id == R.id.btn_save_acknowledgement_data) {
             saveDataIntoSQLite();
-            startActivity(new Intent(this,NavigationActivity.class));
+            startActivity(new Intent(this,PointsActivity.class));
             finish();
         }
     }
@@ -182,25 +176,43 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
             db = mydb.getWritableDatabase();
 
             ContentValues cv = new ContentValues();
-            cv.put(DbHelper.STORE_NAME_COL_1, storeName);
-            cv.put(DbHelper.BILL_AMOUNT_COL_2, billAmount);
 
-//            if (points == null && deviceIdfromsp == deviceId) {
-//                cv.put(DbHelper.EARN_POINTS_COL_3, points);
-//            }else if (points != null && deviceIdfromsp == deviceid){
-//                cv.put(DbHelper.EARN_POINTS_COL_3, point+points);
-//            }
+            if (store_name_from_sqlite != null && points_from_sqlite != null) {
+                if (store_name_from_sqlite.equalsIgnoreCase(storeName)) {
 
-            cv.put(DbHelper.EARN_POINTS_COL_3, points);
+                    int point = Integer.parseInt(points);
+                    int sql_point = Integer.parseInt(points_from_sqlite);
+                    int totl_points = point+sql_point;
+                    String total_points = Integer.toString(totl_points);
 
-            cv.put(DbHelper.TYPE_COL_4, type);
-            cv.put(DbHelper.DATE_TIME_COL_5, dateandtime);
-            cv.put(DbHelper.DEVICE_ID_COL_6, deviceId);
+                    cv.put(DbHelper.STORE_NAME_COL_1, storeName);
+                    cv.put(DbHelper.BILL_AMOUNT_COL_2, billAmount);
+                    cv.put(DbHelper.EARN_POINTS_COL_3, total_points);
+                    cv.put(DbHelper.TYPE_COL_4, type);
+                    cv.put(DbHelper.DATE_TIME_COL_5, dateandtime);
+                    cv.put(DbHelper.DEVICE_ID_COL_6, deviceId);
+
+                }else {
+                    cv.put(DbHelper.STORE_NAME_COL_1, storeName);
+                    cv.put(DbHelper.BILL_AMOUNT_COL_2, billAmount);
+                    cv.put(DbHelper.EARN_POINTS_COL_3, points);
+                    cv.put(DbHelper.TYPE_COL_4, type);
+                    cv.put(DbHelper.DATE_TIME_COL_5, dateandtime);
+                    cv.put(DbHelper.DEVICE_ID_COL_6, deviceId);
+                }
+            }else {
+                cv.put(DbHelper.STORE_NAME_COL_1, storeName);
+                cv.put(DbHelper.BILL_AMOUNT_COL_2, billAmount);
+                cv.put(DbHelper.EARN_POINTS_COL_3, points);
+                cv.put(DbHelper.TYPE_COL_4, type);
+                cv.put(DbHelper.DATE_TIME_COL_5, dateandtime);
+                cv.put(DbHelper.DEVICE_ID_COL_6, deviceId);
+            }
 
             long result = db.insert(DbHelper.TABLE_EARN, null, cv);
             if (result != -1) {
                 Toast.makeText(this, "Data saved successfully", Toast.LENGTH_SHORT).show();
-                Toast.makeText(this, "StoreName : "+ storeName +"\n"+ "Points : "+points +"\n"+ "BillAmount : "+billAmount +"\n"+ "Type : "+type +"\n"+ "Date&Time : "+dateandtime +"\n"+ "DeviceId : "+deviceId, Toast.LENGTH_LONG).show();
+               // Toast.makeText(this, "StoreName : "+ storeName +"\n"+ "Points : "+points +"\n"+ "BillAmount : "+billAmount +"\n"+ "Type : "+type +"\n"+ "Date&Time : "+dateandtime +"\n"+ "DeviceId : "+deviceId, Toast.LENGTH_LONG).show();
                 finish();
             } else {
                 Toast.makeText(this, "Data saving error : "+result, Toast.LENGTH_SHORT).show();
@@ -214,15 +226,5 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
         simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
         dateandtime = simpleDateFormat.format(calander.getTime());
         return dateandtime;
-    }
-
-    private String getImeistring() {
-        try {
-            TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-            imeistring = telephonyManager.getDeviceId();
-        } catch (Throwable th) {
-            th.printStackTrace();
-        }
-        return imeistring;
     }
 }
