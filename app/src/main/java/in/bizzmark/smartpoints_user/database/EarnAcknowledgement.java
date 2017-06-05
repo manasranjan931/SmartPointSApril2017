@@ -2,9 +2,7 @@ package in.bizzmark.smartpoints_user.database;
 
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -13,7 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -44,20 +41,23 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
     String imeistring;
     String result;
 
+    String branchId;
+    String storeId;
     String storeName ;
     String billAmount ;
-    String points ;
     String type ;
     String deviceId = device_Id;
     String time;
     String status;
+    String earnPoints;
 
     DbHelper mydb;
     SQLiteDatabase db;
 
-    String deviceIdfromsp;
     String store_name_from_sqlite;
-    String points_from_sqlite;
+    String total_points_from_sqlite;
+    String earn_points_sqlite;
+    String total_points;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,17 +74,19 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
         ackBO = gson.fromJson(result,AcknowledgementBO.class);
         storeName = ackBO.getStoreName();
         billAmount = ackBO.getBillAmount();
-        points = ackBO.getPoints();
+        earnPoints = ackBO.getPoints();
         type = ackBO.getType();
         time = ackBO.getTime();
         deviceId = ackBO.getDeviceId();
+        branchId = ackBO.getBranchId();
+        storeId = ackBO.getStoreId();
         status = ackBO.getStatus();
 
         if("success".equalsIgnoreCase(status)){
             // when seller accepting
             tvstoreName.setText(storeName);
             tvamount.setText(billAmount);
-            tvpoints.setText(points);
+            tvpoints.setText(earnPoints);
             tvdate.setText(time);
         }else {
             // when seller not accepting
@@ -107,10 +109,6 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
         // Retrieve Data From SQLite-Database
         retrieveDataFromSQLite();
 
-        // retrieve deviceid from sharedPreferences
-        SharedPreferences sp = getApplicationContext().getSharedPreferences("MY_DEVICE_ID", Context.MODE_PRIVATE);
-        deviceIdfromsp = sp.getString("deviceid", "");
-
     }
 
     // Retrieving data from SQLite-Database
@@ -118,13 +116,14 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
         mydb = new DbHelper(this);
         db = mydb.getWritableDatabase();
 
-        if ( mydb != null) {
-            String query = "SELECT STORE_NAME, POINTS FROM CUSTOMER_EARN WHERE TYPE= 'earn'";
+        if ( mydb != null ) {
+            String query = "SELECT STORE_NAME, TOTAL_POINTS, EARN_POINTS FROM CUSTOMER_EARN_REDEEM GROUP BY STORE_NAME";
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {
                 do {
                     store_name_from_sqlite = cursor.getString(0);
-                    points_from_sqlite = cursor.getString(1);
+                    total_points_from_sqlite = cursor.getString(1);
+                    earn_points_sqlite = cursor.getString(2);
                 } while (cursor.moveToNext());
             }
         }
@@ -168,57 +167,64 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
 
     // SAVE DATA INTO SQLite-DB
     private void saveDataIntoSQLite() {
-        if (type.equalsIgnoreCase("earn")) {
-          //  Toast.makeText(this, "Earn Type", Toast.LENGTH_SHORT).show();
-
+       // if (type.equalsIgnoreCase("earn")) {
             // save data into sqlite-database
             mydb = new DbHelper(this);
             db = mydb.getWritableDatabase();
 
             ContentValues cv = new ContentValues();
 
-            if (store_name_from_sqlite != null && points_from_sqlite != null) {
+            if (store_name_from_sqlite != null && total_points_from_sqlite != null) {
                 if (store_name_from_sqlite.equalsIgnoreCase(storeName)) {
 
-                    int point = Integer.parseInt(points);
-                    int sql_point = Integer.parseInt(points_from_sqlite);
-                    int totl_points = point+sql_point;
-                    String total_points = Integer.toString(totl_points);
+                    int earn_point = Integer.parseInt(earnPoints);
+                    int sql_point = Integer.parseInt(total_points_from_sqlite);
+                    int totl_points = earn_point + sql_point;
+                    total_points = Integer.toString(totl_points);
 
-                    cv.put(DbHelper.STORE_NAME_COL_1, storeName);
+                    cv.put(DbHelper.STORE_NAME_COL_1, store_name_from_sqlite);
                     cv.put(DbHelper.BILL_AMOUNT_COL_2, billAmount);
-                    cv.put(DbHelper.EARN_POINTS_COL_3, total_points);
+                    cv.put(DbHelper.TOTAL_POINTS_COL_3, total_points);
                     cv.put(DbHelper.TYPE_COL_4, type);
                     cv.put(DbHelper.DATE_TIME_COL_5, dateandtime);
                     cv.put(DbHelper.DEVICE_ID_COL_6, deviceId);
+                    cv.put(DbHelper.BRANCH_ID_COL_7, branchId);
+                    cv.put(DbHelper.STORE_ID_COL_8, storeId);
+                    cv.put(DbHelper.EARN_POINTS_COL_11, earnPoints);
 
                 }else {
                     cv.put(DbHelper.STORE_NAME_COL_1, storeName);
                     cv.put(DbHelper.BILL_AMOUNT_COL_2, billAmount);
-                    cv.put(DbHelper.EARN_POINTS_COL_3, points);
+                    cv.put(DbHelper.EARN_POINTS_COL_11, earnPoints);
                     cv.put(DbHelper.TYPE_COL_4, type);
                     cv.put(DbHelper.DATE_TIME_COL_5, dateandtime);
                     cv.put(DbHelper.DEVICE_ID_COL_6, deviceId);
+                    cv.put(DbHelper.BRANCH_ID_COL_7, branchId);
+                    cv.put(DbHelper.STORE_ID_COL_8, storeId);
+                    cv.put(DbHelper.TOTAL_POINTS_COL_3, total_points);
                 }
             }else {
                 cv.put(DbHelper.STORE_NAME_COL_1, storeName);
                 cv.put(DbHelper.BILL_AMOUNT_COL_2, billAmount);
-                cv.put(DbHelper.EARN_POINTS_COL_3, points);
+                cv.put(DbHelper.EARN_POINTS_COL_11, earnPoints);
                 cv.put(DbHelper.TYPE_COL_4, type);
                 cv.put(DbHelper.DATE_TIME_COL_5, dateandtime);
                 cv.put(DbHelper.DEVICE_ID_COL_6, deviceId);
+                cv.put(DbHelper.BRANCH_ID_COL_7, branchId);
+                cv.put(DbHelper.STORE_ID_COL_8, storeId);
+                cv.put(DbHelper.TOTAL_POINTS_COL_3, earnPoints);
             }
 
-            long result = db.insert(DbHelper.TABLE_EARN, null, cv);
+            long result = db.insert(DbHelper.TABLE_EARN_REDEEM, null, cv);
             if (result != -1) {
-                Toast.makeText(this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                // Toast.makeText(this, "StoreName : "+ storeName +"\n"+ "Points : "+points +"\n"+ "BillAmount : "+billAmount +"\n"+ "Type : "+type +"\n"+ "Date&Time : "+dateandtime +"\n"+ "DeviceId : "+deviceId, Toast.LENGTH_LONG).show();
                 finish();
             } else {
-                Toast.makeText(this, "Data saving error : "+result, Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(this, "Saving error : "+result, Toast.LENGTH_SHORT).show();
             }
 
-        }
+       // }
     }
 
     private String getTimeAndDate() {

@@ -5,11 +5,11 @@
 
         <shape
             android:shape="ring"
-            android:innerRadiusRatio="1000"
-            android:thickness="100dp"
+            android:innerRadiusRatio="10"
+            android:thickness="130dp"
             android:useLevel="false">
-            <solid android:color="#002bff"
-                android:layout_width="150dp" />
+            <solid android:color="#4462f7"
+                android:layout_width="50dp" />
         </shape>
     </item>
 
@@ -19,10 +19,10 @@
 
             <shape
                 android:shape="ring"
-                android:innerRadiusRatio="1000"
-                android:thickness="100dp"
+                android:innerRadiusRatio="100"
+                android:thickness="150dp"
                 android:useLevel="false"
-                android:layout_height="150dp">
+                android:layout_height="50dp">
                 <gradient android:color="@android:color/transparent"
                     android:angle="0"
                     android:startColor="#ffffff"

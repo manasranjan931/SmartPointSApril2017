@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import in.bizzmark.smartpoints_user.R;
+import in.bizzmark.smartpoints_user.login.CheckInternet;
 
 /**
  * Created by User on 01-May-17.
@@ -21,7 +22,12 @@ public class StoreHomeActivity extends FragmentActivity implements BottomNavigat
     BottomNavigationView bottomNavigationView;
     TextView textView;
 
+    public static String branch_Id = null;
+
+    public static String store_Name;
     public static String storeId;
+
+    CheckInternet checkInternet = new CheckInternet();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +35,19 @@ public class StoreHomeActivity extends FragmentActivity implements BottomNavigat
         setContentView(R.layout.activity_store_details);
 
         Intent i = getIntent();
-        storeId = i.getStringExtra("storeId");
+        branch_Id = i.getStringExtra("branchId");
 
         // findAllIds
         findViewByAllId();
 
-        // For Store-Details
-        viewStoreDetails();
+        if (checkInternet.isInternetConnected(this)) {
+            // For Store-Details
+            viewStoreDetails();
+            return;
+        }else {
+            // for all transactions
+            viewAllTransaction();
+        }
     }
 
     private void findViewByAllId() {

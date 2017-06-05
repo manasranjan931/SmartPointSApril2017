@@ -280,16 +280,20 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
                     startActivity(i);
                     getActivity().finish();
 
+                   // Toast.makeText(context, "Result : "+result, Toast.LENGTH_LONG).show();
+
                     sendProgress.dismiss();
-                    ((DeviceListFragment.DeviceActionListener) getActivity()).disconnect();
+                   // ((DeviceListFragment.DeviceActionListener) getActivity()).disconnect();
                 }else if (type.equalsIgnoreCase("redeem")){
                     Intent i = new Intent(getActivity(), RedeemAcknowledgement.class);
                     i.putExtra("result", result);
                     startActivity(i);
                     getActivity().finish();
 
+                  //  Toast.makeText(context, "Results : "+ "\n" +result, Toast.LENGTH_SHORT).show();
+
                     sendProgress.dismiss();
-                    ((DeviceListFragment.DeviceActionListener) getActivity()).disconnect();
+                   // ((DeviceListFragment.DeviceActionListener) getActivity()).disconnect();
                 }
             }
         }

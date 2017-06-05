@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -19,20 +21,38 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import in.bizzmark.smartpoints_user.R;
 
-import static in.bizzmark.smartpoints_user.NavigationActivity.networkInfo;
+import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
+import static in.bizzmark.smartpoints_user.utility.UrlUtility.REGISTER_URL;
 
 public class RegisterActivity extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private ImageView imageView_back_arrow;
     private TextView tvSignin;
-    private EditText etName, etEmail, etPassword, etConfirmPassword, etMobile, etDOB, etCity;
+    private EditText etUserName, etName, etEmail, etPassword, etConfirmPassword, etMobile, etDOB, etCity;
     private Spinner spnGender;
     private CheckBox checkBox_Password, checkBox_Confirm_Password, cb_Terms_Conditions;
     private Button btnRegister;
-    private String name, email, password, confirmPassword, mobile, dob, city, gender;
+    private String username, name, email, password, confirmPassword, mobile, dob, city, gender;
+    private int gender_position ;
     private ProgressDialog progressDialog;
+
+    CheckInternet checkInternet = new CheckInternet();
+    Animation animBounce;
 
     private boolean checkDOBFormat;
 
@@ -42,12 +62,16 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
         setContentView(R.layout.activity_register);
         // find all ids
         findViewByAllId();
+
+        // Load Animation
+        animBounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
     }
 
     private void findViewByAllId() {
         imageView_back_arrow = (ImageView) findViewById(R.id.register_back_arrow);
         tvSignin = (TextView) findViewById(R.id.tv_sign_in);
 
+        etUserName = (EditText) findViewById(R.id.et_username);
         etName = (EditText) findViewById(R.id.et_person_name);
         etEmail = (EditText) findViewById(R.id.et_email_register);
         etPassword = (EditText) findViewById(R.id.et_password_register);
@@ -74,7 +98,13 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
         spnGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                gender = spnGender.getItemAtPosition(position).toString();
+                //gender = spnGender.getItemAtPosition(position).toString();
+                gender_position = position;
+                if (gender_position == 1){
+                    gender = "1";
+                }else if (gender_position == 2){
+                    gender = "0";
+                }
             }
 
             @Override
@@ -84,29 +114,9 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
         });
     }
 
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        switch (id){
-            case R.id.register_back_arrow:
-                finish();
-                break;
-            case R.id.btn_sign_up:
-                if (networkInfo != null || networkInfo.isConnected()) {
-                    userSignUp(v);
-                }else {
-                    Toast.makeText(this, "Please check internet connection", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.tv_sign_in:
-                startActivity(new Intent(this,LoginActivity.class));
-                finish();
-                break;
-        }
-    }
-
     // USER SIGNUP
     private void userSignUp(View v) {
+        username = etUserName.getText().toString().trim();
         name = etName.getText().toString().trim();
         email = etEmail.getText().toString().trim();
         password = etPassword.getText().toString().trim();
@@ -118,10 +128,15 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait....Registering");
 
+        String userNameValidation = "[a-z_0-9]+";
         String emailValidation = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         String dobValidation = "([0-9]{2})/([0-9]{2})/([0-9]{4})";
 
-        if (TextUtils.isEmpty(name)){
+        if (TextUtils.isEmpty(username)){
+            Snackbar.make(v,"Please enter username", Snackbar.LENGTH_SHORT).show();
+        }else if (!username.matches(userNameValidation)){
+            etUserName.setError("username must be lowercase letters, underscore and alphanumeric");
+        }else if (TextUtils.isEmpty(name)){
             Snackbar.make(v,"Please enter your name", Snackbar.LENGTH_SHORT).show();
         }else if (TextUtils.isEmpty(email)){
             Snackbar.make(v,"Please enter your email", Snackbar.LENGTH_SHORT).show();
@@ -139,7 +154,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
             Snackbar.make(v,"Please enter your mobile number", Snackbar.LENGTH_SHORT).show();
         }else if (mobile.length() < 10){
             Snackbar.make(v,"Please enter 10 digits mobile number", Snackbar.LENGTH_SHORT).show();
-        }else if (gender.equalsIgnoreCase("Select gender")){
+        }else if (gender_position == 0){
             Snackbar.make(v,"Please select your gender", Snackbar.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(dob)){
             Snackbar.make(v,"Please enter date of birth", Snackbar.LENGTH_SHORT).show();
@@ -151,9 +166,55 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
         }else if (!cb_Terms_Conditions.isChecked()){
             Snackbar.make(v,"Please accept term and condition", Snackbar.LENGTH_SHORT).show();
         }else {
-            //progressDialog.show();
+            progressDialog.show();
             // do signup
-            Toast.makeText(this, "Your details : " + "\n" + "Name : " + name + "\n" + "Email : " + email + "\n" + "Password : " + password + "\n" + "Confirm Password : " + confirmPassword + "\n" + "Mobile : " + mobile + "\n" + "Gender : " + gender + "\n" + "DOB : " + dob +"\n"+ "City : " + city, Toast.LENGTH_LONG).show();
+           // Toast.makeText(this, "Your details : " + "\n" + "UserName : "+ username + "\n" + "Name : " + name + "\n" + "Email : " + email + "\n" + "Password : " + password + "\n" + "Confirm Password : " + confirmPassword + "\n" + "Mobile : " + mobile + "\n" + "Gender : " + gender + "\n" + "DOB : " + dob +"\n"+ "City : " + city, Toast.LENGTH_LONG).show();
+
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            progressDialog.dismiss();
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                String status = jsonObject.getString("status_type");
+                                if (status.equalsIgnoreCase("success")){
+                                    Toast.makeText(RegisterActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(getApplication(), LoginActivity.class));
+                                    finish();
+                                }else if (status.equalsIgnoreCase("error")){
+                                    String error_message = jsonObject.getString("response");
+                                    Toast.makeText(RegisterActivity.this, error_message, Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    progressDialog.dismiss();
+                    Toast.makeText(RegisterActivity.this, "Error : "+error.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }){
+                @Override
+                protected Map<String,String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("username", username);
+                    params.put("name", name);
+                    params.put("email", email);
+                    params.put("password", password);
+                    params.put("mobile", mobile);
+                    params.put("gender", gender);
+                    params.put("date_of_birth", dob);
+                    params.put("city", city);
+                    params.put("customerDeviceId", device_Id);
+                    return params;
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(stringRequest);
         }
     }
 
@@ -179,6 +240,50 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
             }else {
 
             }
+        }
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id){
+            case R.id.register_back_arrow:
+                finish();
+                break;
+            case R.id.btn_sign_up:
+                btnRegister.startAnimation(animBounce);
+               if (checkInternet.isInternetConnected(this)){
+                   userSignUp(v);
+                   return;
+               }else {
+                   Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
+               }
+                break;
+            case R.id.tv_sign_in:
+                startActivity(new Intent(this,LoginActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (checkInternet.isInternetConnected(this)){
+            return;
+        }else {
+            return;
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (checkInternet.isInternetConnected(this)){
+            return;
+        }else {
+            return;
         }
     }
 }

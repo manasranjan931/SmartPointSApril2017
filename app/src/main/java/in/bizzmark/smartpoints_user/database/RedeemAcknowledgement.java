@@ -35,21 +35,23 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
     String imeistring;
     String result;
 
+    String branchId;
+    String storeId;
     String storeName ;
     String billAmount ;
-    String points ;
     String type ;
     String discountAmount;
     String newBillAmount;
     String deviceId = imeistring;
     String time;
     String status;
+    String redeemPoints;
 
     DbHelper mydb;
     SQLiteDatabase db;
 
     String store_name_from_sqlite;
-    String points_from_sqlite;
+    String redeem_points_from_sqlite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +61,6 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
         // find All Id
         findViewByAllId();
 
-        // Retrieve Data From SQLite-Database
-        //retrieveDataFromSQLite();
-
         // from seller
         Intent i = getIntent();
         result = i.getStringExtra("result");
@@ -69,19 +68,21 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
         ackBO = gson.fromJson(result,AcknowledgementBO.class);
         storeName = ackBO.getStoreName();
         billAmount = ackBO.getBillAmount();
-        points = ackBO.getPoints();
+        redeemPoints = ackBO.getPoints();
         type = ackBO.getType();
         time = ackBO.getTime();
         discountAmount = ackBO.getDisCountAmount();
         newBillAmount = ackBO.getNewBillAmount();
         deviceId = ackBO.getDeviceId();
+        branchId = ackBO.getBranchId();
+        storeId = ackBO.getStoreId();
         status = ackBO.getStatus();
 
         if("success".equalsIgnoreCase(status)){
             // when seller accepting
             tvStoreName.setText(storeName);
             tvNewAmount.setText(newBillAmount);
-            tvPoints.setText(discountAmount);
+            tvPoints.setText(redeemPoints);
             tvDiscountAmount.setText(discountAmount);
         }else {
             // when seller not accepting
@@ -96,23 +97,6 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
             btnSaveData.setVisibility(View.GONE);
         }
 
-    }
-
-    // Retrieving data from SQLite-Database
-    private void retrieveDataFromSQLite() {
-        mydb = new DbHelper(this);
-        db = mydb.getWritableDatabase();
-
-        if ( mydb != null) {
-            String query = "SELECT STORE_NAME, POINTS FROM CUSTOMER_EARN WHERE TYPE= 'earn'";
-            Cursor cursor = db.rawQuery(query, null);
-            if (cursor.moveToFirst()) {
-                do {
-                    store_name_from_sqlite = cursor.getString(0);
-                    points_from_sqlite = cursor.getString(1);
-                } while (cursor.moveToNext());
-            }
-        }
     }
 
     private void findViewByAllId() {
@@ -133,6 +117,26 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
         btnOk.setOnClickListener(this);
         btnSaveData.setOnClickListener(this);
 
+        // Retrieve Data From SQLite-Database
+        retrieveDataFromSQLite();
+
+    }
+
+    // Retrieving data from SQLite-Database
+    private void retrieveDataFromSQLite() {
+        mydb = new DbHelper(this);
+        db = mydb.getReadableDatabase();
+
+        if ( mydb != null) {
+            String query = "SELECT STORE_NAME, TOTAL_POINTS FROM CUSTOMER_EARN_REDEEM GROUP BY STORE_NAME";
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    store_name_from_sqlite = cursor.getString(0);
+                    redeem_points_from_sqlite = cursor.getString(1);
+                } while (cursor.moveToNext());
+            }
+        }
     }
 
     @Override
@@ -147,29 +151,44 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
     }
 
     private void saveDataIntoSQLiteDatabase() {
-        if (type.equalsIgnoreCase("redeem")) {
-            //  Toast.makeText(this, "Redeem Type", Toast.LENGTH_SHORT).show();
-
+      //  if (type.equalsIgnoreCase("redeem")) {
             // save data into sqlite-database
             DbHelper mydb = new DbHelper(this);
             SQLiteDatabase db = mydb.getWritableDatabase();
 
             ContentValues cv = new ContentValues();
-            cv.put(DbHelper.STORE_NAMES_COL_1, storeName);
-            cv.put(DbHelper.NEW_BILL_AMOUNTS_COL_2, billAmount);
-            cv.put(DbHelper.REDEEM_POINTS_COL_3, points);
-            cv.put(DbHelper.TYPES_COL_4, type);
-            cv.put(DbHelper.DATE_TIMES_COL_5, dateandtime);
-            cv.put(DbHelper.DEVICE_IDS_COL_6, deviceId);
-            cv.put(DbHelper.DISCOUNT_AMOUNTS_COL7,discountAmount);
 
-            long result = db.insert(DbHelper.TABLE_REDEEM, null, cv);
+            if (store_name_from_sqlite != null && redeem_points_from_sqlite != null){
+                if (store_name_from_sqlite.equalsIgnoreCase(storeName)){
+
+                    int redeem_points = Integer.parseInt(redeemPoints);
+                    int sql_point = Integer.parseInt(redeem_points_from_sqlite);
+                    int total_points = sql_point - redeem_points;
+                    String avail_points = Integer.toString(total_points);
+
+                    cv.put(DbHelper.STORE_NAME_COL_1, storeName);
+                    cv.put(DbHelper.TOTAL_POINTS_COL_3, avail_points);
+                    cv.put(DbHelper.TYPE_COL_4, type);
+                    cv.put(DbHelper.DATE_TIME_COL_5, time);
+                    cv.put(DbHelper.DEVICE_ID_COL_6, deviceId);
+                    cv.put(DbHelper.BRANCH_ID_COL_7, branchId);
+                    cv.put(DbHelper.STORE_ID_COL_8, storeId);
+                    cv.put(DbHelper.NEW_BILL_AMOUNT_COL_9, newBillAmount);
+                    cv.put(DbHelper.DISCOUNT_AMOUNT_COL_10,discountAmount);
+                    cv.put(DbHelper.REDEEM_POINTS_COL_12, redeemPoints);
+
+                }
+            }else {
+                Toast.makeText(this, "You don't have enough points to redeem", Toast.LENGTH_LONG).show();
+            }
+
+            long result = db.insert(DbHelper.TABLE_EARN_REDEEM, null, cv);
             if (result != -1) {
-                Toast.makeText(this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
-                Toast.makeText(this, "Data saving error : "+result, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(this, "Data saving error : "+result, Toast.LENGTH_SHORT).show();
             }
-        }
+       // }
     }
 }

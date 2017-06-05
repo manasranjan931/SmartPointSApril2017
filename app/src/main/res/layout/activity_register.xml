@@ -56,6 +56,40 @@
             android:background="@color/color_white"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <EditText
+                        android:id="@+id/et_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/tv_border"
+                        android:drawableLeft="@drawable/ic_person_24dp"
+                        android:drawablePadding="12dp"
+                        android:ems="15"
+                        android:hint="USERNAME"
+                        android:inputType="textPersonName"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="3dp"
+                        android:singleLine="true"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textCursorDrawable="@null"
+                        android:textSize="15dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -78,7 +112,7 @@
                         android:drawableLeft="@drawable/ic_person_24dp"
                         android:drawablePadding="12dp"
                         android:ems="15"
-                        android:hint="FULL NAME"
+                        android:hint="NAME"
                         android:inputType="textPersonName"
                         android:paddingLeft="5dp"
                         android:paddingRight="3dp"
@@ -224,7 +258,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:background="@drawable/tv_border"
-                        android:drawableLeft="@drawable/ic_person_24dp"
+                        android:drawableLeft="@drawable/ic_call_24dp"
                         android:drawablePadding="12dp"
                         android:ems="15"
                         android:hint="MOBILE"
@@ -265,7 +299,7 @@
                         android:layout_marginTop="5dp"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="16sp"
-                        android:drawableLeft="@drawable/ic_person_24dp"/>
+                        android:drawableLeft="@drawable/ic_group_24dp"/>
 
                     <Spinner
                         android:id="@+id/spgender"
@@ -298,7 +332,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:background="@drawable/tv_border"
-                        android:drawableLeft="@drawable/ic_person_24dp"
+                        android:drawableLeft="@drawable/ic_date_range_black_24dp"
                         android:drawablePadding="12dp"
                         android:ems="15"
                         android:hint="DOB"
@@ -358,7 +392,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
-                    android:text="Term and condition"
+                    android:text=" I accept term and condition"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp" />
 

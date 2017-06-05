@@ -56,7 +56,8 @@ public class EarnRedeemActivity extends AppCompatActivity {
             storeName = b.getString("key_store_name");
             tv_StoreName.setText(storeName);
         }else {
-            storeName = tv_StoreName.getText().toString();
+            //storeName = tv_StoreName.getText().toString();
+            storeName = "comprint";
         }
 
         // save storeName in sharedPreferences

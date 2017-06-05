@@ -44,6 +44,7 @@
             android:id="@+id/header_share"
             android:layout_marginLeft="227dp"
             android:layout_marginRight="25dp"
+            android:visibility="gone"
             android:layout_alignParentTop="true"
             android:layout_marginTop="6.3dp"/>
 

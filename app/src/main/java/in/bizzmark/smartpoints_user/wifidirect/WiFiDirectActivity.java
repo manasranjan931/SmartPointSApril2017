@@ -271,7 +271,7 @@ public class WiFiDirectActivity extends AppCompatActivity
 
             @Override
             public void onSuccess() {
-                fragment.getView().setVisibility(View.GONE);
+               // fragment.getView().setVisibility(View.GONE);
             }
 
         });

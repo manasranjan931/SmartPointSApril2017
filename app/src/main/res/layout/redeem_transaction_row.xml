@@ -20,6 +20,41 @@
                 <TableRow android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:weightSum="1"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:padding="2dp">
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:text="Transaction Id"
+                        android:textSize="17dp"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/color_white"/>
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text=":"
+                        android:textSize="17dp"
+                        android:textColor="@color/color_white"/>
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:text="kshh5shus_5g"
+                        android:layout_marginLeft="5dp"
+                        android:paddingLeft="5dp"
+                        android:textSize="17dp"
+                        android:id="@+id/tv_redeem_transaction_id"
+                        android:textColor="@color/color_white"/>
+                </TableRow>
+
+                <TableRow android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1"
                     android:padding="2dp">
 
                     <TextView
@@ -86,7 +121,7 @@
                         android:layout_height="wrap_content"
                         android:layout_width="0dp"
                         android:layout_weight="0.5"
-                        android:text="Discount Amount"
+                        android:text="Discount Price"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/colorPrimaryDark"/>
 

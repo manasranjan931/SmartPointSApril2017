@@ -33,7 +33,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -52,7 +51,6 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
 
     private List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
     ProgressDialog progressDialog = null;
-    ProgressBar progressBar = null;
     View mContentView = null;
     private WifiP2pDevice device;
 
@@ -66,8 +64,6 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.setListAdapter(new WiFiPeerListAdapter(getActivity(), R.layout.row_devices, peers));
-
-       //progressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar);
 
     }
 
@@ -185,14 +181,6 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
             progressDialog.dismiss();
         }
 
-//        if (progressBar != null && progressBar.isShown()) {
-//            progressBar.setVisibility(View.GONE);
-//        }
-
-//        if (progressbarActivity != null) {
-//            progressbarActivity.finish();
-//        }
-
         peers.clear();
         peers.addAll(peerList.getDeviceList());
         ((WiFiPeerListAdapter) getListAdapter()).notifyDataSetChanged();
@@ -219,23 +207,9 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
             progressDialog.dismiss();
         }
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setTitle("Press back to cancel");
-        progressDialog.setMessage("finding peers");
+        progressDialog.setTitle("Please wait !");
+        progressDialog.setMessage("finding sellers.....");
         progressDialog.show();
-
-//      if (progressBar != null && progressBar.isShown()){
-//          progressBar.setVisibility(View.GONE);
-//      }
-//
-//        progressBar.setVisibility(View.GONE);
-
-       /* progressDialog = ProgressDialog.show(getActivity(), "Press back to cancel", "finding peers", true,
-                true, new DialogInterface.OnCancelListener() {
-
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                    }
-                });*/
     }
 
     /**

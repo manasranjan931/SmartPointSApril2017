@@ -1,5 +1,6 @@
 package in.bizzmark.smartpoints_user.store;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -23,8 +24,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import in.bizzmark.smartpoints_user.R;
+import in.bizzmark.smartpoints_user.login.CheckInternet;
 
-import static in.bizzmark.smartpoints_user.database.PointsActivity.branchId;
+import static in.bizzmark.smartpoints_user.store.StoreHomeActivity.branch_Id;
+
 
 /**
  * Created by User on 02-May-17.
@@ -32,11 +35,15 @@ import static in.bizzmark.smartpoints_user.database.PointsActivity.branchId;
 
 public class AboutStoreFrag extends Fragment implements View.OnClickListener {
 
+    Activity activity = getActivity();
+
     TextView tvStoreName, tv_branch_name, tv_store_address;
     Button btnCall, btnReward, btnMap;
 
-    String store_details_url = "http://35.154.104.54/smartpoints/customer-api/get-branch-details?branchId="+branchId;
+    String ABOUT_STORE_URL = "http://35.154.104.54/smartpoints/customer-api/get-branch-details?branchId="+branch_Id;
     String storeName,owner_firstname,owner_lastname,owner_mobile,branch_name,branch_address;
+
+    CheckInternet checkInternet = new CheckInternet();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,25 +64,32 @@ public class AboutStoreFrag extends Fragment implements View.OnClickListener {
         btnCall.setOnClickListener(this);
         btnMap.setOnClickListener(this);
 
-        dataRetrieveFromServer();
         goToRewardsFrag();
-        btnReward.setBackgroundColor(Color.YELLOW);
-        btnReward.setTextColor(Color.BLACK);
+        btnReward.setBackgroundColor(getResources().getColor(R.color.green));
+        btnReward.setTextColor(Color.WHITE);
         btnCall.setBackgroundColor(Color.WHITE);
         btnCall.setTextColor(Color.BLACK);
         btnMap.setBackgroundColor(Color.WHITE);
         btnMap.setTextColor(Color.BLACK);
+
+        if (checkInternet.isInternetConnected(getActivity())){
+            dataRetrieveFromServer();
+            return;
+        }
     }
 
+    // Data retrieve from server
     private void dataRetrieveFromServer() {
-        StringRequest request = new StringRequest(Request.Method.GET, store_details_url,
+        StringRequest request = new StringRequest(Request.Method.GET, ABOUT_STORE_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String result) {
 
                         try {
                             JSONObject jo = new JSONObject(result);
-                            JSONObject jo2 = jo.getJSONObject("response");
+                            String status = jo.getString("status_type");
+                            if (status.equalsIgnoreCase("success")) {
+                                JSONObject jo2 = jo.getJSONObject("response");
 
                                 storeName = jo2.getString("store_name");
                                 owner_firstname = jo2.getString("owner_firstname");
@@ -84,9 +98,14 @@ public class AboutStoreFrag extends Fragment implements View.OnClickListener {
                                 branch_name = jo2.getString("branch_name");
                                 branch_address = jo2.getString("branch_address");
 
-                            tvStoreName.setText(storeName);
-                            tv_branch_name.setText(branch_name);
-                            tv_store_address.setText(branch_address);
+                                tvStoreName.setText(storeName);
+                                tv_branch_name.setText(branch_name);
+                                tv_store_address.setText(branch_address);
+
+                            }else if (status.equalsIgnoreCase("error")){
+                                String error = jo.getString("response");
+                                showErrorToast(error);
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -95,7 +114,7 @@ public class AboutStoreFrag extends Fragment implements View.OnClickListener {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "something error, please try again", Toast.LENGTH_SHORT).show();
+                showErrorToast(error.getMessage().toString());
             }
         });
 
@@ -104,12 +123,15 @@ public class AboutStoreFrag extends Fragment implements View.OnClickListener {
 
     }
 
+    private void showErrorToast(String error) {
+        Toast.makeText(activity, error, Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void onClick(View v) {
         if (v == btnReward){
-            btnReward.setBackgroundColor(Color.YELLOW);
-            btnReward.setTextColor(Color.BLACK);
-            Toast.makeText(getActivity(), "Reward", Toast.LENGTH_SHORT).show();
+            btnReward.setBackgroundColor(getResources().getColor(R.color.green));
+            btnReward.setTextColor(Color.WHITE);
 
             btnCall.setBackgroundColor(Color.WHITE);
             btnCall.setTextColor(Color.BLACK);
@@ -119,7 +141,7 @@ public class AboutStoreFrag extends Fragment implements View.OnClickListener {
             goToRewardsFrag();
 
         }else if (v == btnCall){
-            btnCall.setBackgroundColor(Color.BLUE);
+            btnCall.setBackgroundColor(getResources().getColor(R.color.green));
             btnCall.setTextColor(Color.WHITE);
 
             if (owner_mobile != null) {
@@ -136,9 +158,9 @@ public class AboutStoreFrag extends Fragment implements View.OnClickListener {
             goToCallFrag();
 
         }else if (v == btnMap){
-            btnMap.setBackgroundColor(Color.YELLOW);
-            btnMap.setTextColor(Color.BLACK);
-            Toast.makeText(getActivity(), "Map", Toast.LENGTH_SHORT).show();
+            btnMap.setBackgroundColor(getResources().getColor(R.color.green));
+            btnMap.setTextColor(Color.WHITE);
+            //Toast.makeText(getActivity(), "Map", Toast.LENGTH_SHORT).show();
 
             btnReward.setBackgroundColor(Color.WHITE);
             btnReward.setTextColor(Color.BLACK);
@@ -175,5 +197,23 @@ public class AboutStoreFrag extends Fragment implements View.OnClickListener {
         ft.replace(R.id.framelayout_about_store, rewardsFrag, "fragment");
         ft.addToBackStack(null);
         ft.commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+       if (checkInternet.isInternetConnected(getActivity())){
+           dataRetrieveFromServer();
+           return;
+       }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (checkInternet.isInternetConnected(getActivity())){
+            dataRetrieveFromServer();
+            return;
+        }
     }
 }

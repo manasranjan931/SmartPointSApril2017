@@ -23,8 +23,10 @@ import java.util.Calendar;
 
 import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.bo.PointsBO;
+import in.bizzmark.smartpoints_user.login.LoginActivity;
 import in.bizzmark.smartpoints_user.wifidirect.WiFiDirectActivity;
 
+import static in.bizzmark.smartpoints_user.NavigationActivity.ACCESS_TOKEN;
 import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
 
 public class Redeem extends Fragment {
@@ -59,14 +61,14 @@ public class Redeem extends Fragment {
 
                 if (TextUtils.isEmpty(redeem_Billamount)){
                     Snackbar.make(v,"Please enter bill amount", Snackbar.LENGTH_SHORT).show();
+                }else if (redeem_Billamount.startsWith("0")) {
+                    Toast.makeText(getActivity(), "amount shouldn't be " + redeem_Billamount, Toast.LENGTH_SHORT).show();
                 }else if (TextUtils.isEmpty(redeem_points)){
                     Snackbar.make(v,"Please enter points", Snackbar.LENGTH_SHORT).show();
+                }else if (redeem_points.startsWith("0")) {
+                    Toast.makeText(getActivity(), "amount shouldn't be " + redeem_points, Toast.LENGTH_SHORT).show();
                 } else{
-                    if (!redeem_Billamount.startsWith("0")){
-                        checkDeviceSupportWifiDirect();
-                    }else {
-                        Toast.makeText(getActivity(), "You enter : "+redeem_Billamount, Toast.LENGTH_SHORT).show();
-                    }
+                    checkDeviceSupportWifiDirect();
                 }
             }
         });
@@ -79,7 +81,11 @@ public class Redeem extends Fragment {
         FeatureInfo features[] = pm.getSystemAvailableFeatures();
         for (FeatureInfo info : features) {
             if (info != null && info.name != null && info.name.equalsIgnoreCase("android.hardware.wifi.direct")){
-                sendDataToWifiDirectClass();
+                    if (!ACCESS_TOKEN.isEmpty()) {
+                        sendDataToWifiDirectClass();
+                    } else {
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                    }
                 return true;
             }
         }
@@ -115,5 +121,23 @@ public class Redeem extends Fragment {
                 getSharedPreferences("MY_BILL_AMOUNT", Context.MODE_PRIVATE).edit();
         editor.putString("key_bill_amount", jsonEarn);
         editor.commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        retrievingAccessTokenFromSP();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        retrievingAccessTokenFromSP();
+    }
+
+    // retrieve access-token from sharedPreferences
+    private void retrievingAccessTokenFromSP() {
+        SharedPreferences sp = getActivity().getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE);
+        ACCESS_TOKEN = sp.getString("access_token", "");
     }
 }

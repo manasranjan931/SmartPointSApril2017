@@ -35,6 +35,7 @@ public class RedeemTransactionAdapter extends RecyclerView.Adapter<RedeemTransac
     @Override
     public void onBindViewHolder(RedeemTransactionAdapter.ViewHolder holder, int position) {
         RedeemTransactionBO redeemTransactionBO = redeemTransactionList.get(position);
+        holder.tvTransactionId.setText(redeemTransactionBO.getTransaction_id());
         holder.tvPaidBill.setText(redeemTransactionBO.getBill_amount());
         holder.tvPoints.setText(redeemTransactionBO.getPoints());
         holder.tvDiscountAmount.setText(redeemTransactionBO.getDiscount_amount());
@@ -48,11 +49,12 @@ public class RedeemTransactionAdapter extends RecyclerView.Adapter<RedeemTransac
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView tvPaidBill, tvPoints, tvDiscountAmount, tvDateAndTime;
+        public TextView tvTransactionId, tvPaidBill, tvPoints, tvDiscountAmount, tvDateAndTime;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
+            tvTransactionId = (TextView) itemView.findViewById(R.id.tv_redeem_transaction_id);
             tvPaidBill = (TextView) itemView.findViewById(R.id.tv_paid_bill);
             tvPoints = (TextView) itemView.findViewById(R.id.tv_redeem_points);
             tvDiscountAmount = (TextView) itemView.findViewById(R.id.tv_redeem_discount_amount);

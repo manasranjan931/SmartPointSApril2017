@@ -35,6 +35,7 @@ public class EarnTransactionAdapter extends RecyclerView.Adapter<EarnTransaction
     @Override
     public void onBindViewHolder(EarnTransactionAdapter.ViewHolder holder, int position) {
         EarnTransactionBO earnTransactionBO = earnTransactionList.get(position);
+        holder.tvTransactionId.setText(earnTransactionBO.getTransaction_id());
         holder.tvBillAmount.setText(earnTransactionBO.getBill_amount());
         holder.tvPoints.setText(earnTransactionBO.getPoints());
         holder.tvDateAndTime.setText(earnTransactionBO.getDate_time());
@@ -47,11 +48,12 @@ public class EarnTransactionAdapter extends RecyclerView.Adapter<EarnTransaction
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView tvBillAmount, tvPoints, tvDateAndTime;
+        public TextView tvTransactionId, tvBillAmount, tvPoints, tvDateAndTime;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
+            tvTransactionId = (TextView) itemView.findViewById(R.id.tv_transaction_id);
             tvBillAmount = (TextView) itemView.findViewById(R.id.tv_bill_amount);
             tvPoints = (TextView) itemView.findViewById(R.id.tv_points);
             tvDateAndTime = (TextView) itemView.findViewById(R.id.tv_date_time);

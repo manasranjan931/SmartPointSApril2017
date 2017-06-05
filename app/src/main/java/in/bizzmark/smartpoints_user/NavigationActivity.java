@@ -5,10 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.telephony.TelephonyManager;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -33,6 +33,7 @@ import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.bizzmark.smartpoints_user.database.PointsActivity;
+import in.bizzmark.smartpoints_user.login.CheckInternet;
 import in.bizzmark.smartpoints_user.login.LoginActivity;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -43,7 +44,7 @@ public class NavigationActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final int REQUEST_CODE = 100;
-
+    NavigationView navigationView;
     ImageView imageView_Menu,imageView_Share,imageView_signin;
     CircleImageView profileImageView;
     TextView tvDeviceId;
@@ -51,12 +52,12 @@ public class NavigationActivity extends Activity
     Button btn_Your_Points;
     boolean doubleBackToExitPressedOnce = false;
 
-    ConnectivityManager cm;
-    public static NetworkInfo networkInfo;
-
     public static String device_Id = null;
+    public static String ACCESS_TOKEN = null;
 
-    Animation animBounce;
+    CheckInternet checkInternet = new CheckInternet();
+
+    Animation animBounce, animFadeIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class NavigationActivity extends Activity
 
         // Load the animation
         animBounce = AnimationUtils.loadAnimation(this,R.anim.bounce);
+        animFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
 
         imageView_Menu = (ImageView) findViewById(R.id.image_menu);
         imageView_Menu.setOnClickListener(new View.OnClickListener() {
@@ -88,12 +90,20 @@ public class NavigationActivity extends Activity
             @Override
             public void onClick(View v) {
                 imageView_signin.startAnimation(animBounce);
-              // code for logout
-                if (networkInfo != null && networkInfo.isConnected()){
-                    showUserSigninDialog();
-                }else {
-                    Toast.makeText(getApplicationContext(), "Please check internet connection", Toast.LENGTH_SHORT).show();
-                }
+              // code for login
+               if (checkInternet.isInternetConnected(getBaseContext())){
+                   if (ACCESS_TOKEN.isEmpty()) {
+                       showUserSigninDialog();
+                   }else {
+                       startActivity(new Intent(getApplication(), EditProfileActivity.class));
+                   }
+                   return;
+               }else {
+                   if (!ACCESS_TOKEN.isEmpty()){
+                       startActivity(new Intent(getApplication(), EditProfileActivity.class));
+                   }
+                   return;
+               }
             }
         });
 
@@ -103,17 +113,20 @@ public class NavigationActivity extends Activity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         View navHeader = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Hide Navigation Items
+        hideNavigationItems();
 
         // for profile picture
         profileImageView = (CircleImageView) navHeader.findViewById(R.id.profile_circleView);
         profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 //   startActivity(new Intent(NavigationActivity.this, EditProfileActivity.class));
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    //startActivity(new Intent(NavigationActivity.this, EditProfileActivity.class));
+                    //startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             }
         });
 
@@ -126,7 +139,8 @@ public class NavigationActivity extends Activity
         btn_Your_Points.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn_Your_Points.startAnimation(animBounce);
+              //  btn_Your_Points.startAnimation(animBounce);
+                btn_Your_Points.startAnimation(animFadeIn);
                 startActivity(new Intent(NavigationActivity.this, PointsActivity.class));
 
             }
@@ -135,19 +149,35 @@ public class NavigationActivity extends Activity
         // Request Camera Permission
         requestCameraPermission();
 
-        //Checking Internet-Connection
-        checkInternetConnection();
+        // For Access-Token
+        retrievingAccessTokenFromSP();
+
+        //Check internet-connection
+        checkConnection();
     }
 
-    //Checking Internet-Connection
-    private void checkInternetConnection() {
-        cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        networkInfo =  cm.getActiveNetworkInfo();
-        //networkInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-       // networkInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        if (networkInfo != null){
-            startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
+    //Check connection
+    private void checkConnection() {
+        if (checkInternet.isInternetConnected(this)){
+            if (ACCESS_TOKEN.isEmpty()) {
+                startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
+            }
+            return;
+        }else {
+            return;
         }
+    }
+
+    // Hide Navigation Items
+    private void hideNavigationItems() {
+        Menu menu = navigationView.getMenu();
+        menu.findItem(R.id.nav_logout).setVisible(false);
+    }
+
+    // retrieve access-token from sharedPreferences
+    private void retrievingAccessTokenFromSP() {
+        SharedPreferences sp = getApplication().getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE);
+        ACCESS_TOKEN = sp.getString("access_token", "");
     }
 
     // Runtime Permission
@@ -216,18 +246,32 @@ public class NavigationActivity extends Activity
     protected void onResume() {
         super.onResume();
         tvDeviceId.setText("Your device Id : "+device_Id);
+        retrievingAccessTokenFromSP();
+        if (checkInternet.isInternetConnected(this)){
+            return;
+        }else {
+            return;
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         tvDeviceId.setText("Your device Id : "+device_Id);
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        tvDeviceId.setText("Your device Id : "+device_Id);
+        retrievingAccessTokenFromSP();
+        if (checkInternet.isInternetConnected(this)){
+            if (ACCESS_TOKEN.isEmpty()) {
+               // showUserSigninDialog();
+            }else {
+               // startActivity(new Intent(getApplication(), EditProfileActivity.class));
+            }
+            return;
+        }else {
+            if (!ACCESS_TOKEN.isEmpty()){
+              //  startActivity(new Intent(getApplication(), EditProfileActivity.class));
+            }
+            return;
+        }
     }
 
     // backpressed click
@@ -264,16 +308,14 @@ public class NavigationActivity extends Activity
         } else if (id == R.id.nav_contact_us) {
             showContactUsDialog();
         } else if (id == R.id.nav_signin) {
-            if (networkInfo != null && networkInfo.isConnected()) {
-                showUserSigninDialog();
-            } else {
-                Toast.makeText(this, "Please check internet connection", Toast.LENGTH_SHORT).show();
-            }
+            // do login
+            //userSignin();
         } else if (id == R.id.nav_logout){
-            if (networkInfo != null && networkInfo.isConnected()){
-                showUserLogoutDialog();
+            // do logout
+            if (!ACCESS_TOKEN.isEmpty()) {
+                //userLogout();
             }else {
-                Toast.makeText(this, "Please check internet connection", Toast.LENGTH_SHORT).show();
+                hideNavigationItems();
             }
         } if (id == R.id.nav_exit) {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -286,8 +328,54 @@ public class NavigationActivity extends Activity
         return true;
     }
 
+    // User-Logout
+    private void userLogout() {
+       if (checkInternet.isInternetConnected(this)){
+           if (!ACCESS_TOKEN.isEmpty()) {
+               showUserLogoutDialog();
+           }
+           return;
+       }else {
+           return;
+       }
+    }
+
+    // User-Login
+    private void userSignin() {
+        if (checkInternet.isInternetConnected(this)) {
+            if (ACCESS_TOKEN.isEmpty()) {
+                showUserSigninDialog();
+            }else {
+                Toast.makeText(this, "You already signed in", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        } else {
+            return;
+        }
+    }
+
+    // Logout-Dialog
     private void showUserLogoutDialog() {
-        Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+        new AlertDialog.Builder(this)
+                .setMessage("Arr you wana logout ?")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        // Clear data from SharedPreferences
+                        SharedPreferences preferences =getSharedPreferences("USER_DETAILS",Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.clear();
+                        editor.commit();
+                        Toast.makeText(getApplicationContext(), "Logout successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setCancelable(false)
+                .create().show();
     }
 
     private void showUserSigninDialog() {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartPointS</string>
+    <string name="app_name">SmartpointS</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -330,6 +330,9 @@ This privacy policy may be revised over time as new features are added to the sm
     <string name="login">LOGIN</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="signUp">SIGNUP</string>
+    <string name="btn_logout">LOGOUT</string>
+    <string name="login_warning">Please login or register otherwise you may loose your points !</string>
+    <string name="app_version">SmartpointS  1.0.0</string>
 
     <string-array name="gender_select">
         <item>Select gender</item>

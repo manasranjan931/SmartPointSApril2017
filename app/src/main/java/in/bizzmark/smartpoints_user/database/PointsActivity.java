@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -34,14 +35,17 @@ import java.util.ArrayList;
 import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.adapter.PointsAdapter;
 import in.bizzmark.smartpoints_user.bo.EarnPointsBO;
+import in.bizzmark.smartpoints_user.login.CheckInternet;
 import in.bizzmark.smartpoints_user.sqlitedb.DbHelper;
 import in.bizzmark.smartpoints_user.store.StoreHomeActivity;
 
-import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
+import static in.bizzmark.smartpoints_user.utility.UrlUtility.POINTS_URL;
 
 public class PointsActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageView iv_Arrow_Back,ivSyncData;
+    TextView tvOffline;
+    SwipeRefreshLayout refreshLayout;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager recyclerViewlayoutManager;
     ProgressBar pb;
@@ -53,14 +57,13 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
     Context context = PointsActivity.this;
 
     PointsAdapter adapter ;
+    Snackbar snackbar;
 
     DbHelper helper;
     SQLiteDatabase sqLiteDatabase;
 
-    ConnectivityManager cm;
-    NetworkInfo networkInfo;
+    CheckInternet checkInternet = new CheckInternet();
 
-    String json_url = "http://35.154.104.54/smartpoints/customer-api/get-total-points-for-all-stores?customerDeviceId="+device_Id;
     public static String branchId = null;
 
     @Override
@@ -72,126 +75,131 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
 
         // find all ids
         findViewByAllId();
-
-        // Check InternetConnection
-        checkInternetConnection();
-    }
-
-    private void checkInternetConnection() {
-        cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        networkInfo =  cm.getActiveNetworkInfo();
-        if (networkInfo == null){
-            retrieveDataFromSQLite();
-        }else {
-            retrieveDataFromServer();
-        }
     }
 
     // Retrieve Data From Server Using Volley-Library
     private void retrieveDataFromServer() {
       pb.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
         storeList.clear();
 
-        StringRequest request = new StringRequest(Request.Method.GET, json_url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String result) {
-                        pb.setVisibility(View.GONE);
-                        linearLayout.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
+            StringRequest request = new StringRequest(Request.Method.GET, POINTS_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String result) {
+                            pb.setVisibility(View.GONE);
+                            linearLayout.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
 
-                        try {
-                            JSONObject jo = new JSONObject(result);
+                            try {
+                                JSONObject jo = new JSONObject(result);
 
-                            //Check device transacted or not
-                            type = jo.getString("status_type");
-                            if (type.equalsIgnoreCase("error")){
-                                recyclerView.setVisibility(View.GONE);
-                                linearLayout.setVisibility(View.GONE);
-                                llErrorMessage.setVisibility(View.VISIBLE);
-                            }
-
-                            JSONArray ja = jo.getJSONArray("response");
-                            for (int j = 0; j < ja.length() ; j++)
-                            {
-                                JSONObject jo2 =  ja.getJSONObject(j);
-
-                                storeName = jo2.getString("store_name");
-                                points = jo2.getString("total_points");
-                                storeId = jo2.getString("storeId");
-
-                                EarnPointsBO earnPointsBO = new EarnPointsBO();
-                                earnPointsBO.setStorename(storeName);
-                                earnPointsBO.setPoints(points);
-                                earnPointsBO.setStoreId(storeId);
-
-                                storeList.add(earnPointsBO);
-                            }
-
-                            adapter = new PointsAdapter(storeList, context, new PointsAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View v, int position) {
-                                    branchId = storeList.get(position).getStoreId();
-                                    Intent i = new Intent(context,StoreHomeActivity.class);
-                                    i.putExtra("storeId",branchId);
-                                    startActivity(i);
+                                //Check device transacted or not
+                                type = jo.getString("status_type");
+                                if (type.equalsIgnoreCase("error")) {
+                                    recyclerView.setVisibility(View.GONE);
+                                    linearLayout.setVisibility(View.GONE);
+                                    llErrorMessage.setVisibility(View.VISIBLE);
                                 }
-                            });
 
-                            recyclerView.setAdapter(adapter);
+                                JSONArray ja = jo.getJSONArray("response");
+                                for (int j = 0; j < ja.length(); j++) {
+                                    JSONObject jo2 = ja.getJSONObject(j);
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                    storeName = jo2.getString("store_name");
+                                    points = jo2.getString("total_points");
+                                    storeId = jo2.getString("storeId");
+
+                                    EarnPointsBO earnPointsBO = new EarnPointsBO();
+                                    earnPointsBO.setStorename(storeName);
+                                    earnPointsBO.setPoints(points);
+                                    earnPointsBO.setStoreId(storeId);
+
+                                    storeList.add(earnPointsBO);
+                                }
+
+                                adapter = new PointsAdapter(storeList, context, new PointsAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View v, int position) {
+                                        branchId = storeList.get(position).getStoreId();
+                                        Intent i = new Intent(context, StoreHomeActivity.class);
+                                        i.putExtra("branchId", branchId);
+                                        startActivity(i);
+                                    }
+                                });
+
+                                recyclerView.setAdapter(adapter);
+                                // stopping swipe refresh
+                                refreshLayout.setRefreshing(false);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pb.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.GONE);
-                linearLayout.setVisibility(View.VISIBLE);
-                Toast.makeText(context, "something went wrong" +"\n"+"please try again", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    pb.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                    linearLayout.setVisibility(View.VISIBLE);
+                    Toast.makeText(context, "something went wrong please try again", Toast.LENGTH_SHORT).show();
+                    // stopping swipe refresh
+                    refreshLayout.setRefreshing(false);
+                }
+            });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(request);
 
     }
 
-    // Retrieve Data From SQLite
+    // Retrieve Data From SQLite-Database
     private void retrieveDataFromSQLite() {
+        storeList.clear();
         helper = new DbHelper(this);
         sqLiteDatabase = helper.getWritableDatabase();
 
-        //String query = "SELECT STORE_NAME, POINTS FROM [CUSTOMER_EARN] WHERE TYPE= 'earn'";
-        String query = "SELECT STORE_NAME, POINTS FROM CUSTOMER_EARN WHERE TYPE= 'earn'" ;
+        if (sqLiteDatabase != null && storeList != null) {
+            //String query = "SELECT STORE_NAME, POINTS, BRANCH_ID, STORE_ID FROM CUSTOMER_EARN GROUP BY STORE_NAME";
+            //String query = "SELECT STORE_NAME, POINTS, BRANCH_ID, STORE_ID FROM CUSTOMER_EARN_REDEEM WHERE TYPE= 'earn' GROUP BY STORE_NAME";
+            String query = "SELECT STORE_NAME, TOTAL_POINTS, BRANCH_ID, STORE_ID FROM CUSTOMER_EARN_REDEEM GROUP BY STORE_NAME";
             Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+           // Log.e("ERROR ==>", query);
+            if (cursor != null) {
                 if (cursor.moveToFirst()) {
                     do {
-                        storeName = cursor.getString(0);
-                        points = cursor.getString(1);
+                        storeName = cursor.getString(cursor.getColumnIndex("STORE_NAME"));
+                        points = cursor.getString(cursor.getColumnIndex("TOTAL_POINTS"));
+                        branchId = cursor.getString(cursor.getColumnIndex("BRANCH_ID"));
+                        storeId = cursor.getString(cursor.getColumnIndex("STORE_ID"));
 
                         EarnPointsBO earnPointsBO = new EarnPointsBO();
                         earnPointsBO.setStorename(storeName);
                         earnPointsBO.setPoints(points);
+                        earnPointsBO.setStoreId(branchId);
                         //earnPointsBO.setDeviceId(deviceId);
 
                         storeList.add(earnPointsBO);
-
                     } while (cursor.moveToNext());
                 }
+                cursor.close();
+                sqLiteDatabase.close();
 
-        adapter = new PointsAdapter(storeList, context, new PointsAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-                           /* branchId = storeList.get(position).getStoreId();
-                            Intent i = new Intent(context,StoreHomeActivity.class);
-                            i.putExtra("storeId",branchId);
-                            startActivity(i);*/
+                adapter = new PointsAdapter(storeList, context, new PointsAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int position) {
+                        storeName = storeList.get(position).getStorename();
+                        branchId = storeList.get(position).getStoreId();
+                        Intent i = new Intent(context, StoreHomeActivity.class);
+                        //  i.putExtra("storeName", storeName);
+                        i.putExtra("branchId", branchId);
+                        startActivity(i);
+                    }
+                });
+                recyclerView.setAdapter(adapter);
+                // stopping swipe refresh
+                refreshLayout.setRefreshing(false);
             }
-        });
-        recyclerView.setAdapter(adapter);
+        }
     }
 
     private void findViewByAllId() {
@@ -201,9 +209,27 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
 
         iv_Arrow_Back = (ImageView) findViewById(R.id.your_points_back_arrow);
         ivSyncData = (ImageView) findViewById(R.id.iv_sync_data);
+        tvOffline = (TextView) findViewById(R.id.tv_online_offline);
         pb = (ProgressBar) findViewById(R.id.pb_points);
 
+        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.points_swipe_refresh_layout);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh items
+                if (checkInternet.isInternetConnected(getApplicationContext())){
+                    retrieveDataFromServer();
+                    tvOffline.setText("Online");
+                    return;
+                }else {
+                    retrieveDataFromSQLite();
+                    tvOffline.setText("Offline");
+                }
+            }
+        });
+
         recyclerView  = (RecyclerView) findViewById(R.id.recylerview_your_points);
+
         recyclerView.setHasFixedSize(true);
         recyclerViewlayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(recyclerViewlayoutManager);
@@ -212,6 +238,26 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
         iv_Arrow_Back.setOnClickListener(this);
         ivSyncData.setOnClickListener(this);
         btnRetry.setOnClickListener(this);
+
+        if (checkInternet.isInternetConnected(context)){
+            retrieveDataFromServer();
+            tvOffline.setText("Online");
+            return;
+        }else {
+            retrieveDataFromSQLite();
+            tvOffline.setText("Offline");
+            //return;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (checkInternet.isInternetConnected(this)){
+//            retrieveDataFromServer();
+//            tvOffline.setText("Online");
+            return;
+        }
     }
 
     @Override
@@ -220,9 +266,10 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
         if (id == R.id.your_points_back_arrow){
             finish();
         }else if (id == R.id.iv_sync_data){
-           startActivity(new Intent(this, StoreHomeActivity.class));
+          // startActivity(new Intent(this, StoreHomeActivity.class));
         }else if (v == btnRetry){
             retrieveDataFromServer();
+            storeList.clear();
             pb.setVisibility(View.VISIBLE);
             linearLayout.setVisibility(View.GONE);
         }

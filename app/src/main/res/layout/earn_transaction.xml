@@ -5,12 +5,32 @@
 
   <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent">
+      android:layout_height="match_parent"
+      android:gravity="center"
+      android:orientation="vertical">
+
+      <android.support.v4.widget.SwipeRefreshLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/earn_swipe_refresh_layout"
+          >
 
       <android.support.v7.widget.RecyclerView
           android:layout_width="match_parent"
           android:layout_height="match_parent"
+          android:visibility="visible"
+          android:scrollbars="vertical"
           android:id="@+id/recyclerview_earn_transaction"/>
+
+      </android.support.v4.widget.SwipeRefreshLayout>
+
+      <ProgressBar
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:background="@null"
+          android:id="@+id/pb_earn_transaction"
+          android:visibility="gone"
+          style="?android:attr/progressBarStyleLarge" />
 
   </LinearLayout>
 

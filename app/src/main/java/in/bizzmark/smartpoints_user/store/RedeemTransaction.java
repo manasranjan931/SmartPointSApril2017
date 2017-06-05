@@ -2,6 +2,8 @@ package in.bizzmark.smartpoints_user.store;
 
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -28,9 +30,11 @@ import java.util.ArrayList;
 import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.adapter.RedeemTransactionAdapter;
 import in.bizzmark.smartpoints_user.bo.RedeemTransactionBO;
+import in.bizzmark.smartpoints_user.login.CheckInternet;
+import in.bizzmark.smartpoints_user.sqlitedb.DbHelper;
 
 import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
-import static in.bizzmark.smartpoints_user.store.StoreHomeActivity.storeId;
+import static in.bizzmark.smartpoints_user.store.StoreHomeActivity.branch_Id;
 
 /**
  * Created by User on 18-May-17.
@@ -42,12 +46,16 @@ public class RedeemTransaction extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager recyclerViewlayoutManager;
 
-    String paid_bill, points, discount_amount, type, dateTime;
+    String transaction_id, paid_bill, points, discount_amount, type, dateTime;
     ArrayList<RedeemTransactionBO> redeemTransactionList;
     Context context = getActivity();
+    JSONObject jo;
+    String REDEEM_TRANSACTION_URL = "http://35.154.104.54/smartpoints/customer-api/get-single-customer-all-branch-transactions?customerDeviceId="+device_Id+"&branchId="+branch_Id ;
 
-    String transa_url = "http://35.154.104.54/smartpoints/customer-api/get-single-customer-all-branch-transactions?customerDeviceId="+device_Id+"branchId="+storeId ;
-    //String transa_url = "http://35.154.104.54/smartpoints/customer-api/get-single-customer-all-branch-transactions?customerDeviceId=867865021687841&branchId=1&limit=10&page=1";
+    DbHelper helper;
+    SQLiteDatabase sqLiteDatabase;
+
+    CheckInternet checkInternet = new CheckInternet();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,48 +73,97 @@ public class RedeemTransaction extends Fragment {
         recyclerView.setLayoutManager(recyclerViewlayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        dataRetrieveFromServer();
+        if (checkInternet.isInternetConnected(getActivity())) {
+            dataRetrieveFromServer();
+            return;
+        }else {
+            getDataFromSQLite();
+        }
     }
 
+    // Retrieve data from SQLite-Database
+    private void getDataFromSQLite() {
+        // earnTransactionList.clear();
+        helper = new DbHelper(getActivity());
+        sqLiteDatabase = helper.getWritableDatabase();
+
+        //String query = "SELECT BILL_AMOUNT, POINTS, DATE_TIME FROM CUSTOMER_EARN_REDEEM WHERE TYPE= 'redeem' AND BRANCH_ID="+branch_Id;
+        String query = "SELECT NEW_BILL_AMOUNT, DISCOUNT_AMOUNT, REDEEM_POINTS, DATE_TIME, TYPE FROM CUSTOMER_EARN_REDEEM WHERE BRANCH_ID="+branch_Id;
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        if (cursor != null){
+            if (cursor.moveToFirst()){
+                do {
+                    paid_bill = cursor.getString(cursor.getColumnIndex("NEW_BILL_AMOUNT"));
+                    points = cursor.getString(cursor.getColumnIndex("REDEEM_POINTS"));
+                    dateTime = cursor.getString(cursor.getColumnIndex("DATE_TIME"));
+                    type = cursor.getString(cursor.getColumnIndex("TYPE"));
+                    discount_amount = cursor.getString(cursor.getColumnIndex("DISCOUNT_AMOUNT"));
+
+                    if (type.equalsIgnoreCase("redeem")) {
+
+                        RedeemTransactionBO redeemTransactionBO = new RedeemTransactionBO();
+                        redeemTransactionBO.setTransaction_id("");
+                        redeemTransactionBO.setBill_amount(paid_bill);
+                        redeemTransactionBO.setPoints(points);
+                        redeemTransactionBO.setDate_time(dateTime);
+                        redeemTransactionBO.setDiscount_amount(discount_amount);
+
+                        redeemTransactionList.add(redeemTransactionBO);
+                    }
+                }while (cursor.moveToNext());
+
+                RedeemTransactionAdapter redeemTransaction = new RedeemTransactionAdapter(redeemTransactionList, context);
+                redeemTransaction.notifyDataSetChanged();
+                recyclerView.setAdapter(redeemTransaction);
+            }
+        }
+    }
+
+    // Retrieve data from server
     private void dataRetrieveFromServer() {
-        StringRequest request = new StringRequest(Request.Method.GET, transa_url,
+        StringRequest request = new StringRequest(Request.Method.GET, REDEEM_TRANSACTION_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String result) {
 
                         try {
-                            JSONObject jo = new JSONObject(result);
-                            JSONArray ja = jo.getJSONArray("response");
+                            jo = new JSONObject(result);
+                            String status = jo.getString("status_type");
+                            if (status.equalsIgnoreCase("success")) {
+                                JSONArray ja = jo.getJSONArray("response");
 
-                            for (int i = 0; i < ja.length() ; i++) {
-                                JSONArray jsonArray = ja.getJSONArray(i);
+                                    for (int j = 0; j < ja.length(); j++) {
+                                        JSONObject jsonObject = ja.getJSONObject(j);
 
-                                for (int j = 0; j < jsonArray.length(); j++) {
-                                    JSONObject jsonObject =  jsonArray.getJSONObject(j);
+                                        // storeName = jsonObject.getString("store_name");
+                                        transaction_id = jsonObject.getString("transaction_id");
+                                        paid_bill = jsonObject.getString("discounted_price");
+                                        points = jsonObject.getString("points");
+                                        type = jsonObject.getString("type");
+                                        discount_amount = jsonObject.getString("discount");
+                                        dateTime = jsonObject.getString("transacted_at");
 
-                                    // storeName = jsonObject.getString("store_name");
-                                    paid_bill = jsonObject.getString("bill_amount");
-                                    points = jsonObject.getString("points");
-                                    type = jsonObject.getString("type");
-                                    dateTime = jsonObject.getString("transacted_at");
+                                        if (type.equalsIgnoreCase("redeem")) {
+                                            RedeemTransactionBO redeemTransactionBO = new RedeemTransactionBO();
+                                            redeemTransactionBO.setTransaction_id(transaction_id);
+                                            redeemTransactionBO.setBill_amount(paid_bill);
+                                            redeemTransactionBO.setPoints(points);
+                                            redeemTransactionBO.setType(type);
+                                            redeemTransactionBO.setDiscount_amount(discount_amount);
+                                            redeemTransactionBO.setDate_time(dateTime);
 
-                                    if (type.equalsIgnoreCase("redeem")) {
-                                        
-                                        RedeemTransactionBO redeemTransactionBO = new RedeemTransactionBO();
-                                        redeemTransactionBO.setBill_amount(paid_bill);
-                                        redeemTransactionBO.setPoints(points);
-                                        redeemTransactionBO.setType(type);
-                                        redeemTransactionBO.setDate_time(dateTime);
-
-                                        redeemTransactionList.add(redeemTransactionBO);
+                                            redeemTransactionList.add(redeemTransactionBO);
+                                        }
                                     }
-                                }
+
+                                RedeemTransactionAdapter redeemTransaction = new RedeemTransactionAdapter(redeemTransactionList, context);
+                                redeemTransaction.notifyDataSetChanged();
+                                recyclerView.setAdapter(redeemTransaction);
+
+                            }else if (status.equalsIgnoreCase("error")){
+                                String error_message = jo.getString("response");
+                                Toast.makeText(getActivity(), error_message, Toast.LENGTH_SHORT).show();
                             }
-
-                            RedeemTransactionAdapter redeemTransaction = new RedeemTransactionAdapter(redeemTransactionList , context);
-                            redeemTransaction.notifyDataSetChanged();
-                            recyclerView.setAdapter(redeemTransaction);
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -42,7 +42,7 @@
             android:layout_marginTop="15dp"/>
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="260dp"
             android:gravity="center"
             android:layout_marginTop="5dp"
@@ -51,47 +51,52 @@
             android:id="@+id/iv_sync_data"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:visibility="gone"
             android:src="@drawable/ic_refresh_black_24px"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="sync"
+            android:text="offline"
             android:gravity="center"
+            android:id="@+id/tv_online_offline"
             android:textColor="@color/color_white"
-            android:textSize="10dp"/>
+            android:textSize="18dp"
+            />
         </LinearLayout>
-
 
         -->
     </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ProgressBar
-            android:id="@+id/pb_points"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-    </RelativeLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:background="#d7d9dc"
         android:orientation="vertical"
         >
+
+        <ProgressBar
+            android:id="@+id/pb_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/points_swipe_refresh_layout">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recylerview_your_points"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_margin="3dp"
             android:visibility="visible"
+            android:scrollbars="vertical"
             android:divider="@null" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <LinearLayout
             android:id="@+id/ll_points_error_message"

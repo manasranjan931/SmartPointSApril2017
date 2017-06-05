@@ -6,6 +6,7 @@ package in.bizzmark.smartpoints_user.bo;
 
 public class EarnTransactionBO {
 
+    public String transaction_id;
     public String storeName;
     public String bill_amount;
     public String points;
@@ -16,13 +17,12 @@ public class EarnTransactionBO {
         // require empty-constructor
     }
 
-    public EarnTransactionBO(String storeName, String bill_amount,
-                             String points, String type, String date_time) {
-        this.storeName = storeName;
-        this.bill_amount = bill_amount;
-        this.points = points;
-        this.type = type;
-        this.date_time = date_time;
+    public String getTransaction_id() {
+        return transaction_id;
+    }
+
+    public void setTransaction_id(String transaction_id) {
+        this.transaction_id = transaction_id;
     }
 
     public String getStoreName() {

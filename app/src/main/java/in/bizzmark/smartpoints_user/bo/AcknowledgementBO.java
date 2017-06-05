@@ -6,6 +6,8 @@ package in.bizzmark.smartpoints_user.bo;
 
 public class AcknowledgementBO {
 
+    String branchId;
+    String storeId;
     String type;
     String billAmount;
     String storeName;
@@ -17,6 +19,31 @@ public class AcknowledgementBO {
     String status;
 
     public AcknowledgementBO() {
+        // Require empty constructor
+    }
+
+    public String getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(String branchId) {
+        this.branchId = branchId;
+    }
+
+    public String getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
+    }
+
+    public String getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(String discountAmount) {
+        this.discountAmount = discountAmount;
     }
 
     public String getType() {
