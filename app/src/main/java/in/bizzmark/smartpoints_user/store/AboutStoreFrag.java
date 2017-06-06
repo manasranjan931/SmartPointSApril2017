@@ -104,7 +104,7 @@ public class AboutStoreFrag extends Fragment implements View.OnClickListener {
 
                             }else if (status.equalsIgnoreCase("error")){
                                 String error = jo.getString("response");
-                                showErrorToast(error);
+                              //  showErrorToast(error);
                             }
 
                         } catch (JSONException e) {
@@ -114,7 +114,7 @@ public class AboutStoreFrag extends Fragment implements View.OnClickListener {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                showErrorToast(error.getMessage().toString());
+              //  showErrorToast(error.getMessage().toString());
             }
         });
 

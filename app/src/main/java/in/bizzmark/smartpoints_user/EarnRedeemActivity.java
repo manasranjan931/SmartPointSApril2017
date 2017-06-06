@@ -2,6 +2,8 @@ package in.bizzmark.smartpoints_user;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 import in.bizzmark.smartpoints_user.adapter.ViewPageAdapter;
 import in.bizzmark.smartpoints_user.earnredeemtab.Earn;
 import in.bizzmark.smartpoints_user.earnredeemtab.Redeem;
+import in.bizzmark.smartpoints_user.login.CheckInternet;
+import in.bizzmark.smartpoints_user.sqlitedb.DbHelper;
 
 public class EarnRedeemActivity extends AppCompatActivity {
     TabLayout tabLayout;
@@ -22,8 +26,15 @@ public class EarnRedeemActivity extends AppCompatActivity {
     ViewPageAdapter viewPagerAdapter;
 
     ImageView imageView_back_arrow;
-    String storeName;
+    public static String storeName = null;
+    String points;
     TextView tv_StoreName,tv_Points;
+
+    DbHelper helper;
+    SQLiteDatabase sqLiteDatabase;
+    String query;
+
+    CheckInternet checkInternet = new CheckInternet();
 
 
     @Override
@@ -57,8 +68,10 @@ public class EarnRedeemActivity extends AppCompatActivity {
             tv_StoreName.setText(storeName);
         }else {
             //storeName = tv_StoreName.getText().toString();
-            storeName = "comprint";
+           // storeName = "Test Store";
         }
+
+        retrievePoints();
 
         // save storeName in sharedPreferences
         SharedPreferences.Editor editor = getApplicationContext().
@@ -67,6 +80,7 @@ public class EarnRedeemActivity extends AppCompatActivity {
         editor.commit();
 
 
+        // for back-arrow
         imageView_back_arrow = (ImageView) findViewById(R.id.btn_back_arrow);
         imageView_back_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +90,34 @@ public class EarnRedeemActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void retrievePoints() {
+        if (checkInternet.isInternetConnected(this)){
+            //pointsRetrieveFromServer();
+            return;
+        }else {
+          //  pointsRetrieveFromSQLite();
+        }
+    }
+
+    // Retrieve points From SQLite-Database
+    private void pointsRetrieveFromSQLite() {
+        tv_Points.setText("");
+        helper = new DbHelper(this);
+        sqLiteDatabase = helper.getWritableDatabase();
+        if (sqLiteDatabase != null){
+           query = "SELECT TOTAL_POINTS FROM CUSTOMER_EARN_REDEEM WHERE STORE_NAME= "+storeName+ " GROUP BY TOTAL_POINTS, STORE_NAME" ;
+            Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+            if (cursor != null){
+                if (cursor.moveToFirst()){
+                    do {
+                        points = cursor.getString(cursor.getColumnIndex("TOTAL_POINTS"));
+                        tv_Points.setText(points);
+                    }while (cursor.moveToNext());
+                }
+            }
+        }
     }
 
 }

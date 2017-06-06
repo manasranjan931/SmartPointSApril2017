@@ -122,13 +122,6 @@ public class NavigationActivity extends Activity
 
         // for profile picture
         profileImageView = (CircleImageView) navHeader.findViewById(R.id.profile_circleView);
-        profileImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    //startActivity(new Intent(NavigationActivity.this, EditProfileActivity.class));
-                    //startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            }
-        });
 
         // set device id
         tvDeviceId = (TextView) navHeader.findViewById(R.id.tv_deviceId);
@@ -160,7 +153,7 @@ public class NavigationActivity extends Activity
     private void checkConnection() {
         if (checkInternet.isInternetConnected(this)){
             if (ACCESS_TOKEN.isEmpty()) {
-                startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
+              //  startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
             }
             return;
         }else {
@@ -286,7 +279,7 @@ public class NavigationActivity extends Activity
                 return;
             }
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Press again to close SmartPoints", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Press again to close SmartpointS", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -345,8 +338,6 @@ public class NavigationActivity extends Activity
         if (checkInternet.isInternetConnected(this)) {
             if (ACCESS_TOKEN.isEmpty()) {
                 showUserSigninDialog();
-            }else {
-                Toast.makeText(this, "You already signed in", Toast.LENGTH_SHORT).show();
             }
             return;
         } else {

@@ -12,7 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/color_white"
+        android:background="@color/colorPrimary"
         android:id="@+id/header"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:text="Welcome to SmartpointS"
             android:textSize="18dp"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/color_white"
             android:layout_centerInParent="true"/>
 
     </RelativeLayout>
@@ -192,11 +192,14 @@
                     android:layout_width="25dp"
                     android:height="20dp"
                     android:button="@null"
-                    android:layout_marginLeft="290dp"
-                    android:layout_marginTop="23dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="23dp"
                     android:background="@drawable/check_box_password"
-                    android:id="@+id/checkbox_password_register"/>
+                    android:id="@+id/checkbox_password_register"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"/>
 
             </RelativeLayout>
 
@@ -233,11 +236,13 @@
                     android:layout_width="25dp"
                     android:height="20dp"
                     android:button="@null"
-                    android:layout_marginLeft="290dp"
                     android:layout_marginTop="23dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/check_box_password"
-                    android:id="@+id/checkbox_confirm_password_register"/>
+                    android:id="@+id/checkbox_confirm_password_register"
+                    android:layout_marginRight="8dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"/>
 
             </RelativeLayout>
 
@@ -366,7 +371,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:background="@drawable/tv_border"
-                        android:drawableLeft="@drawable/ic_person_24dp"
+                        android:drawableLeft="@drawable/ic_city_24dp"
                         android:drawablePadding="12dp"
                         android:ems="15"
                         android:hint="CITY"

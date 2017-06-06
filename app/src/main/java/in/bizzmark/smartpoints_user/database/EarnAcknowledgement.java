@@ -2,7 +2,9 @@ package in.bizzmark.smartpoints_user.database;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -19,8 +21,10 @@ import java.util.Calendar;
 
 import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.bo.AcknowledgementBO;
+import in.bizzmark.smartpoints_user.login.LoginActivity;
 import in.bizzmark.smartpoints_user.sqlitedb.DbHelper;
 
+import static in.bizzmark.smartpoints_user.NavigationActivity.ACCESS_TOKEN;
 import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
 
 /**
@@ -67,6 +71,9 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
         // find All Id
         findViewByAllId();
 
+        // retrieve access-token from sharedPreferences
+        retrievingAccessTokenFromSP();
+
         // from seller
         Intent i = getIntent();
         result = i.getStringExtra("result");
@@ -108,7 +115,6 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
 
         // Retrieve Data From SQLite-Database
         retrieveDataFromSQLite();
-
     }
 
     // Retrieving data from SQLite-Database
@@ -160,8 +166,12 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
             finish();
         } else if (id == R.id.btn_save_acknowledgement_data) {
             saveDataIntoSQLite();
-            startActivity(new Intent(this,PointsActivity.class));
-            finish();
+            if (ACCESS_TOKEN.isEmpty()){
+                startActivity(new Intent(this, LoginActivity.class));
+            }else {
+                startActivity(new Intent(this, PointsActivity.class));
+                finish();
+            }
         }
     }
 
@@ -232,5 +242,23 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
         simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
         dateandtime = simpleDateFormat.format(calander.getTime());
         return dateandtime;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        retrievingAccessTokenFromSP();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        retrievingAccessTokenFromSP();
+    }
+
+    // retrieve access-token from sharedPreferences
+    private void retrievingAccessTokenFromSP() {
+        SharedPreferences sp = this.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE);
+        ACCESS_TOKEN = sp.getString("access_token", "");
     }
 }

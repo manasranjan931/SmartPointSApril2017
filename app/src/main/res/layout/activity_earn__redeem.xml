@@ -113,7 +113,6 @@
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="0.5"
-                android:text="120"
                 android:textSize="8pt"
                 android:layout_marginLeft="5dp"
                 android:id="@+id/tv_earn_redeem_points"
