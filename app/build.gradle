@@ -13,7 +13,7 @@ android {
     }
     buildTypes {
         debug {
-            debuggable false
+            debuggable true
         }
         release {
             minifyEnabled false

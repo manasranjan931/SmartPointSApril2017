@@ -4,13 +4,20 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import in.bizzmark.smartpoints_user.R;
 
@@ -19,13 +26,17 @@ import in.bizzmark.smartpoints_user.R;
  */
 
 public class ResetPasswordActivity extends Activity implements View.OnClickListener {
-    private LinearLayout llError;
-    private TextView tvErrorMessage;
     private TextInputEditText etResetPassword;
     private Button btnSubmit;
     private String email;
 
+    private String FORGOT_PASSWORD_URL;
+    private String status_type;
+    private String success_msg;
+    private String error_msg;
     private ProgressDialog pd;
+
+    private CheckInternet checkInternet = new CheckInternet();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +47,6 @@ public class ResetPasswordActivity extends Activity implements View.OnClickListe
     }
 
     private void findViewByAllId() {
-        llError = (LinearLayout) findViewById(R.id.ll_error);
-        tvErrorMessage = (TextView) findViewById(R.id.tv_empty_error);
         etResetPassword = (TextInputEditText) findViewById(R.id.et_password_reset);
         btnSubmit = (Button) findViewById(R.id.btn_reset_password_submit);
 
@@ -47,43 +56,80 @@ public class ResetPasswordActivity extends Activity implements View.OnClickListe
     @Override
     public void onClick(View v) {
       if (v == btnSubmit) {
-            sendResetLink(v);
+          if (checkInternet.isInternetConnected(this)) {
+              sendResetLink();
+              return;
+          } else {
+              return;
+          }
         }
     }
 
-    private void sendResetLink(View v) {
-        etResetPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (checkInternet.isInternetConnected(this)) {
+            return;
+        }
+    }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (checkInternet.isInternetConnected(this)) {
+            return;
+        } else {
+            return;
+        }
+    }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                email = s.toString();
-                llError.setVisibility(View.GONE);
-                tvErrorMessage.setVisibility(View.GONE);
-            }
-        });
+    private void sendResetLink() {
+        pd = new ProgressDialog(this);
+        pd.setMessage("Please wait....");
+        email = etResetPassword.getText().toString().trim();
+        FORGOT_PASSWORD_URL = "http://35.154.104.54/smartpoints/api/request-password-reset?userEmail="+email;
 
-        String emailValidation = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        String emailValidation = "[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+";
 
         // Check empty field
         if (TextUtils.isEmpty(email)){
-            llError.setVisibility(View.VISIBLE);
-            tvErrorMessage.setVisibility(View.VISIBLE);
+            etResetPassword.setError("Empty field");
         }else if (!email.matches(emailValidation)){
-            llError.setVisibility(View.VISIBLE);
-            tvErrorMessage.setVisibility(View.VISIBLE);
-            tvErrorMessage.setText("Invalid email address. Please enter valid email!");
+            etResetPassword.setError("Invalid email address");
         }else {
             // code for reset password
-            pd = new ProgressDialog(this);
-            pd.setMessage("Please wait....");
             pd.show();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, FORGOT_PASSWORD_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            pd.dismiss();
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                status_type = jsonObject.getString("status_type");
+                                if (status_type.equalsIgnoreCase("success")){
+                                    success_msg = jsonObject.getString("response");
+                                    finish();
+                                    etResetPassword.setText("");
+                                    Toast.makeText(ResetPasswordActivity.this, success_msg.toString(), Toast.LENGTH_LONG).show();
+                                }else if (status_type.equalsIgnoreCase("error")){
+                                    error_msg = jsonObject.getString("response");
+                                    Toast.makeText(ResetPasswordActivity.this, error_msg.toString(), Toast.LENGTH_LONG).show();
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(ResetPasswordActivity.this, "Something went wrong ! please try again", Toast.LENGTH_SHORT).show();
+                }
+            });
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(stringRequest);
         }
     }
 }

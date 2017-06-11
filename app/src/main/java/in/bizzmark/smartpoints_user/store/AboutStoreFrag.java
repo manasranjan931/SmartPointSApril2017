@@ -41,7 +41,7 @@ public class AboutStoreFrag extends Fragment implements View.OnClickListener {
     Button btnCall, btnReward, btnMap;
 
     String ABOUT_STORE_URL = "http://35.154.104.54/smartpoints/customer-api/get-branch-details?branchId="+branch_Id;
-    String storeName,owner_firstname,owner_lastname,owner_mobile,branch_name,branch_address;
+    String storeName,owner_name,owner_mobile,branch_name,branch_address;
 
     CheckInternet checkInternet = new CheckInternet();
 
@@ -92,8 +92,7 @@ public class AboutStoreFrag extends Fragment implements View.OnClickListener {
                                 JSONObject jo2 = jo.getJSONObject("response");
 
                                 storeName = jo2.getString("store_name");
-                                owner_firstname = jo2.getString("owner_firstname");
-                                owner_lastname = jo2.getString("owner_lastname");
+                                owner_name = jo2.getString("owner_name");
                                 owner_mobile = jo2.getString("owner_mobile");
                                 branch_name = jo2.getString("branch_name");
                                 branch_address = jo2.getString("branch_address");

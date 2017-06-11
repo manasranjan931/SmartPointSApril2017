@@ -211,18 +211,19 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
                     cv.put(DbHelper.DEVICE_ID_COL_6, deviceId);
                     cv.put(DbHelper.BRANCH_ID_COL_7, branchId);
                     cv.put(DbHelper.STORE_ID_COL_8, storeId);
-                    cv.put(DbHelper.TOTAL_POINTS_COL_3, total_points);
+                    //cv.put(DbHelper.TOTAL_POINTS_COL_3, total_points);
+                    cv.put(DbHelper.TOTAL_POINTS_COL_3, earnPoints);
                 }
             }else {
                 cv.put(DbHelper.STORE_NAME_COL_1, storeName);
                 cv.put(DbHelper.BILL_AMOUNT_COL_2, billAmount);
-                cv.put(DbHelper.EARN_POINTS_COL_11, earnPoints);
+                cv.put(DbHelper.TOTAL_POINTS_COL_3, earnPoints);
                 cv.put(DbHelper.TYPE_COL_4, type);
                 cv.put(DbHelper.DATE_TIME_COL_5, dateandtime);
                 cv.put(DbHelper.DEVICE_ID_COL_6, deviceId);
                 cv.put(DbHelper.BRANCH_ID_COL_7, branchId);
                 cv.put(DbHelper.STORE_ID_COL_8, storeId);
-                cv.put(DbHelper.TOTAL_POINTS_COL_3, earnPoints);
+                cv.put(DbHelper.EARN_POINTS_COL_11, earnPoints);
             }
 
             long result = db.insert(DbHelper.TABLE_EARN_REDEEM, null, cv);

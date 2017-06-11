@@ -104,7 +104,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                             // Clear data from SharedPreferences
-                            SharedPreferences preferences =getSharedPreferences("USER_DETAILS",Context.MODE_PRIVATE);
+                            SharedPreferences preferences = getSharedPreferences("USER_DETAILS",Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.clear();
                             editor.commit();

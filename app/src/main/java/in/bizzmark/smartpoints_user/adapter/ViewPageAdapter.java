@@ -16,7 +16,6 @@ public class ViewPageAdapter extends FragmentPagerAdapter {
     ArrayList<String> tabTitles = new ArrayList<>();
 
     public void addFragments(Fragment fragments,String titles){
-
         this.fragment.add(fragments);
         this.tabTitles.add(titles);
     }
