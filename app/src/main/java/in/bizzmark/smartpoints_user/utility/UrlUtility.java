@@ -12,6 +12,8 @@ public class UrlUtility {
 
     public static final String REGISTER_URL = "http://35.154.104.54/smartpoints/api/register-customer";
 
+    public static final String UPDATE_PROFILE_URL = "http://35.154.104.54/smartpoints/api/update-user";
+
     public static final String  POINTS_URL = "http://35.154.104.54/smartpoints/customer-api/get-total-points-for-all-stores?customerDeviceId="+device_Id;
 
    // public static final String ABOUT_STORE_URL = "http://35.154.104.54/smartpoints/customer-api/get-branch-details?branchId="+branch_Id;

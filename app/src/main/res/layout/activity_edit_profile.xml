@@ -103,6 +103,7 @@
                 android:drawableLeft="@drawable/ic_person_24dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:hint="Name"
+                android:focusable="false"
                 android:textCursorDrawable="@null"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -138,6 +139,7 @@
                     android:drawableLeft="@drawable/ic_email_black_24dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:hint="Email"
+                    android:focusable="false"
                     android:textCursorDrawable="@null"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -173,7 +175,8 @@
                     android:drawableLeft="@drawable/ic_call_24dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:hint="Phone No"
-                    android:textCursorDrawable="@null"/>
+                    android:textCursorDrawable="@null"
+                    android:focusable="false"/>
 
             </android.support.design.widget.TextInputLayout>
         </TableRow>
@@ -209,7 +212,8 @@
                     android:drawableLeft="@drawable/ic_date_range_black_24dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:hint="Date Of Birth"
-                    android:textCursorDrawable="@null"/>
+                    android:textCursorDrawable="@null"
+                    android:focusable="false"/>
 
             </android.support.design.widget.TextInputLayout>
 

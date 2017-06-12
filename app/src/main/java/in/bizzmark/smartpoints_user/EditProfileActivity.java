@@ -1,5 +1,6 @@
 package in.bizzmark.smartpoints_user;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +10,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,9 +19,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import in.bizzmark.smartpoints_user.login.CheckInternet;
+
 import static in.bizzmark.smartpoints_user.NavigationActivity.ACCESS_TOKEN;
+import static in.bizzmark.smartpoints_user.utility.UrlUtility.UPDATE_PROFILE_URL;
 
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,6 +52,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
     boolean status = true;
     String name, email, mobile, dob;
+
+    CheckInternet checkInternet = new CheckInternet();
+    ProgressDialog progressDialog;
+    String updateName, updatePhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +90,27 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         editProfile.setOnClickListener(this);
 
         etName = (EditText) findViewById(R.id.et_edit_profile_name);
+        etName.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.setFocusable(true);
+                v.setClickable(true);
+                v.setFocusableInTouchMode(true);
+                return false;
+            }
+        });
         etEmail = (EditText) findViewById(R.id.et_edit_profile_email_id);
+        etEmail.setEnabled(false);
         etMobile = (EditText) findViewById(R.id.et_edit_profile_mobile_no);
+        etMobile.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.setFocusable(true);
+                v.setClickable(true);
+                v.setFocusableInTouchMode(true);
+                return false;
+            }
+        });
         etDob = (EditText) findViewById(R.id.et_edit_profile_date_of_birth);
 
         btnUpdate = (Button) findViewById(R.id.btn_update);
@@ -87,7 +128,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             showSelectProfilePicDialog();
         }else if (v == btnUpdate){
             // do update profile
-            updateProfileData();
+            if (checkInternet.isInternetConnected(this)) {
+                updateProfileData();
+                return;
+            }else {
+                return;
+            }
         }else if (v == btnLogout){
             // do logout
             showLogoutDialog();
@@ -104,12 +150,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                             // Clear data from SharedPreferences
-                            SharedPreferences preferences = getSharedPreferences("USER_DETAILS",Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.clear();
-                            editor.commit();
-                            Toast.makeText(getApplicationContext(), "Logout successfully", Toast.LENGTH_SHORT).show();
-                            finish();
+                            clearDataFromSP();
                         }
                     }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                 @Override
@@ -123,9 +164,81 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    // Clear data from SharedPreferences
+    private void clearDataFromSP() {
+        SharedPreferences preferences = getSharedPreferences("USER_DETAILS",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.commit();
+        Toast.makeText(getApplicationContext(), "Logout successfully", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
     // Update profile
     private void updateProfileData() {
-        Toast.makeText(this, "Under Develop", Toast.LENGTH_SHORT).show();
+        updateName = etName.getText().toString().trim();
+        updatePhone = etMobile.getText().toString().trim();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait updating...........");
+
+        if (TextUtils.isEmpty(updateName)) {
+            etName.setError("Empty field");
+        } else if (TextUtils.isEmpty(updatePhone)) {
+            etMobile.setError("Empty Field");
+        } else if (updatePhone.length() < 10) {
+            etMobile.setError("Phone number should be 10 digits");
+        } else {
+            progressDialog.show();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, UPDATE_PROFILE_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            progressDialog.dismiss();
+                            JSONObject jsonObject = null;
+                            try {
+                                jsonObject = new JSONObject(response);
+                                String status = jsonObject.getString("status_type");
+                                if (status.equalsIgnoreCase("success")){
+                                    String success_msg = jsonObject.getString("response");
+                                    new AlertDialog.Builder(EditProfileActivity.this)
+                                            .setMessage(success_msg)
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                    finish();
+                                                    clearDataFromSP();
+                                                }
+                                            }).setCancelable(false).create().show();
+                                }else if (status.equalsIgnoreCase("error")){
+                                    String error_msg = jsonObject.getString("response");
+                                    Toast.makeText(EditProfileActivity.this, error_msg, Toast.LENGTH_SHORT).show();
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    progressDialog.dismiss();
+                    Toast.makeText(EditProfileActivity.this, "Updating error : "+error, Toast.LENGTH_SHORT).show();
+                }
+            }) {
+                @Override
+                protected Map<String,String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("name", updateName);
+                    params.put("mobile", updatePhone);
+                    params.put("email", email);
+                    return params;
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(stringRequest);
+        }
     }
 
     // for select profile image
