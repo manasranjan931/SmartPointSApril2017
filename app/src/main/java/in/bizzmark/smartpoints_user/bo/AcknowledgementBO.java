@@ -8,6 +8,7 @@ public class AcknowledgementBO {
 
     String branchId;
     String storeId;
+    String transId;
     String type;
     String billAmount;
     String storeName;
@@ -36,6 +37,14 @@ public class AcknowledgementBO {
 
     public void setStoreId(String storeId) {
         this.storeId = storeId;
+    }
+
+    public String getTransId() {
+        return transId;
+    }
+
+    public void setTransId(String transId) {
+        this.transId = transId;
     }
 
     public String getDiscountAmount() {

@@ -113,11 +113,12 @@ public class EarnTransaction extends Fragment {
         sqLiteDatabase = helper.getWritableDatabase();
 
         //String query = "SELECT BILL_AMOUNT, POINTS, DATE_TIME FROM CUSTOMER_EARN_REDEEM WHERE TYPE= 'earn' AND BRANCH_ID="+branch_Id;
-        String query = "SELECT BILL_AMOUNT, EARN_POINTS, DATE_TIME, TYPE FROM CUSTOMER_EARN_REDEEM WHERE BRANCH_ID="+branch_Id;
+        String query = "SELECT EARN_TRANSACTION_ID, BILL_AMOUNT, EARN_POINTS, DATE_TIME, TYPE FROM CUSTOMER_EARN_REDEEM WHERE BRANCH_ID="+branch_Id;
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
         if (cursor != null){
             if (cursor.moveToFirst()){
                 do {
+                    transaction_id = cursor.getString(cursor.getColumnIndex("EARN_TRANSACTION_ID"));
                     billAmount = cursor.getString(cursor.getColumnIndex("BILL_AMOUNT"));
                     points = cursor.getString(cursor.getColumnIndex("EARN_POINTS"));
                     dateTime = cursor.getString(cursor.getColumnIndex("DATE_TIME"));

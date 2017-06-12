@@ -88,7 +88,7 @@ public class RedeemTransaction extends Fragment {
         sqLiteDatabase = helper.getWritableDatabase();
 
         //String query = "SELECT BILL_AMOUNT, POINTS, DATE_TIME FROM CUSTOMER_EARN_REDEEM WHERE TYPE= 'redeem' AND BRANCH_ID="+branch_Id;
-        String query = "SELECT NEW_BILL_AMOUNT, DISCOUNT_AMOUNT, REDEEM_POINTS, DATE_TIME, TYPE FROM CUSTOMER_EARN_REDEEM WHERE BRANCH_ID="+branch_Id;
+        String query = "SELECT NEW_BILL_AMOUNT, DISCOUNT_AMOUNT, REDEEM_TRANSACTION_ID, REDEEM_POINTS, DATE_TIME, TYPE FROM CUSTOMER_EARN_REDEEM WHERE BRANCH_ID="+branch_Id;
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
         if (cursor != null){
             if (cursor.moveToFirst()){
@@ -98,11 +98,12 @@ public class RedeemTransaction extends Fragment {
                     dateTime = cursor.getString(cursor.getColumnIndex("DATE_TIME"));
                     type = cursor.getString(cursor.getColumnIndex("TYPE"));
                     discount_amount = cursor.getString(cursor.getColumnIndex("DISCOUNT_AMOUNT"));
+                    transaction_id = cursor.getString(cursor.getColumnIndex("REDEEM_TRANSACTION_ID"));
 
                     if (type.equalsIgnoreCase("redeem")) {
 
                         RedeemTransactionBO redeemTransactionBO = new RedeemTransactionBO();
-                        redeemTransactionBO.setTransaction_id("");
+                        redeemTransactionBO.setTransaction_id(transaction_id);
                         redeemTransactionBO.setBill_amount(paid_bill);
                         redeemTransactionBO.setPoints(points);
                         redeemTransactionBO.setDate_time(dateTime);

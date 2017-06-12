@@ -37,6 +37,7 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
 
     String branchId;
     String storeId;
+    String transId;
     String storeName ;
     String billAmount ;
     String type ;
@@ -77,6 +78,7 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
         branchId = ackBO.getBranchId();
         storeId = ackBO.getStoreId();
         status = ackBO.getStatus();
+        transId = ackBO.getTransId();
 
         if("success".equalsIgnoreCase(status)){
             // when seller accepting
@@ -176,6 +178,7 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
                     cv.put(DbHelper.NEW_BILL_AMOUNT_COL_9, newBillAmount);
                     cv.put(DbHelper.DISCOUNT_AMOUNT_COL_10,discountAmount);
                     cv.put(DbHelper.REDEEM_POINTS_COL_12, redeemPoints);
+                    cv.put(DbHelper.REDEEM_TRANSACTION_ID_COL_14, transId);
 
                 }
             }else {

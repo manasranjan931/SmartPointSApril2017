@@ -47,6 +47,7 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
 
     String branchId;
     String storeId;
+    String transId;
     String storeName ;
     String billAmount ;
     String type ;
@@ -88,6 +89,7 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
         branchId = ackBO.getBranchId();
         storeId = ackBO.getStoreId();
         status = ackBO.getStatus();
+        transId = ackBO.getTransId();
 
         if("success".equalsIgnoreCase(status)){
             // when seller accepting
@@ -201,6 +203,7 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
                     cv.put(DbHelper.BRANCH_ID_COL_7, branchId);
                     cv.put(DbHelper.STORE_ID_COL_8, storeId);
                     cv.put(DbHelper.EARN_POINTS_COL_11, earnPoints);
+                    cv.put(DbHelper.EARN_TRANSACTION_ID_COL_13, transId);
 
                 }else {
                     cv.put(DbHelper.STORE_NAME_COL_1, storeName);
@@ -213,6 +216,7 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
                     cv.put(DbHelper.STORE_ID_COL_8, storeId);
                     //cv.put(DbHelper.TOTAL_POINTS_COL_3, total_points);
                     cv.put(DbHelper.TOTAL_POINTS_COL_3, earnPoints);
+                    cv.put(DbHelper.EARN_TRANSACTION_ID_COL_13, transId);
                 }
             }else {
                 cv.put(DbHelper.STORE_NAME_COL_1, storeName);
@@ -224,6 +228,7 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
                 cv.put(DbHelper.BRANCH_ID_COL_7, branchId);
                 cv.put(DbHelper.STORE_ID_COL_8, storeId);
                 cv.put(DbHelper.EARN_POINTS_COL_11, earnPoints);
+                cv.put(DbHelper.EARN_TRANSACTION_ID_COL_13, transId);
             }
 
             long result = db.insert(DbHelper.TABLE_EARN_REDEEM, null, cv);
