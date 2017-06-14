@@ -1,8 +1,10 @@
 package in.bizzmark.smartpoints_user.login;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
@@ -15,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -31,6 +34,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +53,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
     private Button btnRegister;
     private String username, name, email, password, confirmPassword, mobile, dob, city, gender;
     private int gender_position ;
+    private int mYear, mMonth, mDay;
     private ProgressDialog progressDialog;
 
     CheckInternet checkInternet = new CheckInternet();
@@ -94,6 +99,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
         checkBox_Password.setOnCheckedChangeListener(this);
         checkBox_Confirm_Password.setOnCheckedChangeListener(this);
         cb_Terms_Conditions.setOnCheckedChangeListener(this);
+        etDOB.setOnClickListener(this);
 
         spnGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -264,6 +270,39 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
                 startActivity(new Intent(this,LoginActivity.class));
                 finish();
                 break;
+            case R.id.et_dob:
+                // For Date-Picker-Dialog
+                showDatePickerDialog(v);
+                break;
+        }
+    }
+
+    // For Date Picker-Dialog
+    private void showDatePickerDialog(View v) {
+        //To show current date in the datepicker
+        Calendar mcurrentDate = Calendar.getInstance();
+        mYear = mcurrentDate.get(Calendar.YEAR);
+        mMonth = mcurrentDate.get(Calendar.MONTH);
+        mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog mDatePicker = null;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mDatePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                    //      Your code   to get date and time
+                    mYear = selectedyear;
+                    mMonth = selectedmonth;
+                    mDay = selectedday;
+
+                    etDOB.setText(new StringBuilder()
+                            .append(mYear).append("-")
+                            .append(mMonth + 1).append("-")
+                            .append(mDay).append(""));
+
+                }
+            }, mYear, mMonth, mDay);
+            mDatePicker.setTitle("Select date");
+            mDatePicker.show();
         }
     }
 

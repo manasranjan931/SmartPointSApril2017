@@ -54,7 +54,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
 
     private Animation animBounce;
 
-    private String status, user_type, name, mobile, error_message;
+    private String status, name, mobile, mail, dob, gender, error_message, user_type;
     private String access_token;
 
     CheckInternet checkInternet = new CheckInternet();
@@ -166,16 +166,19 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
                                     user_type = jsonObject.getString("usertype");
                                     name = jsonObject.getString("name");
                                     mobile = jsonObject.getString("mobile");
-
-                                    String email = etEmail.getText().toString().trim();
+                                    dob = jsonObject.getString("date_of_birth");
+                                    gender = jsonObject.getString("gender");
+                                    mail = jsonObject.getString("email");
 
                                     // save details in sharedPreferences
                                     SharedPreferences.Editor editor = getApplication().
                                             getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit();
                                     editor.putString("access_token", access_token);
                                     editor.putString("name", name);
-                                    editor.putString("email", email);
+                                    editor.putString("email", mail);
                                     editor.putString("mobile", mobile);
+                                    editor.putString("dob", dob);
+                                    editor.putString("gender", gender);
                                     editor.commit();
 
                                 }else if (status.equalsIgnoreCase("error")){

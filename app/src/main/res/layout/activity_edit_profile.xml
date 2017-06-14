@@ -50,7 +50,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
+    android:gravity="center|center_vertical"
     android:background="@color/color_white"
     android:layout_margin="5dp"
     android:padding="10dp">
@@ -211,11 +211,71 @@
                     android:layout_marginBottom="8dp"
                     android:drawableLeft="@drawable/ic_date_range_black_24dp"
                     android:textColor="@color/colorPrimaryDark"
-                    android:hint="Date Of Birth"
+                    android:hint="Date of Birth"
                     android:textCursorDrawable="@null"
                     android:focusable="false"/>
 
             </android.support.design.widget.TextInputLayout>
+
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@color/fade_black"
+            android:layout_marginBottom="5dp"/>
+
+        <TableRow
+            android:gravity="center"
+            android:layout_marginBottom="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|center"
+                android:paddingLeft="6dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp">
+
+            <ImageView
+                android:paddingLeft="3dp"
+                android:layout_marginRight="1dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_group_24dp"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="330dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:hint="Gender">
+
+            <RadioGroup
+                android:layout_width="330dp"
+                android:layout_height="45dp"
+                android:gravity="start|center"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:id="@+id/radio_group"
+                >
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rb_male"
+                    android:id="@+id/rb_male"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rb_female"
+                    android:id="@+id/rb_female"/>
+
+            </RadioGroup>
+
+            </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
 
         </TableRow>
 

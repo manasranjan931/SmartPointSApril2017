@@ -1,11 +1,13 @@
 package in.bizzmark.smartpoints_user;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
@@ -14,8 +16,11 @@ import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +35,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,11 +57,14 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     Button btnUpdate, btnLogout;
 
     boolean status = true;
-    String name, email, mobile, dob;
+    String name, email, mobile, dob, gender;
+    RadioGroup radioGroup;
+    RadioButton rbMale, rbFemale;
 
     CheckInternet checkInternet = new CheckInternet();
     ProgressDialog progressDialog;
-    String updateName, updatePhone;
+    String updateName, updatePhone, genderUpDate, upDateDOB;
+    int mYear, mMonth, mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +84,18 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         name = sp.getString("name", "");
         email = sp.getString("email", "");
         mobile = sp.getString("mobile", "");
+        dob = sp.getString("dob", "");
+        gender = sp.getString("gender", "");
 
         etName.setText(name);
         etEmail.setText(email);
         etMobile.setText(mobile);
         etDob.setText(dob);
+        if (gender.equalsIgnoreCase("Male")){
+            rbMale.setChecked(true);
+        }else if (gender.equalsIgnoreCase("Female")){
+            rbFemale.setChecked(true);
+        }
     }
 
     private void findViewByAllIds() {
@@ -112,11 +128,45 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             }
         });
         etDob = (EditText) findViewById(R.id.et_edit_profile_date_of_birth);
+        etDob.setOnClickListener(this);
+
+        radioGroup = (RadioGroup) findViewById(R.id.radio_group);
+        rbMale = (RadioButton) findViewById(R.id.rb_male);
+        rbFemale= (RadioButton) findViewById(R.id.rb_female);
 
         btnUpdate = (Button) findViewById(R.id.btn_update);
         btnLogout = (Button) findViewById(R.id.btn_logout);
         btnUpdate.setOnClickListener(this);
         btnLogout.setOnClickListener(this);
+    }
+
+    // For Date Picker-Dialog
+    private void showDatePickerDialog(View v) {
+        //To show current date in the datepicker
+        Calendar mcurrentDate = Calendar.getInstance();
+        mYear = mcurrentDate.get(Calendar.YEAR);
+        mMonth = mcurrentDate.get(Calendar.MONTH);
+        mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog mDatePicker = null;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mDatePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                    //      Your code   to get date and time
+                    mYear = selectedyear;
+                    mMonth = selectedmonth;
+                    mDay = selectedday;
+
+                    etDob.setText(new StringBuilder()
+                            .append(mYear).append("-")
+                            .append(mMonth + 1).append("-")
+                            .append(mDay).append(""));
+
+                }
+            }, mYear, mMonth, mDay);
+            mDatePicker.setTitle("Select date");
+            mDatePicker.show();
+        }
     }
 
     @Override
@@ -137,6 +187,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         }else if (v == btnLogout){
             // do logout
             showLogoutDialog();
+        }else if (v == etDob){
+            // For Date-Picker-Dialog
+            showDatePickerDialog(v);
         }
     }
 
@@ -178,6 +231,20 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private void updateProfileData() {
         updateName = etName.getText().toString().trim();
         updatePhone = etMobile.getText().toString().trim();
+        upDateDOB = etDob.getText().toString();
+
+        int id = radioGroup.getCheckedRadioButtonId();
+        if (id == R.id.rb_male){
+            genderUpDate = rbMale.getText().toString();
+            if (genderUpDate.equalsIgnoreCase("Male")){
+                genderUpDate = "1";
+            }
+        }else if (id == R.id.rb_female){
+            genderUpDate = rbFemale.getText().toString();
+            if (genderUpDate.equalsIgnoreCase("Female")){
+                genderUpDate = "0";
+            }
+        }
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait updating...........");
@@ -233,6 +300,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     params.put("name", updateName);
                     params.put("mobile", updatePhone);
                     params.put("email", email);
+                    params.put("gender", genderUpDate);
+                    params.put("date_of_birth", upDateDOB);
                     return params;
                 }
             };
