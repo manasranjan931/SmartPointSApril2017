@@ -144,7 +144,7 @@ public class AboutStoreFrag extends Fragment implements View.OnClickListener {
             btnCall.setTextColor(Color.WHITE);
 
             if (owner_mobile != null) {
-                startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + owner_mobile)));
+                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + owner_mobile)));
             }else {
                 Toast.makeText(getActivity(), "Number not available", Toast.LENGTH_SHORT).show();
             }
