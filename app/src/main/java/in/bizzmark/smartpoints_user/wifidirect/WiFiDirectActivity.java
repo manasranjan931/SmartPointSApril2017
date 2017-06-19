@@ -21,6 +21,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
@@ -90,12 +91,19 @@ public class WiFiDirectActivity extends AppCompatActivity
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Press back to cancel");
-        progressDialog.setMessage("finding peers");
+        progressDialog.setMessage("Searching seller device......");
         progressDialog.show();
 
         // Turn on wifi
-        WifiManager wifi = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifi.setWifiEnabled(true);
+        WifiManager wifiManager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifiManager.setWifiEnabled(true);
+
+        // Forgot wifi-network if connected
+        List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
+        for( WifiConfiguration i : list ) {
+            wifiManager.removeNetwork(i.networkId);
+            wifiManager.saveConfiguration();
+        }
 
         // for back-press button
         imageView_back_arrow = (ImageView) findViewById(R.id.btn_back_arrow_select_store);
