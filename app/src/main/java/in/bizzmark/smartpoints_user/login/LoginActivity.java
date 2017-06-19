@@ -35,6 +35,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import in.bizzmark.smartpoints_user.NavigationActivity;
 import in.bizzmark.smartpoints_user.R;
 
 import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
@@ -109,6 +110,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
                 if (checkInternet.isInternetConnected(this)) {
                     userLogin(v);
                     return;
+                }else {
+                    Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
                 }
             } break;
             case R.id.tv_sign_up: {

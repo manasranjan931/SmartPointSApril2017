@@ -182,7 +182,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 updateProfileData();
                 return;
             }else {
-                return;
+                Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
             }
         }else if (v == btnLogout){
             // do logout

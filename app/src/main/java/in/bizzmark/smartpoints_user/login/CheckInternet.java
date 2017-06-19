@@ -22,7 +22,7 @@ public class CheckInternet {
         if (networkInfo != null && networkInfo.isConnected()){
             return true;
         }else {
-            Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
             return false;
         }
       // return networkInfo != null && networkInfo.isConnected();

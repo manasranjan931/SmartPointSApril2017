@@ -81,7 +81,7 @@ public class NavigationActivity extends Activity
         imageView_Share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),EarnRedeemActivity.class));
+                showAlertDialog();
             }
         });
 
@@ -102,6 +102,7 @@ public class NavigationActivity extends Activity
                    if (!ACCESS_TOKEN.isEmpty()){
                        startActivity(new Intent(getApplication(), EditProfileActivity.class));
                    }
+                   Toast.makeText(NavigationActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                    return;
                }
             }
@@ -387,7 +388,7 @@ public class NavigationActivity extends Activity
 
     private void showAlertDialog() {
         new AlertDialog.Builder(this)
-                .setTitle("Choose action. . . .")
+                .setTitle("Choose action for share this app....")
                 .setPositiveButton("BLUETOOTH", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
