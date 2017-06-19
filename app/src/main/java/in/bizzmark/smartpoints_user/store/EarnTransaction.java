@@ -196,7 +196,7 @@ public class EarnTransaction extends Fragment {
 
                             }else if (status.equalsIgnoreCase("error")){
                                 String error_message = jo.getString("response");
-                                Toast.makeText(getActivity(), error_message, Toast.LENGTH_SHORT).show();
+                            //    Toast.makeText(getActivity(), error_message, Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
                                 recyclerView.setVisibility(View.GONE);
                                 // stopping swipe refresh
