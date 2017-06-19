@@ -149,9 +149,9 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
                         LinearLayout layout = (LinearLayout) v.findViewById(R.id.row_device_ll);
                         layout.setBackground(drawable);
                         btnDisconnect.setVisibility(View.GONE);
-                        btnRefresh.setVisibility(View.GONE);
+                      //  btnRefresh.setVisibility(View.GONE);
                     }else {
-                        btnRefresh.setVisibility(View.VISIBLE);
+                       // btnRefresh.setVisibility(View.VISIBLE);
                     }
                 }
             }

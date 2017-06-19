@@ -187,12 +187,13 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
             ContentValues cv = new ContentValues();
 
             if (store_name_from_sqlite != null && total_points_from_sqlite != null) {
-                if (store_name_from_sqlite.equalsIgnoreCase(storeName)) {
 
-                    int earn_point = Integer.parseInt(earnPoints);
-                    int sql_point = Integer.parseInt(total_points_from_sqlite);
-                    int totl_points = earn_point + sql_point;
-                    total_points = Integer.toString(totl_points);
+                int earn_point = Integer.parseInt(earnPoints);
+                int sql_point = Integer.parseInt(total_points_from_sqlite);
+                int totl_points = earn_point + sql_point;
+                total_points = Integer.toString(totl_points);
+
+                if (store_name_from_sqlite.equalsIgnoreCase(storeName)) {
 
                     cv.put(DbHelper.STORE_NAME_COL_1, store_name_from_sqlite);
                     cv.put(DbHelper.BILL_AMOUNT_COL_2, billAmount);
