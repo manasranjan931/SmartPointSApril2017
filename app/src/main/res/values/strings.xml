@@ -333,6 +333,7 @@ This privacy policy may be revised over time as new features are added to the sm
     <string name="btn_logout">LOGOUT</string>
     <string name="login_warning">Please login or register otherwise you may loose your points !</string>
     <string name="app_version">SmartpointS  1.0.0</string>
+    <string name="wifi_warning">Your internet connection will be disabled would you like to continue...</string>
 
     <string-array name="gender_select">
         <item>Select gender</item>

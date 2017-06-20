@@ -19,6 +19,7 @@ package in.bizzmark.smartpoints_user.wifidirect;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WifiConfiguration;
@@ -32,6 +33,7 @@ import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.net.wifi.p2p.WifiP2pManager.ChannelListener;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -62,6 +64,8 @@ public class WiFiDirectActivity extends AppCompatActivity
     public static Button btnRefresh = null;
 
     public static final String TAG = "wifidirectdemo";
+    private WifiManager wifiManager;
+    private List<WifiConfiguration> list;
     private WifiP2pManager manager;
     private WifiP2pManager.PeerListListener peerListListener;
     private List _peers = new ArrayList();
@@ -95,15 +99,9 @@ public class WiFiDirectActivity extends AppCompatActivity
         progressDialog.show();
 
         // Turn on wifi
-        WifiManager wifiManager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifiManager.setWifiEnabled(true);
-
+        turnOnWifi();
         // Forgot wifi-network if connected
-        List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
-        for( WifiConfiguration i : list ) {
-            wifiManager.removeNetwork(i.networkId);
-            wifiManager.saveConfiguration();
-        }
+        forgotWifiNetwork();
 
         // for back-press button
         imageView_back_arrow = (ImageView) findViewById(R.id.btn_back_arrow_select_store);
@@ -163,6 +161,39 @@ public class WiFiDirectActivity extends AppCompatActivity
 
     }
 
+     // Turn on wifi
+     private void turnOnWifi() {
+         wifiManager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+         wifiManager.setWifiEnabled(true);
+         list = wifiManager.getConfiguredNetworks();
+     }
+
+     // Forgot wifi-network if connected
+     private void forgotWifiNetwork() {
+         if (!list.isEmpty()) {
+             new AlertDialog.Builder(this)
+                     .setIcon(R.drawable.warning)
+                     .setTitle("Warning....")
+                     .setMessage(R.string.wifi_warning)
+                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialog, int which) {
+                             dialog.dismiss();
+                             // Forgot wifi-network if connected
+                             for (WifiConfiguration i : list) {
+                                 wifiManager.removeNetwork(i.networkId);
+                                 wifiManager.saveConfiguration();
+                             }
+                         }
+                     }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                 @Override
+                 public void onClick(DialogInterface dialog, int which) {
+                     finish();
+                 }
+             }).setCancelable(false).create().show();
+         }
+     }
+
      // Auto-Refresh p2p
      private void autoDiscoverPeers() {
          peerListListener = new WifiP2pManager.PeerListListener() {
@@ -181,7 +212,7 @@ public class WiFiDirectActivity extends AppCompatActivity
      // For discover new peesa
      public  void discoverPeers() {
          if (!isWifiP2pEnabled){
-             Toast.makeText(WiFiDirectActivity.this, "Enable P2P from system settings",
+             Toast.makeText(WiFiDirectActivity.this, "Enable wifi from system settings",
                      Toast.LENGTH_SHORT).show();
          }
 
@@ -220,6 +251,7 @@ public class WiFiDirectActivity extends AppCompatActivity
     public void onPause() {
         super.onPause();
         unregisterReceiver(receiver);
+        forgotWifiNetwork();
     }
 
     /**
