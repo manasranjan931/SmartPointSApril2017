@@ -19,19 +19,28 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.telephony.TelephonyManager;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.jsoup.Jsoup;
+
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import in.bizzmark.smartpoints_user.adapter.NavigationItemAdapter;
+import in.bizzmark.smartpoints_user.bo.NavigationItems;
 import in.bizzmark.smartpoints_user.database.PointsActivity;
 import in.bizzmark.smartpoints_user.login.CheckInternet;
 import in.bizzmark.smartpoints_user.login.LoginActivity;
@@ -45,9 +54,14 @@ public class NavigationActivity extends Activity
 
     public static final int REQUEST_CODE = 100;
     NavigationView navigationView;
+    DrawerLayout drawer;
+    ActionBarDrawerToggle toggle;
     ImageView imageView_Menu,imageView_Share,imageView_signin;
     CircleImageView profileImageView;
     TextView tvDeviceId;
+    Button btnExit;
+
+    ListView listView_nav_drawer;
 
     Button btn_Your_Points;
     boolean doubleBackToExitPressedOnce = false;
@@ -59,6 +73,9 @@ public class NavigationActivity extends Activity
 
     Animation animBounce, animFadeIn;
 
+    ArrayList<NavigationItems> navigationItemList = new ArrayList<>();
+    NavigationItemAdapter navigationItemAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +84,7 @@ public class NavigationActivity extends Activity
         // Load the animation
         animBounce = AnimationUtils.loadAnimation(this,R.anim.bounce);
         animFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+
 
         imageView_Menu = (ImageView) findViewById(R.id.image_menu);
         imageView_Menu.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +99,7 @@ public class NavigationActivity extends Activity
         imageView_Share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAlertDialog();
+                shareApkAlertDialog();
             }
         });
 
@@ -108,8 +126,14 @@ public class NavigationActivity extends Activity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        listView_nav_drawer = (ListView) findViewById(R.id.listview_navigation);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        //Mount listview with adapter
+        initDrawerLayout();
+
+       /* toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -126,7 +150,7 @@ public class NavigationActivity extends Activity
 
         // set device id
         tvDeviceId = (TextView) navHeader.findViewById(R.id.tv_deviceId);
-        tvDeviceId.setText("Your device Id : "+device_Id);
+        tvDeviceId.setText("Your device Id : "+device_Id);*/
 
         // for points button
         btn_Your_Points = (Button) findViewById(R.id.your_points_button);
@@ -148,6 +172,93 @@ public class NavigationActivity extends Activity
 
         //Check internet-connection
         checkConnection();
+
+        // Check-New-version
+       // checkNewVersionForUpdate();
+
+    }
+
+    //Mount listview with adapter
+    private void initDrawerLayout() {
+        setListViewData();
+        setListViewHeader();
+        setListViewFooter();
+        navigationItemAdapter = new NavigationItemAdapter(this, R.layout.nav_items, navigationItemList);
+        listView_nav_drawer.setAdapter(navigationItemAdapter);
+
+        toggle = new ActionBarDrawerToggle(this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close ){
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+        drawer.setDrawerListener(toggle);
+    }
+
+    // For navigation footer
+    private void setListViewFooter() {
+        LayoutInflater inflater = getLayoutInflater();
+        View footer = inflater.inflate(R.layout.nav_listview_footer, listView_nav_drawer, false);
+        btnExit = (Button) footer.findViewById(R.id.btn_exit_app);
+        btnExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                System.exit(0);
+            }
+        });
+        listView_nav_drawer.addFooterView(footer, null, false);
+    }
+
+    // For navigation header
+    private void setListViewHeader() {
+        LayoutInflater inflater = getLayoutInflater();
+        View header = inflater.inflate(R.layout.nav_header_main, listView_nav_drawer, false);
+        // set device id
+        tvDeviceId = (TextView) header.findViewById(R.id.tv_deviceId);
+        tvDeviceId.setText("Your device Id : "+device_Id);
+        listView_nav_drawer.addHeaderView(header, null, false);
+    }
+
+    // Set navigation items
+    private void setListViewData() {
+        try {
+            navigationItemList.add(new NavigationItems(R.drawable.ic_share_black_24px, "Share this app"));
+            navigationItemList.add(new NavigationItems(R.drawable.ic_person_add_black_24px, "Invite"));
+            navigationItemList.add(new NavigationItems(R.drawable.ic_version_black_24dp, "Contact us"));
+            navigationItemList.add(new NavigationItems(R.drawable.ic_help_black_24dp, "FAQ"));
+            navigationItemList.add(new NavigationItems(R.drawable.ic_privacy_policy, "Privacy policy"));
+            navigationItemList.add(new NavigationItems(R.drawable.ic_announcement_black_24dp, "Term and Conditions"));
+           // navigationItemList.add(new NavigationItems(R.drawable.ic_exit, "Exit"));
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+    }
+
+    // Check-New-version
+    private void checkNewVersionForUpdate() {
+        try {
+            String oldVersion = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
+              String newVersion = Jsoup.connect("https://play.google.com/store/apps/details?id=in.bizzmark.smartpoints_user&rdid=in.bizzmark.smartpoints_user")
+                      .timeout(300000)
+                      .userAgent("Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/43.0.2357.65 Mobile Safari/537.36")
+                      .referrer("http://www.google.com").get()
+                      .select("div[itemprop=softwareVersion]").first()
+                      .ownText();
+            Toast.makeText(this, "New :" +newVersion+"\n"+"Old :"+oldVersion, Toast.LENGTH_LONG).show();
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //Check connection
@@ -163,10 +274,10 @@ public class NavigationActivity extends Activity
     }
 
     // Hide Navigation Items
-    private void hideNavigationItems() {
+   /* private void hideNavigationItems() {
         Menu menu = navigationView.getMenu();
         menu.findItem(R.id.nav_logout).setVisible(false);
-    }
+    }*/
 
     // retrieve access-token from sharedPreferences
     private void retrievingAccessTokenFromSP() {
@@ -239,32 +350,40 @@ public class NavigationActivity extends Activity
     @Override
     protected void onResume() {
         super.onResume();
-        tvDeviceId.setText("Your device Id : "+device_Id);
-        retrievingAccessTokenFromSP();
-        if (checkInternet.isInternetConnected(this)){
-            return;
-        }else {
-            return;
+        try {
+            tvDeviceId.setText("Your device Id : " + device_Id);
+            retrievingAccessTokenFromSP();
+            if (checkInternet.isInternetConnected(this)) {
+                return;
+            } else {
+                return;
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        tvDeviceId.setText("Your device Id : "+device_Id);
-        retrievingAccessTokenFromSP();
-        if (checkInternet.isInternetConnected(this)){
-            if (ACCESS_TOKEN.isEmpty()) {
-               // showUserSigninDialog();
-            }else {
-               // startActivity(new Intent(getApplication(), EditProfileActivity.class));
+        try {
+            tvDeviceId.setText("Your device Id : "+device_Id);
+            retrievingAccessTokenFromSP();
+            if (checkInternet.isInternetConnected(this)) {
+                if (ACCESS_TOKEN.isEmpty()) {
+                    // showUserSigninDialog();
+                } else {
+                    // startActivity(new Intent(getApplication(), EditProfileActivity.class));
+                }
+                return;
+            } else {
+                if (!ACCESS_TOKEN.isEmpty()) {
+                    //  startActivity(new Intent(getApplication(), EditProfileActivity.class));
+                }
+                return;
             }
-            return;
-        }else {
-            if (!ACCESS_TOKEN.isEmpty()){
-              //  startActivity(new Intent(getApplication(), EditProfileActivity.class));
-            }
-            return;
+        }catch (NullPointerException e){
+            e.printStackTrace();
         }
     }
 
@@ -296,7 +415,7 @@ public class NavigationActivity extends Activity
         else if (id == R.id.nav_privacy_policy) {
             startActivity(new Intent(NavigationActivity.this,PrivacyPolicyActivity.class));
         } else if (id == R.id.nav_share) {
-            showAlertDialog();
+            shareApkAlertDialog();
         } else if (id == R.id.nav_local_store) {
            // startActivity(new Intent(NavigationActivity.this,LocalStoreActivity.class));
         } else if (id == R.id.nav_contact_us) {
@@ -309,12 +428,14 @@ public class NavigationActivity extends Activity
             if (!ACCESS_TOKEN.isEmpty()) {
                 //userLogout();
             }else {
-                hideNavigationItems();
+              //  hideNavigationItems();
             }
-        } if (id == R.id.nav_exit) {
+        }else if (id == R.id.nav_exit) {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
             super.onBackPressed();
+        }else if (id == R.id.nav_invite){
+            startActivity(new Intent(this, InviteActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -386,7 +507,7 @@ public class NavigationActivity extends Activity
                 }).create().show();
     }
 
-    private void showAlertDialog() {
+    private void shareApkAlertDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Choose action for share this app....")
                 .setPositiveButton("BLUETOOTH", new DialogInterface.OnClickListener() {
@@ -432,6 +553,23 @@ public class NavigationActivity extends Activity
             Toast.makeText(getApplicationContext(),"Share the SmartpointS by bluetooth ", Toast.LENGTH_LONG).show();
         }catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    public void updateMainLayout(NavigationItems item) {
+        String itemName = item.getNavItemName();
+        if (itemName.equalsIgnoreCase("Share this app")){
+            shareApkAlertDialog();
+        }else if (itemName.equalsIgnoreCase("Invite")){
+            startActivity(new Intent(this, InviteActivity.class));
+        }else if (itemName.equalsIgnoreCase("Contact us")){
+            showContactUsDialog();
+        }else if (itemName.equalsIgnoreCase("FAQ")){
+            startActivity(new Intent(this, FAQActivity.class));
+        }else if (itemName.equalsIgnoreCase("Privacy policy")){
+            startActivity(new Intent(this, PrivacyPolicyActivity.class));
+        }else if (itemName.equalsIgnoreCase("Term and Conditions")){
+            startActivity(new Intent(this, TermCondtionActivity.class));
         }
     }
 }

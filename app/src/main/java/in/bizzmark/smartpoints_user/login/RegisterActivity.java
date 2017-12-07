@@ -136,7 +136,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
 
         String userNameValidation = "[a-z_0-9]+";
         String emailValidation = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-        String dobValidation = "([0-9]{2})/([0-9]{2})/([0-9]{4})";
 
         if (TextUtils.isEmpty(username)){
             Snackbar.make(v,"Please enter username", Snackbar.LENGTH_SHORT).show();
@@ -164,18 +163,13 @@ public class RegisterActivity extends Activity implements View.OnClickListener, 
             Snackbar.make(v,"Please select your gender", Snackbar.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(dob)){
             Snackbar.make(v,"Please enter date of birth", Snackbar.LENGTH_SHORT).show();
-        }else if (!dob.matches(dobValidation)){
-            Snackbar.make(v,"Please enter valid date of birth", Snackbar.LENGTH_SHORT).show();
-            checkDOBFormat = false;
         } else if (TextUtils.isEmpty(city)) {
             Snackbar.make(v,"Please enter your city", Snackbar.LENGTH_SHORT).show();
         }else if (!cb_Terms_Conditions.isChecked()){
             Snackbar.make(v,"Please accept term and condition", Snackbar.LENGTH_SHORT).show();
         }else {
             progressDialog.show();
-            // do signup
-           // Toast.makeText(this, "Your details : " + "\n" + "UserName : "+ username + "\n" + "Name : " + name + "\n" + "Email : " + email + "\n" + "Password : " + password + "\n" + "Confirm Password : " + confirmPassword + "\n" + "Mobile : " + mobile + "\n" + "Gender : " + gender + "\n" + "DOB : " + dob +"\n"+ "City : " + city, Toast.LENGTH_LONG).show();
-
+            // Do-SignUp
             StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL,
                     new Response.Listener<String>() {
                         @Override

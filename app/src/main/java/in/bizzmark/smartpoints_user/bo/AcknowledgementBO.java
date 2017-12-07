@@ -18,6 +18,7 @@ public class AcknowledgementBO {
     String newBillAmount;
     String time;
     String status;
+    String response;
 
     public AcknowledgementBO() {
         // Require empty constructor
@@ -125,5 +126,13 @@ public class AcknowledgementBO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
     }
 }

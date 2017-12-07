@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#607e9c"
+        android:gravity="start|center">
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_arrow_back_white_24dp"
+            android:id="@+id/ib_back"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Invite"
+            android:gravity="start|center"
+            android:paddingLeft="20dp"
+            android:textSize="17dp"
+            android:textColor="@color/color_white"
+            android:layout_marginLeft="20dp"
+            />
+
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#607e9c">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/color_white">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:layout_marginBottom="3dp"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+                    android:id="@+id/tv_1"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/tv_1"
+                    android:textSize="14dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:inputType="textPersonName"
+                    android:background="@drawable/tv_border"
+                    android:id="@+id/et_invite_name"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:layout_marginBottom="3dp"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+                    android:id="@+id/tv_2"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/tv_2"
+                    android:textSize="14dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:inputType="textEmailAddress"
+                    android:background="@drawable/tv_border"
+                    android:id="@+id/et_invite_email"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mobile"
+                    android:layout_marginBottom="3dp"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+                    android:id="@+id/tv_3"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/tv_3"
+                    android:textSize="14dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:background="@drawable/tv_border"
+                    android:id="@+id/et_invite_mobile"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Address"
+                    android:layout_marginBottom="3dp"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+                    android:id="@+id/tv_4"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_below="@+id/tv_4"
+                    android:textSize="14dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:inputType="textPostalAddress|textMultiLine"
+                    android:maxLength="150"
+                    android:gravity="start"
+                    android:background="@drawable/tv_border"
+                    android:id="@+id/et_invite_address"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:background="#274d71"
+                >
+                
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/button_background"
+                    android:text="INVITE"
+                    android:textColor="@color/color_white"
+                    android:textSize="17dp"
+                    android:fontFamily="monospace"
+                    android:id="@+id/btn_invite"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

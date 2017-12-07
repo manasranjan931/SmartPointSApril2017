@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -54,7 +55,10 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
     View mContentView = null;
     private WifiP2pDevice device;
 
+    private Drawable drawable;
+    private LinearLayout layout;
     private TextView deviceName,deviceStatus;
+    private RadioButton radioButton;
 
     private WifiP2pManager manager;
     private WifiP2pManager.Channel channel;
@@ -105,6 +109,8 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         WifiP2pDevice device = (WifiP2pDevice) getListAdapter().getItem(position);
+        drawable = getResources().getDrawable(R.drawable.custom_device_row_connected);
+        layout = (LinearLayout) v.findViewById(R.id.row_device_ll);
         ((DeviceActionListener) getActivity()).showDetails(device);
     }
 
@@ -114,6 +120,7 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
     private class WiFiPeerListAdapter extends ArrayAdapter<WifiP2pDevice> {
 
         private List<WifiP2pDevice> items;
+        private int lastCheckedPosition = -1;
 
         /**
          * @param context
@@ -139,15 +146,14 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
             if (device != null) {
                 deviceName = (TextView) v.findViewById(R.id.device_name);
                 deviceStatus = (TextView) v.findViewById(R.id.device_details);
+                radioButton = (RadioButton) v.findViewById(R.id.radio);
                 if (deviceName != null) {
                     deviceName.setText(device.deviceName);
                 }
                 if (deviceStatus != null) {
                     deviceStatus.setText(getDeviceStatus(device.status));
                     if (deviceStatus.getText().toString().equals("Connected")){
-                        Drawable drawable = getResources().getDrawable(R.drawable.custom_device_row_connected);
-                        LinearLayout layout = (LinearLayout) v.findViewById(R.id.row_device_ll);
-                        layout.setBackground(drawable);
+                        //layout.setBackground(drawable);
                         btnDisconnect.setVisibility(View.GONE);
                       //  btnRefresh.setVisibility(View.GONE);
                     }else {
@@ -173,6 +179,7 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
         view = (TextView) mContentView.findViewById(R.id.my_status);
         view.setText(getDeviceStatus(device.status));
     }
+
 
     @Override
     public void onPeersAvailable(WifiP2pDeviceList peerList) {
@@ -208,8 +215,8 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
         }
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setTitle("Please wait !");
-        progressDialog.setMessage("finding sellers.....");
-        progressDialog.show();
+        progressDialog.setMessage("Searching seller device......");
+       // progressDialog.show();
     }
 
     /**
@@ -225,6 +232,10 @@ public class DeviceListFragment extends ListFragment implements PeerListListener
         void connect(WifiP2pConfig config);
 
         void disconnect();
+
+        void discoverPeers();
+
+        void cancelConnect();
     }
 
 }

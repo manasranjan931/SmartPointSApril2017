@@ -50,7 +50,7 @@
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@drawable/ic_share_black_24px"
+            android:src="@drawable/ic_share_black_24dp"
             android:id="@+id/header_share"
             android:layout_marginRight="05dp"
             android:visibility="visible"

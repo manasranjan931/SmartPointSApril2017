@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
     private Button btnOk,btnSaveData;
 
     private RelativeLayout rlStoreName,rlAmount,rlPoints,rlDate;
+    private LinearLayout linearLayoutResponse;
 
     AcknowledgementBO ackBO;
     Gson gson = new Gson();
@@ -47,6 +49,7 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
     String time;
     String status;
     String redeemPoints;
+    String response;
 
     DbHelper mydb;
     SQLiteDatabase db;
@@ -57,7 +60,7 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.redeem_acknowledgement);
+        setContentView(R.layout.redeem_acknowledgement_new);
 
         // find All Id
         findViewByAllId();
@@ -65,6 +68,7 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
         // from seller
         Intent i = getIntent();
         result = i.getStringExtra("result");
+
 
         ackBO = gson.fromJson(result,AcknowledgementBO.class);
         storeName = ackBO.getStoreName();
@@ -79,6 +83,7 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
         storeId = ackBO.getStoreId();
         status = ackBO.getStatus();
         transId = ackBO.getTransId();
+        response = ackBO.getResponse();
 
         if("success".equalsIgnoreCase(status)){
             // when seller accepting
@@ -87,16 +92,32 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
             tvPoints.setText(redeemPoints);
             tvDiscountAmount.setText(discountAmount);
         }else {
-            // when seller not accepting
-            tvcancelMessage.setVisibility(View.VISIBLE);
-            btnOk.setVisibility(View.VISIBLE);
+            // Invalid-Response
+            if (response != null){
+                linearLayoutResponse.setVisibility(View.VISIBLE);
+                btnOk.setVisibility(View.VISIBLE);
+                tvStoreName.setText(storeName);
 
-            rlStoreName.setVisibility(View.GONE);
-            rlAmount.setVisibility(View.GONE);
-            rlPoints.setVisibility(View.GONE);
-            rlDate.setVisibility(View.GONE);
+                tvcancelMessage.setVisibility(View.GONE);
+                rlStoreName.setVisibility(View.GONE);
+                rlAmount.setVisibility(View.GONE);
+                rlPoints.setVisibility(View.GONE);
+                rlDate.setVisibility(View.GONE);
 
-            btnSaveData.setVisibility(View.GONE);
+                btnSaveData.setVisibility(View.GONE);
+            }else {
+                // when seller not accepting
+                tvcancelMessage.setVisibility(View.VISIBLE);
+                btnOk.setVisibility(View.VISIBLE);
+                tvStoreName.setText(storeName);
+
+                rlStoreName.setVisibility(View.GONE);
+                rlAmount.setVisibility(View.GONE);
+                rlPoints.setVisibility(View.GONE);
+                rlDate.setVisibility(View.GONE);
+
+                btnSaveData.setVisibility(View.GONE);
+            }
         }
 
     }
@@ -107,6 +128,8 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
         tvPoints = (TextView) findViewById(R.id.tv_redeem_points_from_seller);
         tvDiscountAmount = (TextView) findViewById(R.id.tv_discount_amount_from_seller_redeem);
         tvcancelMessage = (TextView) findViewById(R.id.tv_cancel_message);
+
+        linearLayoutResponse = (LinearLayout) findViewById(R.id.ll_response);
 
         rlStoreName = (RelativeLayout) findViewById(R.id.rl_store_name);
         rlAmount = (RelativeLayout) findViewById(R.id.rl_amount);

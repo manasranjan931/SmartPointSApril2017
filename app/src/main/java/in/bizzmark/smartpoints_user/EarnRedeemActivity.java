@@ -71,7 +71,7 @@ public class EarnRedeemActivity extends AppCompatActivity {
            // storeName = "Test Store";
         }
 
-        retrievePoints();
+        //retrievePoints();
 
         // save storeName in sharedPreferences
         SharedPreferences.Editor editor = getApplicationContext().
@@ -94,29 +94,8 @@ public class EarnRedeemActivity extends AppCompatActivity {
 
     private void retrievePoints() {
         if (checkInternet.isInternetConnected(this)){
-            //pointsRetrieveFromServer();
             return;
         }else {
-          //  pointsRetrieveFromSQLite();
-        }
-    }
-
-    // Retrieve points From SQLite-Database
-    private void pointsRetrieveFromSQLite() {
-        tv_Points.setText("");
-        helper = new DbHelper(this);
-        sqLiteDatabase = helper.getWritableDatabase();
-        if (sqLiteDatabase != null){
-           query = "SELECT TOTAL_POINTS FROM CUSTOMER_EARN_REDEEM WHERE STORE_NAME= "+storeName+ " GROUP BY TOTAL_POINTS, STORE_NAME" ;
-            Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-            if (cursor != null){
-                if (cursor.moveToFirst()){
-                    do {
-                        points = cursor.getString(cursor.getColumnIndex("TOTAL_POINTS"));
-                        tv_Points.setText(points);
-                    }while (cursor.moveToNext());
-                }
-            }
         }
     }
 

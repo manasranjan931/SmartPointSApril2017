@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -27,14 +27,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:gravity="end">
 
             <Button
                 android:id="@+id/btn_connect"
@@ -43,16 +43,30 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_drawable"
                 android:text="@string/connect_peer_button"
+                android:visibility="gone"
                 android:textColor="@color/color_white" />
+
 
             <Button
                 android:id="@+id/btn_disconnect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="@drawable/button_drawable"
                 android:text="@string/disconnect_peer_button"
+                android:visibility="gone"
+                android:layout_weight="1"
                 android:textColor="@color/color_white" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:id="@+id/fab_send"
+                app:backgroundTint="@color/colorPrimary"
+                app:elevation="4dp"
+                app:borderWidth="0dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp"
+                android:src="@drawable/ic_action_send"/>
 
         </LinearLayout>
 
@@ -73,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/button_drawable"
-                android:text="@string/send_button"
+                android:text="@string/resend_button"
                 android:textColor="@color/color_white"
                 android:visibility="gone" />
 

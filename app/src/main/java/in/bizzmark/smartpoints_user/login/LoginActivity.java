@@ -174,8 +174,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
                                     mail = jsonObject.getString("email");
 
                                     // save details in sharedPreferences
-                                    SharedPreferences.Editor editor = getApplication().
-                                            getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit();
+                                    SharedPreferences.Editor editor = getApplication().getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit();
                                     editor.putString("access_token", access_token);
                                     editor.putString("name", name);
                                     editor.putString("email", mail);

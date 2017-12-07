@@ -43,45 +43,48 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_store_name_redeem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="@null"
-                android:fontFamily="@null"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="@string/acknowledge"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#4c5154"
-                android:textCursorDrawable="@null"
-                android:textSize="20dp"
                 android:layout_marginTop="10dp"
-                android:textStyle="normal" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:ems="@null"
                 android:fontFamily="@null"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="@string/app_name"
+                android:text="Store Name"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#4c5154"
+                android:textColor="@color/red"
                 android:textCursorDrawable="@null"
-                android:textSize="20dp"
-                android:textStyle="normal" />
+                android:textSize="27dp"
+                android:textStyle="bold" />
+
 
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.3dp"
+            android:layout_marginBottom="5dp"
             android:background="@color/blue"
-            android:layout_marginBottom="5dp"/>
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/rl_store_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="100sp"
+                android:layout_height="100sp"
+                android:src="@drawable/smartpoints_logo" />
+
+        </RelativeLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -90,14 +93,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:gravity="center"
+                android:orientation="vertical"
                 android:paddingBottom="10dp">
 
 
-
                 <RelativeLayout
-                    android:id="@+id/rl_store_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -106,7 +107,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="3dp"
                         android:layout_marginRight="3dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -128,54 +130,6 @@
                             android:visibility="gone" />
 
                         <TextView
-                            android:id="@+id/tv_store_name_redeem"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="2dp"
-                            android:background="@drawable/edit_text_drawable"
-                            android:gravity="center"
-                            android:paddingLeft="2dp"
-                            android:paddingRight="2dp"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="18dp" />
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rl_amount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginRight="3dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="start"
-                            android:paddingLeft="5dp"
-                            android:text="New Bill Amount"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="15dp" />
-
-                        <TextView
-                            android:layout_width="10dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/edit_text_drawable"
-                            android:gravity="center"
-                            android:text=" : "
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="18dp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/tv_new_amount_from_seller_redeem"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="2dp"
@@ -200,7 +154,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="3dp"
                         android:layout_marginRight="3dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -236,18 +191,22 @@
 
                 </RelativeLayout>
 
+
+
                 <RelativeLayout
                     android:id="@+id/rl_date_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp">
+                    android:layout_marginTop="20dp"
+                    android:gravity="center">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="3dp"
                         android:layout_marginRight="3dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="visible">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -284,6 +243,67 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rl_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:paddingLeft="5dp"
+                            android:text="Please pay"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="15dp" />
+
+                        <TextView
+                            android:layout_width="10dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_text_drawable"
+                            android:gravity="center"
+                            android:text=" : "
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="18dp"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tv_new_amount_from_seller_redeem"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:background="@drawable/edit_text_drawable"
+                            android:gravity="center"
+                            android:paddingLeft="2dp"
+                            android:paddingRight="2dp"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="18dp" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="20sp"
+                        android:textColor="@color/blue"
+                        android:text="Thank you for using SmartpointS"/>
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
@@ -310,34 +330,32 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_response"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:id="@+id/ll_response"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Transaction failed"
-                            android:gravity="center"
-                            android:textColor="@color/red"
-                            android:textSize="18dp"
-                            android:layout_marginTop="40dp"
                             android:layout_marginBottom="10dp"
-                            />
+                            android:layout_marginTop="40dp"
+                            android:gravity="center"
+                            android:text="Transaction failed"
+                            android:textColor="@color/red"
+                            android:textSize="18dp" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/invalid_response"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="20sp"
+                            android:layout_marginRight="10dp"
                             android:gravity="center|start"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
-                            android:layout_marginLeft="20sp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginBottom="10dp"
-                            />
+                            android:text="@string/invalid_response" />
 
                     </LinearLayout>
                 </RelativeLayout>
@@ -372,27 +390,27 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="bottom"
-                        android:layout_marginTop="50dp">
+                        android:layout_marginTop="10dp"
+                        android:gravity="bottom">
 
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginRight="3dp"
-                        android:gravity="center">
-
-                        <Button
-                            android:id="@+id/btn_save_acknowledgement_data"
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/button_drawable"
-                            android:text="OK"
-                            android:textColor="@color/color_white"
-                            android:textSize="20dp" />
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="3dp"
+                            android:gravity="center">
 
-                    </RelativeLayout>
+                            <Button
+                                android:id="@+id/btn_save_acknowledgement_data"
+                                android:layout_width="250dp"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/button_drawable"
+                                android:text="OK"
+                                android:textColor="@color/color_white"
+                                android:textSize="20dp" />
+
+                        </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

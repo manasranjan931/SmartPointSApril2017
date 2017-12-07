@@ -310,6 +310,7 @@ This privacy policy may be revised over time as new features are added to the sm
     <string name="connect_peer_button">CONNECT</string>
     <string name="disconnect_peer_button">CANCEL</string>
     <string name="send_button">SEND</string>
+    <string name="resend_button">SEND AGAIN</string>
     <string name="label_me">ME</string>
     <string name="label_peers">Select Store</string>
     <string name="empty_message">No devices found. Turn on P2P and perform discovery from the Action Bar</string>
@@ -334,6 +335,7 @@ This privacy policy may be revised over time as new features are added to the sm
     <string name="login_warning">Please login or register otherwise you may loose your points !</string>
     <string name="app_version">SmartpointS  1.0.0</string>
     <string name="wifi_warning">Your internet connection will be disabled would you like to continue...</string>
+    <string name="invalid_response">* You do not have enough points \n* There are no rewards for the points you have entered.</string>
 
     <string-array name="gender_select">
         <item>Select gender</item>

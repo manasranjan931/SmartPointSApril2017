@@ -22,6 +22,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pConfig;
@@ -33,20 +35,28 @@ import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.net.wifi.p2p.WifiP2pManager.ChannelListener;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import in.bizzmark.smartpoints_user.R;
+import in.bizzmark.smartpoints_user.adapter.ViewPageAdapter;
+import in.bizzmark.smartpoints_user.earnredeemtab.Earn;
+import in.bizzmark.smartpoints_user.earnredeemtab.Redeem;
 
 /**
  * An activity that uses WiFi Direct APIs to discover and connect with available
@@ -58,6 +68,14 @@ import in.bizzmark.smartpoints_user.R;
 public class WiFiDirectActivity extends AppCompatActivity
         implements ChannelListener, DeviceListFragment.DeviceActionListener
  {
+
+     private TabLayout tabLayout;
+     private ViewPager viewPager;
+     private ViewPageAdapter viewPagerAdapter;
+
+     public static String storeName = null;
+     TextView tv_StoreName,tv_Points;
+
     private ImageView imageView_back_arrow;
     private ImageView ivWifiSettings;
 
@@ -94,9 +112,9 @@ public class WiFiDirectActivity extends AppCompatActivity
         autoDiscoverPeers();
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Press back to cancel");
+        progressDialog.setTitle("Please wait !");
         progressDialog.setMessage("Searching seller device......");
-        progressDialog.show();
+       // progressDialog.show();
 
         // Turn on wifi
         turnOnWifi();
@@ -117,6 +135,11 @@ public class WiFiDirectActivity extends AppCompatActivity
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // For-disconnect-if-device-connected
+                disconnect();
+                // Cancel Connection
+                cancelConnect();
+                //deletePersistentGroups();
                 discoverPeers();
                 final Animation rotation = AnimationUtils.loadAnimation(WiFiDirectActivity.this,R.anim.refresh_btn_rotate);
                 rotation.setRepeatCount(Animation.INFINITE);
@@ -159,38 +182,116 @@ public class WiFiDirectActivity extends AppCompatActivity
         manager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         channel = manager.initialize(this, getMainLooper(), null);
 
+        //View-Pager
+        viewPager();
+
     }
+
+     private void viewPager() {
+         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+         viewPager = (ViewPager) findViewById(R.id.viewpager);
+
+         viewPagerAdapter = new ViewPageAdapter(getSupportFragmentManager());
+         viewPagerAdapter.addFragments(new Earn(), "EARN");
+         viewPagerAdapter.addFragments(new Redeem(), "REDEEM");
+
+         viewPager.setAdapter(viewPagerAdapter);
+         tabLayout.setupWithViewPager(viewPager);
+         tabLayout.setTabTextColors(Color.BLACK, Color.WHITE);
+
+         tv_StoreName = (TextView) findViewById(R.id.tv_earn_redeem_store_name);
+         tv_StoreName.setMovementMethod(new ScrollingMovementMethod());
+
+         tv_Points = (TextView) findViewById(R.id.tv_earn_redeem_points);
+
+         // Get StoreName after scanning
+         Bundle b = getIntent().getExtras();
+         if (b != null){
+             storeName = b.getString("key_store_name");
+             tv_StoreName.setText(storeName);
+         }else {
+             //storeName = tv_StoreName.getText().toString();
+             // storeName = "Test Store";
+         }
+
+         // save storeName in sharedPreferences
+         SharedPreferences.Editor editor = getApplicationContext().
+                 getSharedPreferences("MY_STORE_NAME", Context.MODE_PRIVATE).edit();
+         editor.putString("key_store_name", storeName);
+         editor.commit();
+     }
+
+     // Cancel Connection
+     public void cancelConnect() {
+         if (manager != null){
+             manager.cancelConnect(channel, new ActionListener() {
+                 @Override
+                 public void onSuccess() {
+                 }
+
+                 @Override
+                 public void onFailure(int reason) {
+                 }
+             });
+         }
+     }
+
+     /*Clear remembered groups */
+     private void deletePersistentGroups() {
+         try {
+             Method[] methods = WifiP2pManager.class.getMethods();
+             for (int i = 0; i < methods.length; i++) {
+                 if (methods[i].getName().equals("deletePersistentGroup")) {
+                     // Delete any persistent group
+                     for (int netid = 0; netid < 32; netid++) {
+                         methods[i].invoke(manager, channel, netid, null);
+                     }
+                 }
+             }
+         } catch(Exception e) {
+             e.printStackTrace();
+         }
+     }
 
      // Turn on wifi
      private void turnOnWifi() {
          wifiManager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-         wifiManager.setWifiEnabled(true);
-         list = wifiManager.getConfiguredNetworks();
+         if (!wifiManager.isWifiEnabled()) {
+             wifiManager.setWifiEnabled(true);
+             list = wifiManager.getConfiguredNetworks();
+         }
+
      }
 
      // Forgot wifi-network if connected
      private void forgotWifiNetwork() {
-         if (!list.isEmpty()) {
-             new AlertDialog.Builder(this)
-                     .setIcon(R.drawable.warning)
-                     .setTitle("Warning....")
-                     .setMessage(R.string.wifi_warning)
-                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+         try {
+            // if (wifiManager.isWifiEnabled()) {
+                 if (!list.isEmpty() && list != null) {
+                     new AlertDialog.Builder(this)
+                             .setIcon(R.drawable.warning)
+                             .setTitle("Warning....")
+                             .setMessage(R.string.wifi_warning)
+                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                 @Override
+                                 public void onClick(DialogInterface dialog, int which) {
+                                     dialog.dismiss();
+                                     // Forgot wifi-network if connected
+                                     for (WifiConfiguration i : list) {
+                                         wifiManager.removeNetwork(i.networkId);
+                                         wifiManager.saveConfiguration();
+                                     }
+                                 }
+                             }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                          @Override
                          public void onClick(DialogInterface dialog, int which) {
-                             dialog.dismiss();
-                             // Forgot wifi-network if connected
-                             for (WifiConfiguration i : list) {
-                                 wifiManager.removeNetwork(i.networkId);
-                                 wifiManager.saveConfiguration();
-                             }
+                             finish();
                          }
-                     }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                 @Override
-                 public void onClick(DialogInterface dialog, int which) {
-                     finish();
+                     }).setCancelable(false).create().show();
                  }
-             }).setCancelable(false).create().show();
+            // }
+         }catch (NullPointerException e){
+             e.printStackTrace();
          }
      }
 
@@ -222,7 +323,7 @@ public class WiFiDirectActivity extends AppCompatActivity
          manager.discoverPeers(channel, new ActionListener() {
              @Override
              public void onSuccess() {
-                 Toast.makeText(WiFiDirectActivity.this, "Discovery initiated",
+                 Toast.makeText(WiFiDirectActivity.this, "Refreshing.....",
                          Toast.LENGTH_SHORT).show();
              }
 

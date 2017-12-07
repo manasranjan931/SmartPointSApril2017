@@ -39,12 +39,16 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "create table " + TABLE_EARN_REDEEM + " ( "+STORE_NAME_COL_1+" TEXT, "+BILL_AMOUNT_COL_2+" TEXT, "+TOTAL_POINTS_COL_3+" TEXT, "+TYPE_COL_4+" TEXT, "+DATE_TIME_COL_5+" TEXT, "+DEVICE_ID_COL_6+" TEXT, "+BRANCH_ID_COL_7+" TEXT, "+STORE_ID_COL_8+" TEXT, "+NEW_BILL_AMOUNT_COL_9+" TEXT, "+DISCOUNT_AMOUNT_COL_10+" TEXT, "+EARN_POINTS_COL_11+" TEXT, "+REDEEM_POINTS_COL_12+" TEXT, "+EARN_TRANSACTION_ID_COL_13+" TEXT, "+REDEEM_TRANSACTION_ID_COL_14+" TEXT)";
+        String query = "create table " + TABLE_EARN_REDEEM + " ( "+STORE_NAME_COL_1+" TEXT, "+BILL_AMOUNT_COL_2+" TEXT, "+TOTAL_POINTS_COL_3+" TEXT, "+
+                TYPE_COL_4+" TEXT, "+DATE_TIME_COL_5+" TEXT, "+DEVICE_ID_COL_6+" TEXT, "+BRANCH_ID_COL_7+" TEXT, "+STORE_ID_COL_8+" TEXT, "+NEW_BILL_AMOUNT_COL_9+ " TEXT, "+
+                DISCOUNT_AMOUNT_COL_10+" TEXT, "+EARN_POINTS_COL_11+" TEXT, "+REDEEM_POINTS_COL_12+" TEXT, "+EARN_TRANSACTION_ID_COL_13+" TEXT, "+
+                REDEEM_TRANSACTION_ID_COL_14+" TEXT)";
         db.execSQL(query);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EARN_REDEEM);
+        onCreate(db);
     }
 }

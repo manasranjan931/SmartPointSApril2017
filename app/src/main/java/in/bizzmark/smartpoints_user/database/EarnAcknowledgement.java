@@ -35,7 +35,7 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
 
     ImageView ivCross;
     Button btnSaveData,btnOk,btnCancel;
-    TextView tvstoreName,tvcancelMessage,tvamount,tvpoints,tvdate;
+    TextView tvstoreName,tvcancelMessage,tvamount,tvpoints, tvP,tvdate;
     RelativeLayout rlStoreName,rlAmount,rlPoints,rlDate;
 
     AcknowledgementBO ackBO;
@@ -67,7 +67,7 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.earn_acknowledgement);
+        setContentView(R.layout.earn_acknowledgement_new);
 
         // find All Id
         findViewByAllId();
@@ -96,9 +96,11 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
             tvstoreName.setText(storeName);
             tvamount.setText(billAmount);
             tvpoints.setText(earnPoints);
+            tvP.setText(earnPoints+" SmartpointS");
             tvdate.setText(time);
         }else {
             // when seller not accepting
+            tvstoreName.setText(storeName);
             tvcancelMessage.setVisibility(View.VISIBLE);
             btnOk.setVisibility(View.VISIBLE);
 
@@ -144,6 +146,7 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
         tvcancelMessage = (TextView) findViewById(R.id.tv_cancel_message);
         tvamount = (TextView) findViewById(R.id.tv_amount_from_seller);
         tvpoints = (TextView) findViewById(R.id.tv_points_from_seller);
+        tvP = (TextView) findViewById(R.id.tv_p);
         tvdate = (TextView) findViewById(R.id.tv_date_from_seller);
         btnOk = (Button) findViewById(R.id.btn_ok);
         btnSaveData = (Button) findViewById(R.id.btn_save_acknowledgement_data);
@@ -235,8 +238,7 @@ public class EarnAcknowledgement extends Activity implements View.OnClickListene
             long result = db.insert(DbHelper.TABLE_EARN_REDEEM, null, cv);
             if (result != -1) {
                // Toast.makeText(this, "Data saved successfully", Toast.LENGTH_SHORT).show();
-               // Toast.makeText(this, "StoreName : "+ storeName +"\n"+ "Points : "+points +"\n"+ "BillAmount : "+billAmount +"\n"+ "Type : "+type +"\n"+ "Date&Time : "+dateandtime +"\n"+ "DeviceId : "+deviceId, Toast.LENGTH_LONG).show();
-                finish();
+               finish();
             } else {
              //   Toast.makeText(this, "Saving error : "+result, Toast.LENGTH_SHORT).show();
             }

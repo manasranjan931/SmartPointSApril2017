@@ -113,6 +113,9 @@
         <activity
             android:name=".earnredeemtab.QRCodeScannerPermission"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".InviteActivity"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".wifidirect.FileTransferService"

@@ -9,7 +9,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +68,7 @@ public class Earn extends Fragment {
     private void findViewById(final View v) {
         et_earn_Billamount = (EditText)v. findViewById(R.id.et_earn_billAmountText);
         btnEarn = (Button)v. findViewById(R.id.btn_earn_send);
-        btnEarn.setOnClickListener(new View.OnClickListener() {
+       /* btnEarn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -80,6 +82,43 @@ public class Earn extends Fragment {
                         Toast.makeText(getActivity(), "You enter : "+earn_Billamount, Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+        });*/
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        et_earn_Billamount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try{
+                    earn_Billamount = s.toString();
+                    if (!earn_Billamount.startsWith("0")) {
+                        checkDeviceSupportWifiDirect();
+                    }else {
+                        Toast.makeText(getActivity(), "You enter : "+earn_Billamount, Toast.LENGTH_SHORT).show();
+                    }
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
+
             }
         });
     }
@@ -119,12 +158,12 @@ public class Earn extends Fragment {
         pointsBO.setTime(timeDate);
         pointsBO.setDeviceId(deviceId);
 
-        // Create Object To Gson
-        Gson gson = new Gson();
-        String jsonEarn = gson.toJson(pointsBO);
+            // Create Object To Gson
+            Gson gson = new Gson();
+            String jsonEarn = gson.toJson(pointsBO);
 
-        startActivity(new Intent(getContext(), WiFiDirectActivity.class));
-        getActivity().finish();
+//        startActivity(new Intent(getContext(), WiFiDirectActivity.class));
+//        getActivity().finish();
 
         // save json object into sharedPreferences
         SharedPreferences.Editor editor = getActivity().

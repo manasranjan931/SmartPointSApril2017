@@ -8,7 +8,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +36,7 @@ public class Redeem extends Fragment {
     EditText et_redeem_Billamount, etRedeemPoints;
     String type = "redeem";
     Button btnRedeem;
-    String redeem_Billamount,redeem_points,storeName;
+    public static String redeem_Billamount,redeem_points,storeName;
     String point;
     String deviceId = device_Id;
 
@@ -53,7 +55,7 @@ public class Redeem extends Fragment {
         et_redeem_Billamount  = (EditText) v.findViewById(R.id.et_redeem_billAmountText);
         etRedeemPoints  = (EditText) v.findViewById(R.id.et_redeem_points);
         btnRedeem = (Button)v. findViewById(R.id.btn_redeem_send);
-        btnRedeem.setOnClickListener(new View.OnClickListener() {
+        /*btnRedeem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 redeem_Billamount = et_redeem_Billamount.getText().toString().trim();
@@ -71,9 +73,10 @@ public class Redeem extends Fragment {
                     checkDeviceSupportWifiDirect();
                 }
             }
-        });
+        });*/
         return v;
     }
+
 
     // Check wifi-direct support
     private boolean checkDeviceSupportWifiDirect() {
@@ -96,9 +99,9 @@ public class Redeem extends Fragment {
     // Send data into Wifi-Direct class
     private void sendDataToWifiDirectClass() {
         point = redeem_points;
-        Intent i = new Intent(getContext(), WiFiDirectActivity.class);
-        startActivity(i);
-        getActivity().finish();
+//        Intent i = new Intent(getContext(), WiFiDirectActivity.class);
+//        startActivity(i);
+//        getActivity().finish();
 
         // get current time of device
         Calendar calendar = Calendar.getInstance();
@@ -127,6 +130,68 @@ public class Redeem extends Fragment {
     public void onResume() {
         super.onResume();
         retrievingAccessTokenFromSP();
+
+        et_redeem_Billamount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    redeem_Billamount = s.toString();
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        etRedeemPoints.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    redeem_points = s.toString();
+                    saveString(redeem_Billamount, redeem_points);
+                   /* if (TextUtils.isEmpty(redeem_points)) {
+                        Toast.makeText(getActivity(), "Points required", Toast.LENGTH_SHORT).show();
+                    }else if (redeem_Billamount.startsWith("0")) {
+                        Toast.makeText(getActivity(), "amount shouldn't be " + redeem_Billamount, Toast.LENGTH_SHORT).show();
+                    }else {
+                        checkDeviceSupportWifiDirect();
+                    }*/
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void saveString(String redeem_billamount, String redeemPoints) {
+        try {
+            if (redeem_billamount.startsWith("0") && redeemPoints.startsWith("0")) {
+                Toast.makeText(getActivity(), "shouldn't be " + redeem_Billamount+"\n"+ redeemPoints , Toast.LENGTH_SHORT).show();
+            }else {
+                checkDeviceSupportWifiDirect();
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     @Override

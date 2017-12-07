@@ -66,9 +66,11 @@ public class FileTransferService extends IntentService {
                 outputStream = socket.getOutputStream();
                 String message = intent.getExtras().getString(MESSAGE);
                 outputStream.write(message.getBytes());
-              //  outputStream.flush();
+                //  outputStream.flush();
 
 
+            }catch (NullPointerException e){
+                e.printStackTrace();
             } catch (IOException e) {
 
                 Log.e("bizzmark", e.getMessage());

@@ -23,24 +23,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:weightSum="2">
 
                 <RelativeLayout
-                    android:layout_width="190dp"
+                    android:layout_width="290dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:gravity="center">
 
                     <android.support.design.widget.TextInputLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         app:errorEnabled="false">
 
                         <EditText
                             android:id="@+id/et_redeem_billAmountText"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:background="@drawable/tv_border"
                             android:drawablePadding="12dp"
@@ -59,20 +58,22 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="110dp"
+                    android:layout_width="290dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:layout_marginTop="1dp"
+                    >
 
                     <android.support.design.widget.TextInputLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
                         android:gravity="center"
-                        app:errorEnabled="false">
+                        app:errorEnabled="false"
+                        android:visibility="visible">
 
                         <EditText
                             android:id="@+id/et_redeem_points"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:background="@drawable/tv_border"
                             android:drawablePadding="12dp"
@@ -88,6 +89,14 @@
 
                     </android.support.design.widget.TextInputLayout>
 
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="50sp"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:entries="@array/redeem_points"
+                        />
+
                 </RelativeLayout>
 
             </LinearLayout>
@@ -96,6 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
+                android:visibility="gone"
                 android:gravity="center">
 
                 <Button

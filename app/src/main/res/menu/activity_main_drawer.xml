@@ -6,6 +6,10 @@
         android:icon="@drawable/ic_menu_share"
         android:title="Share this app" />
     <item
+        android:id="@+id/nav_invite"
+        android:icon="@drawable/ic_person_add_black_24px"
+        android:title="Invite" />
+    <item
         android:id="@+id/nav_local_store"
         android:icon="@drawable/ic_local_mall_black_24dp"
         android:title="Local Store"

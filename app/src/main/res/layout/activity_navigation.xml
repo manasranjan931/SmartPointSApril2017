@@ -21,6 +21,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
+
         <include
             layout="@layout/header"
             android:layout_height="wrap_content"
@@ -28,7 +30,6 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
-
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -66,13 +67,29 @@
     </LinearLayout>
 
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
+    <!--<android.support.design.widget.NavigationView-->
+        <!--android:id="@+id/nav_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="start"-->
+        <!--android:fitsSystemWindows="false"-->
+        <!--app:headerLayout="@layout/nav_header_main"-->
+        <!--app:menu="@menu/activity_main_drawer" />-->
+
+    <!-- navigation drawer -->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="false"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        android:background="@drawable/tv_border"
+        android:layout_gravity="left|start">
+
+        <ListView
+            android:id="@+id/listview_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:divider="@null"
+            android:dividerHeight="@null" />
+    </RelativeLayout>
 
 </android.support.v4.widget.DrawerLayout>
