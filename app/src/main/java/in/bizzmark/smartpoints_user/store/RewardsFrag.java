@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -48,7 +49,7 @@ public class RewardsFrag extends Fragment {
     ArrayList<RewardsBO> rewardsList;
     Context context = getActivity();
 
-    String REWARDS_URL = "http://35.154.104.54/smartpoints/customer-api/get-rewards-details?branchId="+branch_Id;
+    String REWARDS_URL = "http://bizzmark.in/smartpoints/customer-api/get-rewards-details?branchId="+branch_Id;
 
     CheckInternet checkInternet = new CheckInternet();
 
@@ -153,6 +154,10 @@ public class RewardsFrag extends Fragment {
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                300000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(stringRequest);
     }
 

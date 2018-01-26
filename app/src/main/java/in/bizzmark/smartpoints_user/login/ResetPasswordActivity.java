@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -87,7 +88,7 @@ public class ResetPasswordActivity extends Activity implements View.OnClickListe
         pd = new ProgressDialog(this);
         pd.setMessage("Please wait....");
         email = etResetPassword.getText().toString().trim();
-        FORGOT_PASSWORD_URL = "http://35.154.104.54/smartpoints/api/request-password-reset?userEmail="+email;
+        FORGOT_PASSWORD_URL = "http://bizzmark.in/smartpoints/api/request-password-reset?userEmail="+email;
 
         String emailValidation = "[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+";
 
@@ -129,6 +130,10 @@ public class ResetPasswordActivity extends Activity implements View.OnClickListe
                 }
             });
             RequestQueue requestQueue = Volley.newRequestQueue(this);
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    300000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             requestQueue.add(stringRequest);
         }
     }

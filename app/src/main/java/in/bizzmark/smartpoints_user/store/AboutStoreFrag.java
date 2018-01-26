@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -40,7 +41,7 @@ public class AboutStoreFrag extends Fragment implements View.OnClickListener {
     TextView tvStoreName, tv_branch_name, tv_store_address;
     Button btnCall, btnReward, btnMap;
 
-    String ABOUT_STORE_URL = "http://35.154.104.54/smartpoints/customer-api/get-branch-details?branchId="+branch_Id;
+    String ABOUT_STORE_URL = "http://bizzmark.in/smartpoints/customer-api/get-branch-details?branchId="+branch_Id;
     String storeName,owner_name,owner_mobile,branch_name,branch_address;
 
     CheckInternet checkInternet = new CheckInternet();
@@ -118,6 +119,10 @@ public class AboutStoreFrag extends Fragment implements View.OnClickListener {
         });
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                300000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(request);
 
     }
