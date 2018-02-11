@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "930767862867",
+    "firebase_url": "https://smartpointcustomer.firebaseio.com",
+    "project_id": "smartpointcustomer",
+    "storage_bucket": "smartpointcustomer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930767862867:android:0ee9cdb059ffb678",
+        "android_client_info": {
+          "package_name": "in.bizzmark.smartpoints_user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930767862867-hafvr3tnrptpshejdaur75ddh4r85dgj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRqsI7hTET1lvyZDNX0mJCSUKWubw1iJY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

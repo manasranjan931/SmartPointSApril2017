@@ -46,6 +46,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,6 +77,8 @@ public class WiFiDirectActivity extends AppCompatActivity
 
      public static String storeName = null;
      TextView tv_StoreName,tv_Points;
+     ScrollView svWifiDirect;
+     RelativeLayout rlWifiDirect;
 
     private ImageView imageView_back_arrow;
     private ImageView ivWifiSettings;

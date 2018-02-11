@@ -18,6 +18,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,11 +33,25 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.bizzmark.smartpoints_user.adapter.NavigationItemAdapter;
@@ -48,6 +63,8 @@ import in.bizzmark.smartpoints_user.login.LoginActivity;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_PHONE_STATE;
+import static in.bizzmark.smartpoints_user.utility.UrlUtility.LOGIN_URL;
+import static in.bizzmark.smartpoints_user.utility.UrlUtility.SEND_DEVICE_TOKEN;
 
 public class NavigationActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -56,7 +73,7 @@ public class NavigationActivity extends Activity
     NavigationView navigationView;
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
-    ImageView imageView_Menu,imageView_Share,imageView_signin;
+    ImageView imageView_Menu, imageView_Share, imageView_signin;
     CircleImageView profileImageView;
     TextView tvDeviceId;
     Button btnExit;
@@ -82,7 +99,7 @@ public class NavigationActivity extends Activity
         setContentView(R.layout.activity_navigation);
 
         // Load the animation
-        animBounce = AnimationUtils.loadAnimation(this,R.anim.bounce);
+        animBounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
         animFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
 
 
@@ -108,21 +125,21 @@ public class NavigationActivity extends Activity
             @Override
             public void onClick(View v) {
                 imageView_signin.startAnimation(animBounce);
-              // code for login
-               if (checkInternet.isInternetConnected(getBaseContext())){
-                   if (ACCESS_TOKEN.isEmpty()) {
-                       showUserSigninDialog();
-                   }else {
-                       startActivity(new Intent(getApplication(), EditProfileActivity.class));
-                   }
-                   return;
-               }else {
-                   if (!ACCESS_TOKEN.isEmpty()){
-                       startActivity(new Intent(getApplication(), EditProfileActivity.class));
-                   }
-                   Toast.makeText(NavigationActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
-                   return;
-               }
+                // code for login
+                if (checkInternet.isInternetConnected(getBaseContext())) {
+                    if (ACCESS_TOKEN.isEmpty()) {
+                        showUserSigninDialog();
+                    } else {
+                        startActivity(new Intent(getApplication(), EditProfileActivity.class));
+                    }
+                    return;
+                } else {
+                    if (!ACCESS_TOKEN.isEmpty()) {
+                        startActivity(new Intent(getApplication(), EditProfileActivity.class));
+                    }
+                    Toast.makeText(NavigationActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
         });
 
@@ -157,7 +174,7 @@ public class NavigationActivity extends Activity
         btn_Your_Points.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  btn_Your_Points.startAnimation(animBounce);
+                //  btn_Your_Points.startAnimation(animBounce);
                 btn_Your_Points.startAnimation(animFadeIn);
                 startActivity(new Intent(NavigationActivity.this, PointsActivity.class));
 
@@ -174,9 +191,50 @@ public class NavigationActivity extends Activity
         checkConnection();
 
         // Check-New-version
-       // checkNewVersionForUpdate();
+        // checkNewVersionForUpdate();
+        getDeviceID();
+    }
+
+    private void getDeviceID() {
+        if (FirebaseInstanceId.getInstance().getToken() != null) {
+            String deviceToken = FirebaseInstanceId.getInstance().getToken();
+            Log.v("GCMID", deviceToken);
+            sendDeviceToken(deviceToken);
+        }
+    }
+
+    private void sendDeviceToken(final String deviceToken) {
+        getIMEIString();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, SEND_DEVICE_TOKEN,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(NavigationActivity.this, "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
+                //etPassword.setText("");
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("deviceId", device_Id);
+                parameters.put("devicetoken", deviceToken);
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                300000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(stringRequest);
 
     }
+
 
     //Mount listview with adapter
     private void initDrawerLayout() {
@@ -186,7 +244,7 @@ public class NavigationActivity extends Activity
         navigationItemAdapter = new NavigationItemAdapter(this, R.layout.nav_items, navigationItemList);
         listView_nav_drawer.setAdapter(navigationItemAdapter);
 
-        toggle = new ActionBarDrawerToggle(this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close ){
+        toggle = new ActionBarDrawerToggle(this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
 
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -223,7 +281,7 @@ public class NavigationActivity extends Activity
         View header = inflater.inflate(R.layout.nav_header_main, listView_nav_drawer, false);
         // set device id
         tvDeviceId = (TextView) header.findViewById(R.id.tv_deviceId);
-        tvDeviceId.setText("Your device Id : "+device_Id);
+        tvDeviceId.setText("Your device Id : " + device_Id);
         listView_nav_drawer.addHeaderView(header, null, false);
     }
 
@@ -236,8 +294,8 @@ public class NavigationActivity extends Activity
             navigationItemList.add(new NavigationItems(R.drawable.ic_help_black_24dp, "FAQ"));
             navigationItemList.add(new NavigationItems(R.drawable.ic_privacy_policy, "Privacy policy"));
             navigationItemList.add(new NavigationItems(R.drawable.ic_announcement_black_24dp, "Term and Conditions"));
-           // navigationItemList.add(new NavigationItems(R.drawable.ic_exit, "Exit"));
-        }catch (NullPointerException e){
+            // navigationItemList.add(new NavigationItems(R.drawable.ic_exit, "Exit"));
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
@@ -246,13 +304,13 @@ public class NavigationActivity extends Activity
     private void checkNewVersionForUpdate() {
         try {
             String oldVersion = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
-              String newVersion = Jsoup.connect("https://play.google.com/store/apps/details?id=in.bizzmark.smartpoints_user&rdid=in.bizzmark.smartpoints_user")
-                      .timeout(300000)
-                      .userAgent("Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/43.0.2357.65 Mobile Safari/537.36")
-                      .referrer("http://www.google.com").get()
-                      .select("div[itemprop=softwareVersion]").first()
-                      .ownText();
-            Toast.makeText(this, "New :" +newVersion+"\n"+"Old :"+oldVersion, Toast.LENGTH_LONG).show();
+            String newVersion = Jsoup.connect("https://play.google.com/store/apps/details?id=in.bizzmark.smartpoints_user&rdid=in.bizzmark.smartpoints_user")
+                    .timeout(300000)
+                    .userAgent("Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/43.0.2357.65 Mobile Safari/537.36")
+                    .referrer("http://www.google.com").get()
+                    .select("div[itemprop=softwareVersion]").first()
+                    .ownText();
+            Toast.makeText(this, "New :" + newVersion + "\n" + "Old :" + oldVersion, Toast.LENGTH_LONG).show();
 
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -263,12 +321,12 @@ public class NavigationActivity extends Activity
 
     //Check connection
     private void checkConnection() {
-        if (checkInternet.isInternetConnected(this)){
+        if (checkInternet.isInternetConnected(this)) {
             if (ACCESS_TOKEN.isEmpty()) {
-              //  startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
+                //  startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
             }
             return;
-        }else {
+        } else {
             return;
         }
     }
@@ -287,33 +345,33 @@ public class NavigationActivity extends Activity
 
     // Runtime Permission
     private void requestCameraPermission() {
-        if (checkPermissions()){
+        if (checkPermissions()) {
             getIMEIString();
             // Already Permission granted
-        }else {
+        } else {
             requestPermission();
         }
     }
 
     private boolean checkPermissions() {
-        return ( ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA ) == PackageManager.PERMISSION_GRANTED);
+        return (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED);
     }
 
     private void requestPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{CAMERA,READ_PHONE_STATE, ACCESS_FINE_LOCATION}, REQUEST_CODE);
+        ActivityCompat.requestPermissions(this, new String[]{CAMERA, READ_PHONE_STATE, ACCESS_FINE_LOCATION}, REQUEST_CODE);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == REQUEST_CODE){
-            if (grantResults.length > 0){
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults.length > 0) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getIMEIString();
                     Toast.makeText(getApplicationContext(), "Permission Granted, Now you can access camera", Toast.LENGTH_LONG).show();
-                }else {
+                } else {
                     Toast.makeText(getApplicationContext(), "Permission Denied, You cannot access and camera", Toast.LENGTH_LONG).show();
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (shouldShowRequestPermissionRationale(CAMERA)){
+                        if (shouldShowRequestPermissionRationale(CAMERA)) {
                             new AlertDialog.Builder(NavigationActivity.this)
                                     .setMessage("You haven't given us permission to use camera, please enable the permission in setting to start scanning SmartpointS code")
                                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -321,7 +379,7 @@ public class NavigationActivity extends Activity
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                requestPermissions(new String[]{CAMERA,READ_PHONE_STATE,ACCESS_FINE_LOCATION},REQUEST_CODE);
+                                                requestPermissions(new String[]{CAMERA, READ_PHONE_STATE, ACCESS_FINE_LOCATION}, REQUEST_CODE);
                                             }
                                         }
                                     }).setCancelable(false)
@@ -331,7 +389,7 @@ public class NavigationActivity extends Activity
                     }
                 }
             }
-        }else {
+        } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
@@ -341,6 +399,16 @@ public class NavigationActivity extends Activity
         try {
             TelephonyManager telephonyManager = (TelephonyManager) getApplication()
                     .getSystemService(Context.TELEPHONY_SERVICE);
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             device_Id = telephonyManager.getDeviceId();
         }catch (Throwable throwable){
             throwable.printStackTrace();
