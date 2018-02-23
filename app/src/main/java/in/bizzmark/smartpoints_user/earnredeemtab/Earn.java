@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -26,6 +27,7 @@ import java.util.Calendar;
 
 import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.bo.PointsBO;
+import in.bizzmark.smartpoints_user.utility.NetworkUtils;
 import in.bizzmark.smartpoints_user.wifidirect.WiFiDirectActivity;
 
 import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
@@ -43,6 +45,7 @@ public class Earn extends Fragment {
     Button btnEarn;
     String storeName;
     String deviceId = device_Id;
+    RelativeLayout rlOnlineRequest;
 
     public Earn(){
         // Require empty constructor
@@ -62,12 +65,14 @@ public class Earn extends Fragment {
         SharedPreferences sp = getActivity().getSharedPreferences("MY_STORE_NAME", Context.MODE_PRIVATE);
         storeName = sp.getString("key_store_name", "");
        // Toast.makeText(getActivity(), "Store Name : "+ storeName, Toast.LENGTH_SHORT).show();
+        showViewsBasedOnInternet();
         return v;
     }
 
     private void findViewById(final View v) {
         et_earn_Billamount = (EditText)v. findViewById(R.id.et_earn_billAmountText);
         btnEarn = (Button)v. findViewById(R.id.btn_earn_send);
+        rlOnlineRequest=(RelativeLayout) v. findViewById(R.id.rlOnlineRequest);
        /* btnEarn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,7 +90,22 @@ public class Earn extends Fragment {
             }
         });*/
     }
+    private void showViewsBasedOnInternet() {
 
+        NetworkUtils.checkInternetConnection(getActivity(), new NetworkUtils.NetworkStatusListener() {
+            @Override
+            public void onNetworkAvailable() {
+                rlOnlineRequest.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onNetworkNotAvailable() {
+
+                rlOnlineRequest.setVisibility(View.GONE);
+            }
+        });
+
+    }
     @Override
     public void onStart() {
         super.onStart();

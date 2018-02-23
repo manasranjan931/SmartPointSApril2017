@@ -59,6 +59,7 @@ import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.adapter.ViewPageAdapter;
 import in.bizzmark.smartpoints_user.earnredeemtab.Earn;
 import in.bizzmark.smartpoints_user.earnredeemtab.Redeem;
+import in.bizzmark.smartpoints_user.utility.NetworkUtils;
 
 /**
  * An activity that uses WiFi Direct APIs to discover and connect with available
@@ -119,6 +120,11 @@ public class WiFiDirectActivity extends AppCompatActivity
         progressDialog.setTitle("Please wait !");
         progressDialog.setMessage("Searching seller device......");
        // progressDialog.show();
+
+
+        svWifiDirect=(ScrollView)findViewById(R.id.svWifiDirect);
+        rlWifiDirect=(RelativeLayout) findViewById(R.id.rlWifiDirect);
+
 
         // Turn on wifi
         turnOnWifi();
@@ -188,8 +194,28 @@ public class WiFiDirectActivity extends AppCompatActivity
 
         //View-Pager
         viewPager();
+        showViewsBasedOnInternet();
 
     }
+
+     private void showViewsBasedOnInternet() {
+
+         NetworkUtils.checkInternetConnection(getApplicationContext(), new NetworkUtils.NetworkStatusListener() {
+             @Override
+             public void onNetworkAvailable() {
+                svWifiDirect.setVisibility(View.GONE);
+                rlWifiDirect.setVisibility(View.GONE);
+
+             }
+
+             @Override
+             public void onNetworkNotAvailable() {
+                 svWifiDirect.setVisibility(View.VISIBLE);
+                 rlWifiDirect.setVisibility(View.VISIBLE);
+             }
+         });
+
+     }
 
      private void viewPager() {
          tabLayout = (TabLayout) findViewById(R.id.tabLayout);

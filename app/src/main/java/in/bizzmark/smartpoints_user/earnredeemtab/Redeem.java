@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -26,6 +27,7 @@ import java.util.Calendar;
 import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.bo.PointsBO;
 import in.bizzmark.smartpoints_user.login.LoginActivity;
+import in.bizzmark.smartpoints_user.utility.NetworkUtils;
 import in.bizzmark.smartpoints_user.wifidirect.WiFiDirectActivity;
 
 import static in.bizzmark.smartpoints_user.NavigationActivity.ACCESS_TOKEN;
@@ -39,7 +41,7 @@ public class Redeem extends Fragment {
     public static String redeem_Billamount,redeem_points,storeName;
     String point;
     String deviceId = device_Id;
-
+    RelativeLayout rlOnlineRequest;
     public Redeem(){
         // Required empty public constructor
     }
@@ -55,6 +57,8 @@ public class Redeem extends Fragment {
         et_redeem_Billamount  = (EditText) v.findViewById(R.id.et_redeem_billAmountText);
         etRedeemPoints  = (EditText) v.findViewById(R.id.et_redeem_points);
         btnRedeem = (Button)v. findViewById(R.id.btn_redeem_send);
+        rlOnlineRequest=(RelativeLayout) v. findViewById(R.id.rlOnlineRequest);
+        showViewsBasedOnInternet();
         /*btnRedeem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +81,22 @@ public class Redeem extends Fragment {
         return v;
     }
 
+    private void showViewsBasedOnInternet() {
 
+        NetworkUtils.checkInternetConnection(getActivity(), new NetworkUtils.NetworkStatusListener() {
+            @Override
+            public void onNetworkAvailable() {
+                rlOnlineRequest.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onNetworkNotAvailable() {
+
+                rlOnlineRequest.setVisibility(View.GONE);
+            }
+        });
+
+    }
     // Check wifi-direct support
     private boolean checkDeviceSupportWifiDirect() {
         PackageManager pm = getActivity().getPackageManager();
