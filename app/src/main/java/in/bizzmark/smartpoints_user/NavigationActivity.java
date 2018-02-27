@@ -150,24 +150,6 @@ public class NavigationActivity extends Activity
         //Mount listview with adapter
         initDrawerLayout();
 
-       /* toggle = new ActionBarDrawerToggle(
-                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View navHeader = navigationView.getHeaderView(0);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        // Hide Navigation Items
-        hideNavigationItems();
-
-        // for profile picture
-        profileImageView = (CircleImageView) navHeader.findViewById(R.id.profile_circleView);
-
-        // set device id
-        tvDeviceId = (TextView) navHeader.findViewById(R.id.tv_deviceId);
-        tvDeviceId.setText("Your device Id : "+device_Id);*/
 
         // for points button
         btn_Your_Points = (Button) findViewById(R.id.your_points_button);

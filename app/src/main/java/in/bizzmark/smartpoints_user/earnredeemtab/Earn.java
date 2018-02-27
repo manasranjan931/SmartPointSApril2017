@@ -1,6 +1,7 @@
 package in.bizzmark.smartpoints_user.earnredeemtab;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,22 +21,37 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.bo.PointsBO;
+import in.bizzmark.smartpoints_user.login.LoginActivity;
 import in.bizzmark.smartpoints_user.utility.NetworkUtils;
 import in.bizzmark.smartpoints_user.wifidirect.WiFiDirectActivity;
 
 import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
+import static in.bizzmark.smartpoints_user.utility.UrlUtility.LOGIN_URL;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Earn extends Fragment {
+public class Earn extends Fragment implements View.OnClickListener {
 
     public static final int REQUEST_READ_PERMISSION = 1;
 
@@ -46,6 +62,7 @@ public class Earn extends Fragment {
     String storeName;
     String deviceId = device_Id;
     RelativeLayout rlOnlineRequest;
+    private ProgressDialog progressDialog;
 
     public Earn(){
         // Require empty constructor
@@ -60,6 +77,8 @@ public class Earn extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.earn,container,false);
         findViewById(v);
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Please wait.....");
 
         // retrieve storeName from sharedPreferences
         SharedPreferences sp = getActivity().getSharedPreferences("MY_STORE_NAME", Context.MODE_PRIVATE);
@@ -73,22 +92,8 @@ public class Earn extends Fragment {
         et_earn_Billamount = (EditText)v. findViewById(R.id.et_earn_billAmountText);
         btnEarn = (Button)v. findViewById(R.id.btn_earn_send);
         rlOnlineRequest=(RelativeLayout) v. findViewById(R.id.rlOnlineRequest);
-       /* btnEarn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btnEarn.setOnClickListener(this);
 
-                earn_Billamount = et_earn_Billamount.getText().toString().trim();
-                if (TextUtils.isEmpty(earn_Billamount)) {
-                    Snackbar.make(view, "Please enter bill amount", Snackbar.LENGTH_SHORT).show();
-                } else {
-                    if (!earn_Billamount.startsWith("0")) {
-                        checkDeviceSupportWifiDirect();
-                    }else {
-                        Toast.makeText(getActivity(), "You enter : "+earn_Billamount, Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });*/
     }
     private void showViewsBasedOnInternet() {
 
@@ -191,6 +196,50 @@ public class Earn extends Fragment {
         editor.putString("key_bill_amount", jsonEarn);
         editor.commit();
        // Toast.makeText(getContext(), "Json : " + jsonEarn, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+
+        progressDialog.show();
+        // do login
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, LOGIN_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                Toast.makeText(getActivity(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("email" ,"" );
+                parameters.put("password","" );
+                parameters.put("deviceId", device_Id);
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                300000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(stringRequest);
 
     }
 }

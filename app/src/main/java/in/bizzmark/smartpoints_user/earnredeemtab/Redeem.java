@@ -1,5 +1,6 @@
 package in.bizzmark.smartpoints_user.earnredeemtab;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,10 +20,23 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.bo.PointsBO;
@@ -32,8 +46,9 @@ import in.bizzmark.smartpoints_user.wifidirect.WiFiDirectActivity;
 
 import static in.bizzmark.smartpoints_user.NavigationActivity.ACCESS_TOKEN;
 import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
+import static in.bizzmark.smartpoints_user.utility.UrlUtility.LOGIN_URL;
 
-public class Redeem extends Fragment {
+public class Redeem extends Fragment implements View.OnClickListener {
 
     EditText et_redeem_Billamount, etRedeemPoints;
     String type = "redeem";
@@ -42,6 +57,7 @@ public class Redeem extends Fragment {
     String point;
     String deviceId = device_Id;
     RelativeLayout rlOnlineRequest;
+    private ProgressDialog progressDialog;
     public Redeem(){
         // Required empty public constructor
     }
@@ -53,31 +69,15 @@ public class Redeem extends Fragment {
         // retrieve storeName from sharedPreferences
         SharedPreferences sp = getActivity().getSharedPreferences("MY_STORE_NAME", Context.MODE_PRIVATE);
         storeName = sp.getString("key_store_name", "");
-
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Please wait.....");
         et_redeem_Billamount  = (EditText) v.findViewById(R.id.et_redeem_billAmountText);
         etRedeemPoints  = (EditText) v.findViewById(R.id.et_redeem_points);
         btnRedeem = (Button)v. findViewById(R.id.btn_redeem_send);
+        btnRedeem.setOnClickListener(this);
         rlOnlineRequest=(RelativeLayout) v. findViewById(R.id.rlOnlineRequest);
         showViewsBasedOnInternet();
-        /*btnRedeem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                redeem_Billamount = et_redeem_Billamount.getText().toString().trim();
-                redeem_points = etRedeemPoints.getText().toString().trim();
 
-                if (TextUtils.isEmpty(redeem_Billamount)){
-                    Snackbar.make(v,"Please enter bill amount", Snackbar.LENGTH_SHORT).show();
-                }else if (redeem_Billamount.startsWith("0")) {
-                    Toast.makeText(getActivity(), "amount shouldn't be " + redeem_Billamount, Toast.LENGTH_SHORT).show();
-                }else if (TextUtils.isEmpty(redeem_points)){
-                    Snackbar.make(v,"Please enter points", Snackbar.LENGTH_SHORT).show();
-                }else if (redeem_points.startsWith("0")) {
-                    Toast.makeText(getActivity(), "amount shouldn't be " + redeem_points, Toast.LENGTH_SHORT).show();
-                } else{
-                    checkDeviceSupportWifiDirect();
-                }
-            }
-        });*/
         return v;
     }
 
@@ -223,5 +223,47 @@ public class Redeem extends Fragment {
     private void retrievingAccessTokenFromSP() {
         SharedPreferences sp = getActivity().getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE);
         ACCESS_TOKEN = sp.getString("access_token", "");
+    }
+
+    @Override
+    public void onClick(View v) {
+        progressDialog.show();
+        // do login
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, LOGIN_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                Toast.makeText(getActivity(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("email" ,"" );
+                parameters.put("password","" );
+                parameters.put("deviceId", device_Id);
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                300000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(stringRequest);
+
     }
 }
