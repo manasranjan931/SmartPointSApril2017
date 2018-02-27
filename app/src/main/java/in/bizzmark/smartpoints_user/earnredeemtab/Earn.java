@@ -1,8 +1,10 @@
 package in.bizzmark.smartpoints_user.earnredeemtab;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.FeatureInfo;
@@ -46,6 +48,7 @@ import in.bizzmark.smartpoints_user.utility.NetworkUtils;
 import in.bizzmark.smartpoints_user.wifidirect.WiFiDirectActivity;
 
 import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
+import static in.bizzmark.smartpoints_user.utility.UrlUtility.EARN_TRANSACTION_ONLINE;
 import static in.bizzmark.smartpoints_user.utility.UrlUtility.LOGIN_URL;
 
 /**
@@ -201,45 +204,52 @@ public class Earn extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        final String billAmount=et_earn_Billamount.getText().toString();
+        if(billAmount.length()>0) {
+            progressDialog.show();
+            // do login
+            String url=EARN_TRANSACTION_ONLINE+"branchName="+storeName+"&customerDeviceId="+deviceId+"&billAmount="+billAmount;
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            progressDialog.dismiss();
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                AlertDialog.Builder dialogue=new AlertDialog.Builder(getActivity());
+                                dialogue.setMessage("Request sent to the seller, You will receive a status message once seller accepts it");
+                                dialogue.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        et_earn_Billamount.setText("");
+                                        dialog.dismiss();
+                                    }
+                                });
+                                dialogue.show();
 
-        progressDialog.show();
-        // do login
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, LOGIN_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        progressDialog.dismiss();
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
+                                //Toast.makeText(getActivity(),"Request sent to the seller you will rec",Toast.LENGTH_SHORT).show();
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
                         }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
-                Toast.makeText(getActivity(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("email" ,"" );
-                parameters.put("password","" );
-                parameters.put("deviceId", device_Id);
-                return parameters;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                300000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        requestQueue.add(stringRequest);
-
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getActivity(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
+                }
+            });
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    300000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            requestQueue.add(stringRequest);
+        }else{
+            Toast.makeText(getActivity(),"Enter the bill amount",Toast.LENGTH_SHORT).show();
+        }
     }
 }

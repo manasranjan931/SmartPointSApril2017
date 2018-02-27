@@ -18,6 +18,10 @@ public class UrlUtility {
 
     public static final String  SEND_DEVICE_TOKEN = "http://bizzmark.in/smartpoints/api/insertdevicetoken";
 
+    public static final String  EARN_TRANSACTION_ONLINE = "http://bizzmark.in/smartpoints/seller-api/fcm-make-earn-transaction?";
+
+    public static final String  REDEEM_TRANSACTION_ONLINE = "http://bizzmark.in/smartpoints/seller-api/fcm-make-redeem-transaction?";
+
    // public static final String ABOUT_STORE_URL = "http://bizzmark.in/smartpoints/customer-api/get-branch-details?branchId="+branch_Id;
 
     //public static final String EARN_TRANSACTION_URL = "http://bizzmark.in/smartpoints/customer-api/get-single-customer-all-branch-transactions?customerDeviceId="+device_Id+"&branchId="+branch_Id ;

@@ -205,6 +205,7 @@ public class NavigationActivity extends Activity
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("deviceId", device_Id);
                 parameters.put("devicetoken", deviceToken);
+                parameters.put("usertype", "customer");
                 return parameters;
             }
         };

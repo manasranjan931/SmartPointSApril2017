@@ -1,7 +1,9 @@
 package in.bizzmark.smartpoints_user.earnredeemtab;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.FeatureInfo;
@@ -46,7 +48,9 @@ import in.bizzmark.smartpoints_user.wifidirect.WiFiDirectActivity;
 
 import static in.bizzmark.smartpoints_user.NavigationActivity.ACCESS_TOKEN;
 import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
+import static in.bizzmark.smartpoints_user.utility.UrlUtility.EARN_TRANSACTION_ONLINE;
 import static in.bizzmark.smartpoints_user.utility.UrlUtility.LOGIN_URL;
+import static in.bizzmark.smartpoints_user.utility.UrlUtility.REDEEM_TRANSACTION_ONLINE;
 
 public class Redeem extends Fragment implements View.OnClickListener {
 
@@ -86,6 +90,7 @@ public class Redeem extends Fragment implements View.OnClickListener {
         NetworkUtils.checkInternetConnection(getActivity(), new NetworkUtils.NetworkStatusListener() {
             @Override
             public void onNetworkAvailable() {
+
                 rlOnlineRequest.setVisibility(View.VISIBLE);
             }
 
@@ -227,43 +232,55 @@ public class Redeem extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        progressDialog.show();
-        // do login
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, LOGIN_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        progressDialog.dismiss();
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
+        final String billAmount=et_redeem_Billamount.getText().toString();
+        final String redeemPoints=etRedeemPoints.getText().toString();
+        if(billAmount.length()>0 && redeemPoints.length()>0) {
+            progressDialog.show();
+            // do login
+            String url=REDEEM_TRANSACTION_ONLINE+"branchName="+storeName+"&customerDeviceId="+deviceId+"&billAmount="+billAmount+"&wishedRedeemPoints="+redeemPoints;
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            progressDialog.dismiss();
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                AlertDialog.Builder dialogue=new AlertDialog.Builder(getActivity());
+                                dialogue.setMessage("Request sent to the seller, You will receive a status message once seller accepts it");
+                                dialogue.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        et_redeem_Billamount.setText("");
+                                        etRedeemPoints.setText("");
+                                        dialog.dismiss();
+                                    }
+                                });
+                                dialogue.show();
+
+                                //Toast.makeText(getActivity(),"Request sent to the seller you will rec",Toast.LENGTH_SHORT).show();
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
                         }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
-                Toast.makeText(getActivity(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("email" ,"" );
-                parameters.put("password","" );
-                parameters.put("deviceId", device_Id);
-                return parameters;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                300000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        requestQueue.add(stringRequest);
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getActivity(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
+                }
+            });
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    300000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            requestQueue.add(stringRequest);
+        }else{
+            Toast.makeText(getActivity(),"Enter the bill amount and redeem points",Toast.LENGTH_SHORT).show();
+        }
 
     }
 }
