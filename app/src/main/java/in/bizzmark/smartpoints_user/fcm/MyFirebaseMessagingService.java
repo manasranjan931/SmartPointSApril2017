@@ -21,7 +21,9 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
+import in.bizzmark.smartpoints_user.NavigationActivity;
 import in.bizzmark.smartpoints_user.R;
+import in.bizzmark.smartpoints_user.database.PointsActivity;
 import in.bizzmark.smartpoints_user.login.LoginActivity;
 
 
@@ -55,7 +57,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
 
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, PointsActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             pendingIntent = PendingIntent.getActivity(this, 0, intent,
                     PendingIntent.FLAG_ONE_SHOT);
