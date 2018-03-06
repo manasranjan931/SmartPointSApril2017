@@ -41,7 +41,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -205,6 +207,11 @@ public class WiFiDirectActivity extends AppCompatActivity
              public void onNetworkAvailable() {
                 svWifiDirect.setVisibility(View.GONE);
                 rlWifiDirect.setVisibility(View.GONE);
+                ViewGroup.LayoutParams lp = viewPager.getLayoutParams();
+                 float dp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 250,
+                         getResources().getDisplayMetrics());
+                 lp.height = (int)dp;
+                viewPager.setLayoutParams(lp);
 
              }
 
@@ -212,6 +219,11 @@ public class WiFiDirectActivity extends AppCompatActivity
              public void onNetworkNotAvailable() {
                  svWifiDirect.setVisibility(View.VISIBLE);
                  rlWifiDirect.setVisibility(View.VISIBLE);
+                 ViewGroup.LayoutParams lp = viewPager.getLayoutParams();
+                 float dp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150,
+                         getResources().getDisplayMetrics());
+                 lp.height = (int)dp;
+                 viewPager.setLayoutParams(lp);
              }
          });
 
