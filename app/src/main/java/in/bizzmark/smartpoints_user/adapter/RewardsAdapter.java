@@ -38,6 +38,7 @@ public class RewardsAdapter extends RecyclerView.Adapter<RewardsAdapter.ViewHold
         holder.tvPoints.setText(rewardsBO.getPoints()+"\n"+"points");
         holder.tvRewards.setText(rewardsBO.getRewards());
         holder.tvRewarsExpDate.setText("Expire date : "+rewardsBO.getExp_date());
+        holder.tvDescription.setText(rewardsBO.getDescription());
     }
 
     @Override
@@ -47,13 +48,14 @@ public class RewardsAdapter extends RecyclerView.Adapter<RewardsAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView tvPoints, tvRewards, tvRewarsExpDate;
+        public TextView tvPoints, tvRewards, tvRewarsExpDate,tvDescription;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             tvPoints = (TextView) itemView.findViewById(R.id.tv_rewards_points);
             tvRewards = (TextView) itemView.findViewById(R.id.tv_rewards);
+            tvDescription = (TextView) itemView.findViewById(R.id.tv_description);
             tvRewarsExpDate = (TextView) itemView.findViewById(R.id.tv_rewards_exp_date);
         }
     }

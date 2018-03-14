@@ -116,12 +116,17 @@ public class RewardsFrag extends Fragment {
                                     String points = jo.getString("points");
                                     String rewards = jo.getString("rewards");
                                     String expiry_date = jo.getString("expiry_date");
+                                    String description = jo.getString("description");
 
                                     RewardsBO rewardsBO = new RewardsBO();
                                     rewardsBO.setStore_id(store_id);
                                     rewardsBO.setPoints(points);
                                     rewardsBO.setRewards(rewards);
                                     rewardsBO.setExp_date(expiry_date);
+                                    if(description!=null)
+                                        rewardsBO.setDescription(description);
+                                    else
+                                        rewardsBO.setDescription("");
 
                                     rewardsList.add(rewardsBO);
                                 }

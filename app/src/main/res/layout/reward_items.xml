@@ -40,7 +40,16 @@
                 android:id="@+id/tv_rewards"
                 android:text="cup of coffee"
                 />
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="10dp"
+                android:paddingRight="7dp"
+                android:id="@+id/tv_description"
+                android:layout_marginTop="4dp"
+                android:text="Testing the rewards description"
+                />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,6 +61,7 @@
                 android:textColor="#0000ff"
                 android:text="2017-05-31"
                 />
+
 
         </LinearLayout>
 

@@ -9,10 +9,19 @@ public class RewardsBO {
     String points;
     String rewards;
     String exp_date;
-
+    String description;
     public RewardsBO(){
         // Require empty constructor
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     public String getStore_id() {
         return store_id;
