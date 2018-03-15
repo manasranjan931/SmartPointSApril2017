@@ -37,6 +37,7 @@ public class RewardsAdapter extends RecyclerView.Adapter<RewardsAdapter.ViewHold
         RewardsBO rewardsBO = rewardsList.get(position);
         holder.tvPoints.setText(rewardsBO.getPoints()+"\n"+"points");
         holder.tvRewards.setText(rewardsBO.getRewards());
+        holder.tvRewards.setVisibility(View.GONE);
         holder.tvRewarsExpDate.setText("Expire date : "+rewardsBO.getExp_date());
         holder.tvDescription.setText(rewardsBO.getDescription());
     }
