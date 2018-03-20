@@ -209,6 +209,7 @@ public class Earn extends Fragment implements View.OnClickListener {
             progressDialog.show();
             // do login
             String url=EARN_TRANSACTION_ONLINE+"branchName="+storeName+"&customerDeviceId="+deviceId+"&billAmount="+billAmount;
+            url=url.replaceAll(" ","%20");
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                     new Response.Listener<String>() {
                         @Override

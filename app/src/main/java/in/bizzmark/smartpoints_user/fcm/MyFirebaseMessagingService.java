@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -25,6 +26,7 @@ import in.bizzmark.smartpoints_user.NavigationActivity;
 import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.database.PointsActivity;
 import in.bizzmark.smartpoints_user.login.LoginActivity;
+import in.bizzmark.smartpoints_user.utility.Utility;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -44,7 +46,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 JSONObject obj=new JSONObject(params);
                 String message=params.get("title");
                 String title=params.get("message");
+            if(Utility.isAppIsInBackground(this))
                 sendNotification(title,message);
+            else
+            {
+                Intent i = new Intent("some_custom_id");
+                i.putExtra("data", obj.toString());
+                LocalBroadcastManager.getInstance(this).sendBroadcast(i);
+            }
 
         } else {
             Log.e(TAG, "Push Failure:: ");
@@ -54,8 +63,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(String title, String messageBody) {
         PendingIntent pendingIntent = null;
-
-
 
             Intent intent = new Intent(this, PointsActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -78,14 +85,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, notificationBuilder.build());
 
-     /*   if (mNotificationType == 5) {
-            String current_session_id = CoreCustomPreferenceManager.getInstance(getApplication()).getSharedStringValue(CoreCustomPreferenceManager.PreferenceKeys.CURRENT_SESSION_ID);
-            if (!current_session_id.equalsIgnoreCase(mSessionCode)) {
-                notificationManager.notify(0, notificationBuilder.build());
-            }
-        } else {
-            notificationManager.notify(0, notificationBuilder.build());
-        }*/
     }
 
 

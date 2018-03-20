@@ -1,20 +1,30 @@
 package in.bizzmark.smartpoints_user;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import in.bizzmark.smartpoints_user.adapter.ViewPageAdapter;
+import in.bizzmark.smartpoints_user.database.PointsActivity;
 import in.bizzmark.smartpoints_user.earnredeemtab.Earn;
 import in.bizzmark.smartpoints_user.earnredeemtab.Redeem;
 import in.bizzmark.smartpoints_user.login.CheckInternet;
@@ -33,6 +43,7 @@ public class EarnRedeemActivity extends AppCompatActivity {
     DbHelper helper;
     SQLiteDatabase sqLiteDatabase;
     String query;
+    private BroadcastReceiver receiver = null;
 
     CheckInternet checkInternet = new CheckInternet();
 
@@ -88,9 +99,44 @@ public class EarnRedeemActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(mNotificationReceiver, new IntentFilter("some_custom_id"));
 
     }
+
+    protected BroadcastReceiver mNotificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String earnString = intent.getStringExtra("data");
+            try {
+                JSONObject obj=new JSONObject(earnString);
+                AlertDialog.Builder dialogue=new AlertDialog.Builder(EarnRedeemActivity.this);
+                dialogue.setMessage(obj.getString("message"));
+                dialogue.setTitle(obj.getString("title"));
+                dialogue.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                       // dialog.cancel();
+                        Intent intent = new Intent(EarnRedeemActivity.this, PointsActivity.class);
+                        startActivity(intent);
+
+                    }
+                });
+                dialogue.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                dialogue.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+
 
     private void retrievePoints() {
         if (checkInternet.isInternetConnected(this)){

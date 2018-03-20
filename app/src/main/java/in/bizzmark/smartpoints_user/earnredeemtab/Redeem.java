@@ -238,6 +238,7 @@ public class Redeem extends Fragment implements View.OnClickListener {
             progressDialog.show();
             // do login
             String url=REDEEM_TRANSACTION_ONLINE+"branchName="+storeName+"&customerDeviceId="+deviceId+"&billAmount="+billAmount+"&wishedRedeemPoints="+redeemPoints;
+            url=url.replaceAll(" ","%20");
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                     new Response.Listener<String>() {
                         @Override
