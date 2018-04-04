@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <include
+        android:id="@+id/topView"
+        layout="@layout/toolbar"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topView"
+        android:layout_above="@+id/liBottomView"/>
+    <TextView
+        android:id="@+id/tvEmptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topView"
+        android:layout_above="@+id/liBottomView"
+        android:gravity="center"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/liBottomView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Make Transaction"
+            android:textSize="14dp"
+            android:layout_weight="1"
+            android:textStyle="normal"
+            android:layout_gravity="bottom"
+            android:textColor="@color/color_white"
+            android:background="@color/colorPrimary"
+            android:id="@+id/btnTransaction"
+            />
+
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="points"
+            android:textSize="14dp"
+            android:layout_weight="1"
+            android:textStyle="normal"
+            android:layout_gravity="bottom"
+            android:textColor="@color/color_white"
+            android:background="@color/colorPrimary"
+            android:id="@+id/btnPoints"
+            />
+
+
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
