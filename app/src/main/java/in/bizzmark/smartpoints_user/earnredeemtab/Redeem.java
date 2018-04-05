@@ -9,10 +9,8 @@ import android.content.SharedPreferences;
 import android.content.pm.FeatureInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +20,6 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -37,49 +34,45 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.bo.PointsBO;
 import in.bizzmark.smartpoints_user.login.LoginActivity;
 import in.bizzmark.smartpoints_user.utility.NetworkUtils;
-import in.bizzmark.smartpoints_user.wifidirect.WiFiDirectActivity;
 
 import static in.bizzmark.smartpoints_user.NavigationActivity.ACCESS_TOKEN;
 import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
-import static in.bizzmark.smartpoints_user.utility.UrlUtility.EARN_TRANSACTION_ONLINE;
-import static in.bizzmark.smartpoints_user.utility.UrlUtility.LOGIN_URL;
 import static in.bizzmark.smartpoints_user.utility.UrlUtility.REDEEM_TRANSACTION_ONLINE;
 
 public class Redeem extends Fragment implements View.OnClickListener {
 
+    public static String redeem_Billamount, redeem_points, storeName;
     EditText et_redeem_Billamount, etRedeemPoints;
     String type = "redeem";
     Button btnRedeem;
-    public static String redeem_Billamount,redeem_points,storeName;
     String point;
     String deviceId = device_Id;
     RelativeLayout rlOnlineRequest;
     private ProgressDialog progressDialog;
-    public Redeem(){
+
+    public Redeem() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.redeem,container,false);
+        View v = inflater.inflate(R.layout.redeem, container, false);
 
         // retrieve storeName from sharedPreferences
         SharedPreferences sp = getActivity().getSharedPreferences("MY_STORE_NAME", Context.MODE_PRIVATE);
         storeName = sp.getString("key_store_name", "");
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please wait.....");
-        et_redeem_Billamount  = (EditText) v.findViewById(R.id.et_redeem_billAmountText);
-        etRedeemPoints  = (EditText) v.findViewById(R.id.et_redeem_points);
-        btnRedeem = (Button)v. findViewById(R.id.btn_redeem_send);
+        et_redeem_Billamount = (EditText) v.findViewById(R.id.et_redeem_billAmountText);
+        etRedeemPoints = (EditText) v.findViewById(R.id.et_redeem_points);
+        btnRedeem = (Button) v.findViewById(R.id.btn_redeem_send);
         btnRedeem.setOnClickListener(this);
-        rlOnlineRequest=(RelativeLayout) v. findViewById(R.id.rlOnlineRequest);
+        rlOnlineRequest = (RelativeLayout) v.findViewById(R.id.rlOnlineRequest);
         showViewsBasedOnInternet();
 
         return v;
@@ -102,17 +95,18 @@ public class Redeem extends Fragment implements View.OnClickListener {
         });
 
     }
+
     // Check wifi-direct support
     private boolean checkDeviceSupportWifiDirect() {
         PackageManager pm = getActivity().getPackageManager();
         FeatureInfo features[] = pm.getSystemAvailableFeatures();
         for (FeatureInfo info : features) {
-            if (info != null && info.name != null && info.name.equalsIgnoreCase("android.hardware.wifi.direct")){
-                    if (!ACCESS_TOKEN.isEmpty()) {
-                        sendDataToWifiDirectClass();
-                    } else {
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
-                    }
+            if (info != null && info.name != null && info.name.equalsIgnoreCase("android.hardware.wifi.direct")) {
+                if (!ACCESS_TOKEN.isEmpty()) {
+                    sendDataToWifiDirectClass();
+                } else {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
                 return true;
             }
         }
@@ -170,7 +164,7 @@ public class Redeem extends Fragment implements View.OnClickListener {
             public void afterTextChanged(Editable s) {
                 try {
                     redeem_Billamount = s.toString();
-                }catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
             }
@@ -199,7 +193,7 @@ public class Redeem extends Fragment implements View.OnClickListener {
                     }else {
                         checkDeviceSupportWifiDirect();
                     }*/
-                }catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
             }
@@ -209,11 +203,11 @@ public class Redeem extends Fragment implements View.OnClickListener {
     private void saveString(String redeem_billamount, String redeemPoints) {
         try {
             if (redeem_billamount.startsWith("0") && redeemPoints.startsWith("0")) {
-                Toast.makeText(getActivity(), "shouldn't be " + redeem_Billamount+"\n"+ redeemPoints , Toast.LENGTH_SHORT).show();
-            }else {
+                Toast.makeText(getActivity(), "shouldn't be " + redeem_Billamount + "\n" + redeemPoints, Toast.LENGTH_SHORT).show();
+            } else {
                 checkDeviceSupportWifiDirect();
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
@@ -232,56 +226,61 @@ public class Redeem extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        final String billAmount=et_redeem_Billamount.getText().toString();
-        final String redeemPoints=etRedeemPoints.getText().toString();
-        if(billAmount.length()>0 && redeemPoints.length()>0) {
-            progressDialog.show();
-            // do login
-            String url=REDEEM_TRANSACTION_ONLINE+"branchName="+storeName+"&customerDeviceId="+deviceId+"&billAmount="+billAmount+"&wishedRedeemPoints="+redeemPoints;
-            url=url.replaceAll(" ","%20");
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            progressDialog.dismiss();
-                            try {
-                                JSONObject jsonObject = new JSONObject(response);
-                                AlertDialog.Builder dialogue=new AlertDialog.Builder(getActivity());
-                                dialogue.setMessage("Request sent to the seller, You will receive a status message once seller accepts it");
-                                dialogue.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        et_redeem_Billamount.setText("");
-                                        etRedeemPoints.setText("");
-                                        dialog.dismiss();
-                                    }
-                                });
-                                dialogue.show();
+        if (!ACCESS_TOKEN.isEmpty()) {
+            final String billAmount = et_redeem_Billamount.getText().toString();
+            final String redeemPoints = etRedeemPoints.getText().toString();
+            if (billAmount.length() > 0 && redeemPoints.length() > 0) {
+                progressDialog.show();
+                // do login
+                String url = REDEEM_TRANSACTION_ONLINE + "branchName=" + storeName + "&customerDeviceId=" + deviceId + "&billAmount=" + billAmount + "&wishedRedeemPoints=" + redeemPoints;
+                url = url.replaceAll(" ", "%20");
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                progressDialog.dismiss();
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    AlertDialog.Builder dialogue = new AlertDialog.Builder(getActivity());
+                                    dialogue.setMessage("Request sent to the seller, You will receive a status message once seller accepts it");
+                                    dialogue.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-                                //Toast.makeText(getActivity(),"Request sent to the seller you will rec",Toast.LENGTH_SHORT).show();
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            et_redeem_Billamount.setText("");
+                                            etRedeemPoints.setText("");
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    dialogue.show();
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                    //Toast.makeText(getActivity(),"Request sent to the seller you will rec",Toast.LENGTH_SHORT).show();
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
                             }
-
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    progressDialog.dismiss();
-                    Toast.makeText(getActivity(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
-                }
-            });
-            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    300000,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            requestQueue.add(stringRequest);
-        }else{
-            Toast.makeText(getActivity(),"Enter the bill amount and redeem points",Toast.LENGTH_SHORT).show();
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+                stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                        300000,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                requestQueue.add(stringRequest);
+            } else {
+                Toast.makeText(getActivity(), "Enter the bill amount and redeem points", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(getActivity(), "Need to login before redeem", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getActivity(), LoginActivity.class));
         }
-
     }
 }
