@@ -152,6 +152,7 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
         mydb = new DbHelper(this);
         db = mydb.getReadableDatabase();
 
+/*
         if ( mydb != null) {
             String query = "SELECT STORE_NAME, TOTAL_POINTS FROM CUSTOMER_EARN_REDEEM GROUP BY STORE_NAME";
             Cursor cursor = db.rawQuery(query, null);
@@ -162,6 +163,7 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
                 } while (cursor.moveToNext());
             }
         }
+*/
     }
 
     @Override
@@ -183,16 +185,16 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
 
             ContentValues cv = new ContentValues();
 
-            if (store_name_from_sqlite != null && redeem_points_from_sqlite != null){
-                if (store_name_from_sqlite.equalsIgnoreCase(storeName)){
+           // if (store_name_from_sqlite != null && redeem_points_from_sqlite != null){
+                if (storeName!=null){
 
                     int redeem_points = Integer.parseInt(redeemPoints);
-                    int sql_point = Integer.parseInt(redeem_points_from_sqlite);
-                    int total_points = sql_point - redeem_points;
-                    String avail_points = Integer.toString(total_points);
+                    //int sql_point = Integer.parseInt(redeem_points_from_sqlite);
+                   // int total_points = sql_point - redeem_points;
+                   // String avail_points = Integer.toString(total_points);
 
                     cv.put(DbHelper.STORE_NAME_COL_1, storeName);
-                    cv.put(DbHelper.TOTAL_POINTS_COL_3, avail_points);
+                    cv.put(DbHelper.TOTAL_POINTS_COL_3, redeemPoints);
                     cv.put(DbHelper.TYPE_COL_4, type);
                     cv.put(DbHelper.DATE_TIME_COL_5, time);
                     cv.put(DbHelper.DEVICE_ID_COL_6, deviceId);
@@ -204,9 +206,9 @@ public class RedeemAcknowledgement extends Activity implements View.OnClickListe
                     cv.put(DbHelper.REDEEM_TRANSACTION_ID_COL_14, transId);
 
                 }
-            }else {
+           /* }else {
                 Toast.makeText(this, "You don't have enough points to redeem", Toast.LENGTH_LONG).show();
-            }
+            }*/
 
             long result = db.insert(DbHelper.TABLE_EARN_REDEEM, null, cv);
             if (result != -1) {

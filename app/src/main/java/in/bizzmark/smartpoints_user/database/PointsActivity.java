@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import in.bizzmark.smartpoints_user.NavigationActivity;
 import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.adapter.PointsAdapter;
 import in.bizzmark.smartpoints_user.bo.EarnPointsBO;
@@ -84,7 +85,10 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
         recyclerView.setVisibility(View.GONE);
         storeList.clear();
 
-            StringRequest request = new StringRequest(Request.Method.GET, POINTS_URL,
+            String deviceID= NavigationActivity.device_Id;
+
+
+            StringRequest request = new StringRequest(Request.Method.GET, POINTS_URL+deviceID,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String result) {
@@ -166,14 +170,19 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
         if (sqLiteDatabase != null && storeList != null) {
             //String query = "SELECT STORE_NAME, POINTS, BRANCH_ID, STORE_ID FROM CUSTOMER_EARN GROUP BY STORE_NAME";
             //String query = "SELECT STORE_NAME, POINTS, BRANCH_ID, STORE_ID FROM CUSTOMER_EARN_REDEEM WHERE TYPE= 'earn' GROUP BY STORE_NAME";
-            String query = "SELECT STORE_NAME, TOTAL_POINTS, BRANCH_ID, STORE_ID FROM CUSTOMER_EARN_REDEEM GROUP BY STORE_NAME";
+           // db.rawQuery("select sum(amount) from transaction_table where category = Salary ;", null)
+
+
+
+
+            String query = "SELECT STORE_NAME,Sum(earn_points) - Sum(redeem_points), BRANCH_ID, STORE_ID FROM CUSTOMER_EARN_REDEEM GROUP BY STORE_NAME";
             Cursor cursor = sqLiteDatabase.rawQuery(query, null);
            // Log.e("ERROR ==>", query);
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
                     do {
                         storeName = cursor.getString(cursor.getColumnIndex("STORE_NAME"));
-                        points = cursor.getString(cursor.getColumnIndex("TOTAL_POINTS"));
+                        points = cursor.getString(cursor.getColumnIndex("Sum(earn_points) - Sum(redeem_points)"));
                         branchId = cursor.getString(cursor.getColumnIndex("BRANCH_ID"));
                         storeId = cursor.getString(cursor.getColumnIndex("STORE_ID"));
 

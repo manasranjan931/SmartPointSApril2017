@@ -14,7 +14,7 @@ public class UrlUtility {
 
     public static final String UPDATE_PROFILE_URL = "http://bizzmark.in/smartpoints/api/update-user";
 
-    public static final String  POINTS_URL = "http://bizzmark.in/smartpoints/customer-api/get-total-points-for-all-stores?customerDeviceId="+device_Id;
+    public static final String  POINTS_URL = "http://bizzmark.in/smartpoints/customer-api/get-total-points-for-all-stores?customerDeviceId=";
 
     public static final String  SEND_DEVICE_TOKEN = "http://bizzmark.in/smartpoints/api/insertdevicetoken";
 
