@@ -31,6 +31,18 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String EARN_TRANSACTION_ID_COL_13 = "EARN_TRANSACTION_ID";
     public static final String REDEEM_TRANSACTION_ID_COL_14 = "REDEEM_TRANSACTION_ID";
 
+    public static final String STORE_ID="STORE_ID";
+    public static final String BRANCH_NAME="BRANCH_NAME";
+    public static final String STORE_NAME="STORE_NAME";
+    public static final String TOTAL_POINTS="TOTAL_POINTS";
+
+
+    public static final String TABLE_STORES="STORES_LIST";
+
+
+
+
+
     Context context;
     public DbHelper(Context context) {
         super(context, DB_NAME, null, VERSION);
@@ -43,6 +55,10 @@ public class DbHelper extends SQLiteOpenHelper {
                 TYPE_COL_4+" TEXT, "+DATE_TIME_COL_5+" TEXT, "+DEVICE_ID_COL_6+" TEXT, "+BRANCH_ID_COL_7+" TEXT, "+STORE_ID_COL_8+" TEXT, "+NEW_BILL_AMOUNT_COL_9+ " TEXT, "+
                 DISCOUNT_AMOUNT_COL_10+" TEXT, "+EARN_POINTS_COL_11+" TEXT, "+REDEEM_POINTS_COL_12+" TEXT, "+EARN_TRANSACTION_ID_COL_13+" TEXT, "+
                 REDEEM_TRANSACTION_ID_COL_14+" TEXT)";
+
+        //String STORES_LIST="create table " +TABLE_STORES+" ( "+
+
+
         db.execSQL(query);
     }
 

@@ -16,6 +16,7 @@
 
 package in.bizzmark.smartpoints_user.wifidirect;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -36,12 +37,14 @@ import android.net.wifi.p2p.WifiP2pManager.ChannelListener;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -53,12 +56,16 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.bizzmark.smartpoints_user.EarnRedeemActivity;
 import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.adapter.ViewPageAdapter;
+import in.bizzmark.smartpoints_user.database.PointsActivity;
 import in.bizzmark.smartpoints_user.earnredeemtab.Earn;
 import in.bizzmark.smartpoints_user.earnredeemtab.Redeem;
 import in.bizzmark.smartpoints_user.utility.NetworkUtils;
@@ -101,6 +108,8 @@ public class WiFiDirectActivity extends AppCompatActivity
     private Channel channel;
     private BroadcastReceiver receiver = null;
 
+
+
     public static ProgressDialog progressDialog = null;
 
     /**
@@ -122,6 +131,9 @@ public class WiFiDirectActivity extends AppCompatActivity
         progressDialog.setTitle("Please wait !");
         progressDialog.setMessage("Searching seller device......");
        // progressDialog.show();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mNotificationReceiver, new IntentFilter("some_custom_id"));
+
 
 
         svWifiDirect=(ScrollView)findViewById(R.id.svWifiDirect);
@@ -199,6 +211,61 @@ public class WiFiDirectActivity extends AppCompatActivity
         showViewsBasedOnInternet();
 
     }
+
+     protected BroadcastReceiver mNotificationReceiver = new BroadcastReceiver() {
+         @Override
+         public void onReceive(Context context, Intent intent) {
+
+             String earnString = intent.getStringExtra("data");
+             try {
+                 JSONObject obj=new JSONObject(earnString);
+                // String message=;
+                 obj=new JSONObject(obj.getString("message"));
+                 final Dialog dialogue=new Dialog(WiFiDirectActivity.this);
+                 LayoutInflater inflater = getLayoutInflater();
+
+                 View view = inflater.inflate(R.layout.earn_acknowledgement_new, null);
+                 TextView tvStoreName=(TextView)view.findViewById(R.id.tv_store_name);
+                 TextView tvPoints=(TextView)view.findViewById(R.id.tv_points_from_seller);
+                 TextView tvPoints2=(TextView)view.findViewById(R.id.tv_p);
+                 Button save=(Button)view.findViewById(R.id.btn_save_acknowledgement_data);
+                 tvStoreName.setText(storeName);
+                 String points=obj.getInt("points")+"";
+                 tvPoints.setText(points);
+                 tvPoints2.setText(points+" Smart points");
+                 dialogue.setContentView(view);
+                 save.setOnClickListener(new View.OnClickListener() {
+                     @Override
+                     public void onClick(View v) {
+                        dialogue.dismiss();
+                     }
+                 });
+                 //dialogue.setMessage(obj.getString("message"));
+
+                 //dialogue.setTitle(obj.getString("title"));
+                /* dialogue.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
+                         // dialog.cancel();
+                         Intent intent = new Intent(WiFiDirectActivity.this, PointsActivity.class);
+                         startActivity(intent);
+
+                     }
+                 });
+                 dialogue.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
+                         dialog.cancel();
+                     }
+                 });*/
+                 dialogue.show();
+
+             } catch (Exception e) {
+                 e.printStackTrace();
+             }
+         }
+     };
+
 
      private void showViewsBasedOnInternet() {
 
@@ -511,5 +578,11 @@ public class WiFiDirectActivity extends AppCompatActivity
         }
 
     }
+
+     @Override
+     protected void onDestroy() {
+         LocalBroadcastManager.getInstance(this).unregisterReceiver(mNotificationReceiver);
+         super.onDestroy();
+     }
 
  }

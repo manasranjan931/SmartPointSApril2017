@@ -99,42 +99,9 @@ public class EarnRedeemActivity extends AppCompatActivity {
                 finish();
             }
         });
-        LocalBroadcastManager.getInstance(this).registerReceiver(mNotificationReceiver, new IntentFilter("some_custom_id"));
 
     }
 
-    protected BroadcastReceiver mNotificationReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            String earnString = intent.getStringExtra("data");
-            try {
-                JSONObject obj=new JSONObject(earnString);
-                AlertDialog.Builder dialogue=new AlertDialog.Builder(EarnRedeemActivity.this);
-                dialogue.setMessage(obj.getString("message"));
-                dialogue.setTitle(obj.getString("title"));
-                dialogue.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                       // dialog.cancel();
-                        Intent intent = new Intent(EarnRedeemActivity.this, PointsActivity.class);
-                        startActivity(intent);
-
-                    }
-                });
-                dialogue.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                dialogue.show();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    };
 
 
 
@@ -146,11 +113,7 @@ public class EarnRedeemActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mNotificationReceiver);
-        super.onDestroy();
-    }
+
 
     @Override
     protected void onResume() {

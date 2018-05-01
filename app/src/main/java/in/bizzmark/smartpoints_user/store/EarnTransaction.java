@@ -169,11 +169,11 @@ public class EarnTransaction extends Fragment {
                             if (status.equalsIgnoreCase("success")) {
                                 JSONArray ja = jo.getJSONArray("response");
 
-                                    /*for (int j = 0; j < ja.length(); j++) {
-                                        JSONObject jsonObject = ja.getJSONObject(j);*/
+                                    for (int j = 0; j < ja.length(); j++) {
+                                        JSONObject jsonObject = ja.getJSONObject(j);
 
                                         // storeName = jsonObject.getString("store_name");
-                                       /* transaction_id = jsonObject.getString("transaction_id");
+                                        transaction_id = jsonObject.getString("transaction_id");
                                         billAmount = jsonObject.getString("bill_amount");
                                         points = jsonObject.getString("points");
                                         type = jsonObject.getString("type");
@@ -188,9 +188,9 @@ public class EarnTransaction extends Fragment {
                                             earnTransactionBO.setDate_time(dateTime);
 
                                             earnTransactionList.add(earnTransactionBO);
-                                        }*/
+                                        }
 
-                                         try{
+                                        /* try{
 
                                              helper = new DbHelper(getActivity());
                                              sqLiteDatabase = helper.getWritableDatabase();
@@ -242,18 +242,16 @@ public class EarnTransaction extends Fragment {
                                             }finally {
                                              sqLiteDatabase.endTransaction();
                                             }
+*/
 
 
-
-
-
-                                  //  }
-                                getDataFromSQLite();
-                               /* EarnTransactionAdapter earnTransaction = new EarnTransactionAdapter(earnTransactionList, context);
+                                    }
+                                //getDataFromSQLite();
+                                EarnTransactionAdapter earnTransaction = new EarnTransactionAdapter(earnTransactionList, context);
                                 earnTransaction.notifyDataSetChanged();
                                 recyclerView.setAdapter(earnTransaction);
                                 // stopping swipe refresh
-                                swipeRefreshLayout.setRefreshing(false);*/
+                                swipeRefreshLayout.setRefreshing(false);
 
                             }else if (status.equalsIgnoreCase("error")){
                                 String error_message = jo.getString("response");

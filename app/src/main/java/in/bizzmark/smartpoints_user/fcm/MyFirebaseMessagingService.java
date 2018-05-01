@@ -18,6 +18,7 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -46,6 +47,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 JSONObject obj=new JSONObject(params);
                 String message=params.get("title");
                 String title=params.get("message");
+            try {
+                JSONObject response=obj.getJSONObject("response");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             if(Utility.isAppIsInBackground(this))
                 sendNotification(title,message);
             else
