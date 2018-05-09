@@ -45,10 +45,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             //Calling method to generate notification
                 JSONObject obj=new JSONObject(params);
-                String message=params.get("title");
-                String title=params.get("message");
+                String message="";
+                String title="Smart Points";
             try {
-                JSONObject response=obj.getJSONObject("response");
+                JSONObject response=new JSONObject(obj.getString("message"));
+                message=response.optString("status_type");
+                message="Transaction "+message;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
