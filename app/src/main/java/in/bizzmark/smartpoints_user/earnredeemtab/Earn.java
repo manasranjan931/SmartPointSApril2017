@@ -217,7 +217,8 @@ public class Earn extends Fragment implements View.OnClickListener {
                             progressDialog.dismiss();
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
-                                AlertDialog.Builder dialogue=new AlertDialog.Builder(getActivity());
+                                showProgressDialogue();
+                                /*AlertDialog.Builder dialogue=new AlertDialog.Builder(getActivity());
                                 dialogue.setMessage("Request sent to the seller, You will receive a status message once seller accepts it");
                                 dialogue.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
@@ -227,7 +228,7 @@ public class Earn extends Fragment implements View.OnClickListener {
                                         dialog.dismiss();
                                     }
                                 });
-                                dialogue.show();
+                                dialogue.show();*/
 
                                 //Toast.makeText(getActivity(),"Request sent to the seller you will rec",Toast.LENGTH_SHORT).show();
 
@@ -253,4 +254,11 @@ public class Earn extends Fragment implements View.OnClickListener {
             Toast.makeText(getActivity(),"Enter the bill amount",Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void showProgressDialogue(){
+        WiFiDirectActivity activity = (WiFiDirectActivity) getActivity();
+        activity.displayProgress();
+    }
+
+
 }

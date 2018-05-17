@@ -182,14 +182,14 @@ public class PointsActivity extends AppCompatActivity implements View.OnClickLis
 
 
 
-            String query = "SELECT STORE_NAME,Sum(earn_points) - Sum(redeem_points), BRANCH_ID, STORE_ID FROM CUSTOMER_EARN_REDEEM GROUP BY STORE_NAME";
+            String query = "SELECT STORE_NAME,Sum(earn_points) - COALESCE(Sum(redeem_points), 0), BRANCH_ID, STORE_ID FROM CUSTOMER_EARN_REDEEM GROUP BY STORE_NAME";
             Cursor cursor = sqLiteDatabase.rawQuery(query, null);
            // Log.e("ERROR ==>", query);
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
                     do {
                         storeName = cursor.getString(cursor.getColumnIndex("STORE_NAME"));
-                        points = cursor.getString(cursor.getColumnIndex("Sum(earn_points) - Sum(redeem_points)"));
+                        points = cursor.getString(cursor.getColumnIndex("Sum(earn_points) - COALESCE(Sum(redeem_points), 0)"));
                         branchId = cursor.getString(cursor.getColumnIndex("BRANCH_ID"));
                         storeId = cursor.getString(cursor.getColumnIndex("STORE_ID"));
 

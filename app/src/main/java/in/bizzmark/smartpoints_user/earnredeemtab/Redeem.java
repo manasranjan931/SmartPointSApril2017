@@ -39,6 +39,7 @@ import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.bo.PointsBO;
 import in.bizzmark.smartpoints_user.login.LoginActivity;
 import in.bizzmark.smartpoints_user.utility.NetworkUtils;
+import in.bizzmark.smartpoints_user.wifidirect.WiFiDirectActivity;
 
 import static in.bizzmark.smartpoints_user.NavigationActivity.ACCESS_TOKEN;
 import static in.bizzmark.smartpoints_user.NavigationActivity.device_Id;
@@ -242,7 +243,8 @@ public class Redeem extends Fragment implements View.OnClickListener {
                                 progressDialog.dismiss();
                                 try {
                                     JSONObject jsonObject = new JSONObject(response);
-                                    AlertDialog.Builder dialogue = new AlertDialog.Builder(getActivity());
+                                    showProgressDialogue();
+                                   /* AlertDialog.Builder dialogue = new AlertDialog.Builder(getActivity());
                                     dialogue.setMessage("Request sent to the seller, You will receive a status message once seller accepts it");
                                     dialogue.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
@@ -253,7 +255,7 @@ public class Redeem extends Fragment implements View.OnClickListener {
                                             dialog.dismiss();
                                         }
                                     });
-                                    dialogue.show();
+                                    dialogue.show();*/
 
                                     //Toast.makeText(getActivity(),"Request sent to the seller you will rec",Toast.LENGTH_SHORT).show();
 
@@ -282,5 +284,10 @@ public class Redeem extends Fragment implements View.OnClickListener {
             Toast.makeText(getActivity(), "Need to login before redeem", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }
+    }
+
+    public void showProgressDialogue(){
+        WiFiDirectActivity activity = (WiFiDirectActivity) getActivity();
+        activity.displayProgress();
     }
 }

@@ -35,6 +35,7 @@ import android.net.wifi.p2p.WifiP2pManager.ActionListener;
 import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.net.wifi.p2p.WifiP2pManager.ChannelListener;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
@@ -44,6 +45,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +66,7 @@ import java.util.List;
 
 import in.bizzmark.smartpoints_user.R;
 import in.bizzmark.smartpoints_user.adapter.ViewPageAdapter;
+import in.bizzmark.smartpoints_user.database.PointsActivity;
 import in.bizzmark.smartpoints_user.earnredeemtab.Earn;
 import in.bizzmark.smartpoints_user.earnredeemtab.Redeem;
 import in.bizzmark.smartpoints_user.utility.NetworkUtils;
@@ -82,7 +85,9 @@ public class WiFiDirectActivity extends AppCompatActivity
     public static String storeName = null;
     public static Button btnRefresh = null;
     public static ProgressDialog progressDialog = null;
+    ProgressDialog sendProgress;
     private final IntentFilter intentFilter = new IntentFilter();
+    boolean isAckShowing=false;
     protected BroadcastReceiver mNotificationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -92,12 +97,15 @@ public class WiFiDirectActivity extends AppCompatActivity
                 JSONObject obj = new JSONObject(earnString);
                 // String message=;
                 obj = new JSONObject(obj.getString("message"));
+                if(sendProgress!=null && sendProgress.isShowing())
+                    sendProgress.dismiss();
+
                 if (obj.getString("status_type").equalsIgnoreCase("Success")) {
                     final Dialog dialogue = new Dialog(WiFiDirectActivity.this);
                     LayoutInflater inflater = getLayoutInflater();
                     View view = null;
                     Button btnOK = null;
-
+                    isAckShowing=true;
                     if (obj.getString("type").equals("earn")) {
                         view = inflater.inflate(R.layout.earn_acknowledgement_new, null);
                         TextView tvStoreName = (TextView) view.findViewById(R.id.tv_store_name);
@@ -126,12 +134,26 @@ public class WiFiDirectActivity extends AppCompatActivity
                         btnOK.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                dialogue.dismiss();
+                              Intent intent =new Intent(getApplicationContext(), PointsActivity.class);
+                              startActivity(intent);
                             }
                         });
 
                     if (view != null) {
                         dialogue.setContentView(view);
+                        dialogue.setOnKeyListener(new Dialog.OnKeyListener() {
+
+                            @Override
+                            public boolean onKey(DialogInterface arg0, int keyCode,
+                                                 KeyEvent event) {
+                                // TODO Auto-generated method stub
+                                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                    dialogue.dismiss();
+                                    finish();
+                                }
+                                return true;
+                            }
+                        });
                         dialogue.show();
                     }
                 }else{
@@ -607,5 +629,24 @@ public class WiFiDirectActivity extends AppCompatActivity
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mNotificationReceiver);
         super.onDestroy();
     }
+
+    public void displayProgress(){
+        sendProgress = new ProgressDialog(WiFiDirectActivity.this);
+        sendProgress.setMessage("waiting for seller response.......");
+        sendProgress.setCancelable(false);
+        sendProgress.show();
+
+        // ProgressDialog dismiss after specific time
+        Runnable progressRunnable = new Runnable() {
+            @Override
+            public void run() {
+                sendProgress.cancel();
+                //     Toast.makeText(getActivity(), "Please try again", Toast.LENGTH_SHORT).show();
+            }
+        };
+        Handler pdCanceller = new Handler();
+        pdCanceller.postDelayed(progressRunnable, 30000);
+    }
+
 
 }
